@@ -1,0 +1,38 @@
+<!-- <navation title="新卡激活" from="act_nav"></navation> -->
+<!-- <view class="body" style="top:{{top}}"> -->
+<view>
+  <view class="banner banner-waring">
+    <view class="banner-item left">
+      <view>欢迎使用华翔联信</view>
+      <view>——新卡激活</view>
+    </view>
+    <view class="banner-item right">
+      <image src="/images/active_a.png"></image>
+    </view>
+  </view>
+  <view class="bodys">
+    <view class="label">
+      <view class="l-title">业务办理</view>
+    </view>
+    <view class="content">
+      <view class="con-bodys red" catchtap="goToPath" data-url="/active/pages/number/number">
+        <view class="con-bodys-left">
+          <image src="/images/active_b.png"></image>
+        </view>
+        <view class="con-bodys-right">
+          <view>新卡激活<icon class="iconfont icon-arrow-right-circle"></icon>
+          </view>
+        </view>
+      </view>
+      <view class="con-bodys blue" catchtap="goToPath" data-url="/pages/query/active/active">
+        <view class="con-bodys-left">
+          <image src="/images/active_c.png"></image>
+        </view>
+        <view class="con-bodys-right">
+          <view>进度查询<icon class="iconfont icon-arrow-right-circle"></icon>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

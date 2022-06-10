@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "新卡激活",
+  "usingComponents": {
+    "navation":"../../../components/navation/navation"
+  }
+}

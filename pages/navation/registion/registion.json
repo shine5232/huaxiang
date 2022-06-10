@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "实名补登记",
+  "usingComponents": {
+    "navation":"../../../components/navation/navation"
+  }
+}

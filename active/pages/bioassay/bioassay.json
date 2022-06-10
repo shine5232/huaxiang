@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "活体检测",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "navation": "/components/navation/navation",
+    "van-field": "@vant/weapp/field/index",
+    "van-cell-group":"@vant/weapp/cell-group/index",
+    "step":"/components/step/step",
+    "van-loading": "@vant/weapp/loading/index"
+  }
+}

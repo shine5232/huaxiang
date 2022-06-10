@@ -1,0 +1,42 @@
+<view class="body" wx:if="{{isBioass}}">
+  <camera device-position="front" flash="off" binderror="error" class="camera">
+    <cover-view class="controls" style="width: 100%;height: 100%;">
+    </cover-view>
+  </camera>
+  <view class="view-note">
+    <view class="note-item">请用<view class="text-red">前置</view>摄像头，录制<view class="text-red">6秒</view>视频</view>
+    <view class="note-item">录制时请<view class="text-red">匀速朗读</view>一遍下方数字</view>
+    <view class="note-item">剩余 {{ timer }} 秒</view>
+  </view>
+  <view>
+    <view class="num">
+      <view wx:for="{{num}}" wx:key="idx" wx:for-item="itemName">{{itemName}}</view>
+    </view>
+  </view>
+  <view class="btn">
+    <van-button round block type="primary" wx:if="{{start}}" catchtap="takePhotoStart">
+      {{btntitle}}</van-button>
+    <van-button round block type="primary" wx:else color="#FF4B57" catchtap="takePhotoEnd" disabled="{{disabled}}">{{btntitle}}
+    </van-button>
+  </view>
+</view>
+<view class="body" wx:else>
+  <view class="body-ite">
+    <van-sticky class="sticky">
+      <step type="{{ type }}" active="{{ active }}" />
+    </van-sticky>
+    <van-cell-group>
+      <van-field value="{{ ybcode }}" required clearable label="邮政编码：" placeholder="请输入邮政编码"/>
+      <van-field value="{{ city }}" required clearable label="所在城市：" placeholder="请输入所在城市"/>
+    </van-cell-group>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ title }}</van-button>
+    </view>
+  </view>
+</view>
+<view style="position:fixed;width:100px;height:100px;left:200%;z-index:0">
+  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
+    style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
+</view>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />

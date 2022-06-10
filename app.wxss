@@ -1,0 +1,41 @@
+@import 'style/iconfont.wxss';
+
+.body {
+  position: relative;
+  top: 60px;
+}
+
+.sticky {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+
+.body-ite {
+  position: relative;
+  width: 100%;
+  top: 100rpx;
+}
+
+.body-ites {
+  position: relative;
+  top: 100rpx;
+}
+
+.nav {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: #fff;
+}
+
+.title-container {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 96%;
+  margin: 0 auto;
+}

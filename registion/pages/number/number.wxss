@@ -1,0 +1,17 @@
+.btnNext{
+  width: 90%;
+  margin: 40rpx auto;
+}
+.form{
+    color: #434343;
+}
+.form .notes{
+    font-size: 24rpx;
+    color: #FF574C;
+    display: inline-block;
+}
+.pops-item image{
+    width: 600rpx;
+    height: 400rpx;
+    margin: 20rpx auto;
+}

@@ -1,0 +1,8 @@
+<view class="van-code" style="width:{{ width }}px;height:{{ height }}px">
+  <view class="van-code-img">
+    <image class="code-img" src="{{ codeImg }}"></image>
+  </view>
+  <view class="canvas-body">
+    <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas" style="width:{{ width }}px;height:{{ height }}px"></canvas>
+  </view>
+</view>

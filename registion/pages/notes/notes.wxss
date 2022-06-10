@@ -1,0 +1,134 @@
+.body{
+    padding-bottom: 20rpx;
+}
+.camera{
+    width: 600rpx;
+    height: 600rpx;
+    margin: 0 auto;
+    border-radius: 50%;
+  }
+  .log-list {
+    display: flex;
+    flex-direction: column;
+    padding: 40rpx;
+  }
+  .log-item {
+    margin: 10rpx;
+  }
+  .btn-start{
+    margin-top: 20rpx;
+  }
+  .view-note{
+    color: #333;
+    padding: 40rpx;
+  }
+  .note-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32rpx;
+    line-height: 54rpx;
+    text-align: center;
+  }
+  .text-red{
+    color: red;
+  }
+  .num{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20rpx 0;
+  }
+  
+  .num view{
+    padding: 10rpx 36rpx;
+    background-color: #eeeeee;
+    border: 2rpx solid #b3b3b3b3;
+    font-size: 80rpx;
+    font-weight: bold;
+    color: red;
+  }
+  
+  .num view:not(first-child){
+    border-right: none;
+  }
+  .num view:last-child{
+    border-right: 2rpx solid #b3b3b3b3;
+  }
+  .btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    margin: 0 auto;
+  }
+  .btn van-button{
+    width: 100%;
+  }
+  .overlay{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .van-loading__text{
+    color: #fff !important;
+  }
+  .controls {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .icon-w569-h828 {
+      width: 570rpx;
+      height: 828rpx;
+  }
+  
+  .btnNext {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .sticky {
+      height: 60px;
+  }
+  .notes{
+    font-size: 24rpx;
+    text-align: center;
+    padding: 40rpx 0;
+  }
+  .black{
+    color: #6B6B6B;
+  }
+  .waring{
+    color: #FF5D46;
+  }
+  .body {
+    top: 0;
+  }
+  
+  .body-ite {
+    top: 0;
+  }
+  .btms{
+    margin-bottom: 14px;
+  }
+  .notes .pops-item{
+    font-size: 24rpx;
+  }
+  .notes .pops-item view{
+    line-height: 40rpx;
+    text-align: left;
+    margin: 20rpx 0;
+    padding: 0 40rpx;
+  }
+  .notes .pops-item-title{
+    text-align: center !important;
+    font-weight: bold;
+    font-size: 32rpx;
+  }
+  .notes .red{
+    color: #FF5D46;
+  }

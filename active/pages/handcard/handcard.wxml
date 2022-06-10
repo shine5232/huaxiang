@@ -1,0 +1,108 @@
+<view class="body" wx:if="{{isBioass}}">
+  <view wx:if="{{ captureHidden }}">
+    <van-sticky class="sticky">
+      <view class="steps">
+        <step type="{{ type }}" active="{{ active }}" />
+      </view>
+    </van-sticky>
+    <view class="upload-body body-ite">
+      <view class="photo" catchtap="showPopup" data-type="4">
+        <view class="upload-bgcolor">
+          <view class="upload-idcard">
+            <image src="{{fileLista}}" wx:if="{{fileLista}}" />
+            <image src="/images/icon/portrait-two.png" wx:else/>
+            <view class="upload-add">
+              <view class="red f14">点击查看图片要求</view>
+              <view>手持照</view>
+              <view class="btn">上传</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="photo" catchtap="showPopup" data-type="5">
+        <view class="upload-bgcolor">
+          <view class="upload-idcard">
+            <image src="{{fileListb}}" wx:if="{{fileListb}}" />
+            <image src="/images/icon/car-two.png" wx:else/>
+            <view class="upload-add">
+              <view class="red f14">点击查看图片要求</view>
+              <view>SIM卡照</view>
+              <view class="btn">上传</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="btnNext">
+        <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{title}}</van-button>
+      </view>
+    </view>
+  </view>
+  <!-- 弹出拍照要求信息框 -->
+  <van-popup show="{{ showInfo }}" bind:close="onClose" round>
+    <view class="pop-bodys">
+      <block wx:if="{{cardType == 4}}">
+        <view class="pop-title">请持SIM卡拍摄验证身份</view>
+        <view class="pop-item-img">
+          <image class="note-img" src="/images/icon/portrait-two.png"></image>
+        </view>
+        <view class="algin-left">
+          <view>1、必须本人露脸手持电话卡<text class="red bold">（必须含小卡）</text>。</view>
+          <view>2、<text class="red">小卡</text>上iccid<text class="red">数字</text>需清晰可辨认。</view>
+          <view>3、严禁拍摄其他屏幕图像！</view>
+        </view>
+      </block>
+      <block wx:elif="{{cardType == 5}}">
+        <view class="pop-title">请将板卡和身份证按如下格式拍摄清晰</view>
+        <view class="pop-item-img">
+          <image class="note-img" src="/images/icon/car-two.png"></image>
+        </view>
+        <view class="algin-left">
+          <view>1、电话卡<text class="red bold">必须含小卡</text></view>
+          <view>2、<text class="red">小卡</text>上iccid<text class="red">数字</text>需清晰可辨认。</view>
+          <view>3、严禁拍摄其他屏幕图像！</view>
+        </view>
+      </block>
+      <view class="pop-items">
+        <van-button color="#FF4B57" size="small" custom-style="width:100px" round catchtap="onClose">知道了</van-button>
+      </view>
+    </view>
+  </van-popup>
+  <!-- 弹出相机/相册选择框 -->
+  <van-popup show="{{ show }}" bind:close="onClose" position="bottom" round>
+    <view class="pop-body">
+      <view class="pop-item">
+        <block wx:for="{{ capture }}" wx:key="index" wx:for-item="item">
+          <view catchtap="confirm" data-type="{{ item.type }}">{{ item.title }}</view>
+        </block>
+      </view>
+      <view class="pop-item cancle" catchtap="onCancle">取消</view>
+    </view>
+  </van-popup>
+  <!-- 相机组件 -->
+  <view wx:if="{{ !captureHidden }}">
+    <capture cardType="{{ cardType }}" rotate="{{rotate}}" bind:takePhotos="takePhotos"
+      bind:canclePhotos="canclePhotos"></capture>
+  </view>
+  <van-overlay show="{{ showT }}" class="overlay">
+    <view class="wrapper">
+      <van-loading size="24px" vertical color="#FFFFFF" size="34px">上传中...</van-loading>
+    </view>
+  </van-overlay>
+</view>
+<view class="body" wx:else>
+  <view class="body-ite">
+    <van-sticky class="sticky">
+      <step type="{{ type }}" active="{{ active }}" />
+    </van-sticky>
+    <van-cell-group>
+      <van-field value="{{ area }}" required clearable label="邮寄地址：" placeholder="请输入邮寄地址" />
+      <van-field value="{{ mobile }}" required clearable label="收件电话：" placeholder="请输入收件电话" />
+    </van-cell-group>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ title }}</van-button>
+    </view>
+  </view>
+</view>
+  <!-- 提示框组件 -->
+  <van-toast id="van-toast" />
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />

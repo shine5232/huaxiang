@@ -1,0 +1,50 @@
+<view class="query-act-bodys regist-query" style="min-height:{{height}}px">
+    <view class="body-title">
+        <view class="left">实名补登记查询</view>
+        <view class="right">
+            <image src="/images/active_c.png"></image>
+        </view>
+    </view>
+    <view class="body-cont">
+        <view class="cont-top-label">
+            <view class="label">
+                <image src="/images/label.png"></image>
+                <view class="label-title">信息验证</view>
+            </view>
+        </view>
+        <view class="form">
+            <van-cell-group>
+                <van-field value="{{ mobile }}" clearable type="number" placeholder="请输入手机号"
+                    bind:change="onChangeMobile" maxlength="11">
+                    <icon slot="left-icon" class="iconfont iconfont-leable icon-shouji" />
+                </van-field>
+                <van-field value="{{ iccid }}" clearable placeholder="请输入身份证号码" bind:change="onChangeIccid"
+                    maxlength="18">
+                    <icon slot="left-icon" class="iconfont iconfont-leable icon-cardid" />
+                </van-field>
+                <van-field value="{{ yzm }}" clearable placeholder="请输入验证码" bind:change="onChangeYzm" use-button-slot
+                    maxlength="4">
+                    <icon slot="left-icon" class="iconfont iconfont-leable icon-renzheng" />
+                    <code slot="button" width="80" height="30" class="code" catchtap="getCode" id="code" len="4" />
+                </van-field>
+            </van-cell-group>
+            <view class="btnNext">
+                <van-button round type="primary" block color="linear-gradient(to right, #FF7446, #FF5D46)"
+                    catchtap="nextStep">查询</van-button>
+            </view>
+        </view>
+        <view class="result">
+            <van-divider contentPosition="center" textColor="#808080">查询结果</van-divider>
+            <view class="result-body">
+                <view class="result-cont" hidden="{{hidden}}">{{message}}</view>
+                <view class="result-no" hidden="{{!hidden}}">
+                    <image src="/images/search_no.png"></image>
+                    <view class="no-message">当前没有查询信息</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 提示框组件 -->
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />

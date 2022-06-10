@@ -1,0 +1,23 @@
+<navation title="{{title}}" from="{{from}}"></navation>
+<view class="body" style="top:{{top}}">
+  <view class="header">
+    <image src="../../images/icon/bg.png" />
+  </view>
+  <view class="body">
+    <view class="img">
+      <image src="../../images/icon/through.png" />
+    </view>
+    <view class="title">{{note}}</view>
+    <!-- <view class="marks">
+      【华翔联信】尊敬的客户，您的号码{{mobile}}{{title}}资料已提交成功,请通过“华翔号码激活小程序-{{title}}进度” 查询{{title}}进度，如有疑问，请致电10036。
+    </view> -->
+    <view class="note" catchtap="gotoUrl">
+      <view class="url">关注“华翔联信微信公众号”</view>
+      <view class="url">享受更多服务，<span>立即关注！！</span></view>
+    </view>
+  </view>
+  <view class="botm">
+    <official-account>微信公众号</official-account>
+  </view>
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />

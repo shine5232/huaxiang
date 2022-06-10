@@ -1,0 +1,184 @@
+.upload-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.photo {
+  margin: 5px 0;
+  width: 100%;
+  padding: 16px 0;
+  background: #f7f7f7;
+}
+
+.number-title {
+  font-size: 26rpx;
+  padding: 20rpx;
+  color: #999;
+  background-color: #eee;
+}
+
+.upload-bgcolor {
+  width: 620rpx;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+}
+
+.upload-item {
+  margin: 10px 0;
+}
+
+.upload-idcard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.upload-idcard image {
+  width: 340rpx;
+  height: 400rpx;
+  border-radius: 20rpx;
+}
+
+.upload-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnNext {
+  width: 90%;
+  margin: 10px auto;
+}
+
+.addicon {
+  font-size: 100rpx;
+  color: #FF4B57;
+}
+
+.upload-add view {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+}
+
+.pop-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  background: #eee;
+  text-align: center;
+}
+
+.pop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+}
+
+.pop-item view {
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+}
+
+.cancle {
+  padding: 10px 0;
+  margin-top: 5px;
+}
+
+.pop-bodys {
+  text-align: center;
+  width: 600rpx;
+}
+
+.pop-bodys .pop-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  padding: 20px 0;
+}
+
+.pop-bodys .pop-item-img {
+  width: 250rpx;
+  height: 300rpx;
+  margin: 0 auto;
+}
+
+.pop-item-img image {
+  width: 100%;
+  height: 100%;
+}
+
+.pop-bodys .algin-left {
+  font-size: 24rpx;
+  width: 70%;
+  margin: 0 auto;
+  text-align: left;
+  line-height: 48rpx;
+  padding: 40rpx 0;
+  color: #888;
+}
+
+.pop-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+  padding: 10px 0 20px;
+}
+
+.overlay {
+  width: 100%;
+  z-index: 999;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+  height: 100%;
+}
+
+.van-loading__text {
+  color: #fff !important;
+}
+
+.red {
+  color: #FF4B57;
+}
+.f12{
+  font-size: 14px;
+}
+.bold{
+  font-weight: bold;
+}
+.btn{
+  width: 180rpx;
+  background: #FF4B57;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 20px;
+}
+.sticky {
+  position: relative;
+}
+.body {
+  top: 0;
+}
+
+.body-ite {
+  top: 0;
+}

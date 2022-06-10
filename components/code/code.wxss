@@ -1,0 +1,14 @@
+
+.van-code-img{
+  width: 100%;
+  height: 100%;
+}
+.van-code-img .code-img{
+  width: 100%;
+  height: 100%;
+}
+.canvas-body{
+  position: fixed;
+  top: -200px;
+  width: 100%;
+}

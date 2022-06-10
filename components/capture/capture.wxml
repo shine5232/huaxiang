@@ -1,0 +1,29 @@
+<view class="cover-img">
+  <camera mode="normal" device-position="{{cardPosition}}" flash="off" style="height:{{ cameraHeight-60 }}px;width:{{ cameraWidth }}px;">
+    <cover-view class="controls" style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px">
+      <!-- 头像面 -->
+      <cover-image wx:if="{{cardType == 1}}" class="icon-w569-h828" src="/images/icon/take_idcard_a12.png" />
+      <!-- 国徽面 -->
+      <cover-image wx:elif="{{cardType == 2}}" class="icon-w569-h828" src="/images/icon/take_idcard_b12.png" />
+      <!-- 免冠照 -->
+      <cover-image wx:elif="{{cardType == 3}}" class="icon-w569-h828s" src="/images/icon/touxiang.png" />
+      <!-- 手持照 -->
+      <cover-image wx:elif="{{cardType == 4}}" class="icon-w100-h100" src="/images/icon/sc.png" />
+      <!-- SIM照 -->
+      <cover-image wx:elif="{{cardType == 5}}" class="icon-w100-h100" src="/images/icon/sf.png" />
+      <cover-view class="camera-bom">
+        <cover-view class="back" catchtap="canclePhoto">取消</cover-view>
+        <cover-view class="icon" catchtap="takePhoto">
+          <cover-view class="icon-w131"></cover-view>
+        </cover-view>
+        <cover-view class="back" catchtap="exchangePosition">
+          <cover-image class="image" animation="{{animation}}"  src="/images/icon/exchange.png" />
+        </cover-view>
+      </cover-view>
+    </cover-view>
+  </camera>
+</view>
+<view style="position:fixed;width:0px;height:0px;left:200%;z-index:0">
+  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
+    style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
+</view>

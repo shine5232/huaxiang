@@ -1,0 +1,25 @@
+.agreement {
+  padding: 0 20rpx;
+}
+
+.agreement-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  text-align: center;
+  padding: 20rpx 0;
+}
+
+.agreement-body {
+  font-size: 24rpx;
+  color: #333;
+  line-height: 44rpx;
+  padding: 20rpx 0;
+  max-height: 500rpx;
+  overflow-y: scroll;
+}
+.agreement-body view{
+  text-indent:48rpx;
+}
+.red {
+  color: #FF4B57;
+}

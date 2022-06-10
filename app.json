@@ -1,0 +1,53 @@
+{
+    "pages":[
+      "pages/index/index",
+      "pages/navation/registion/registion",
+      "pages/navation/active/active",
+      "pages/query/active/active",
+      "pages/query/registion/registion",
+      "pages/pays/pays",
+      "pages/pay/pay",
+      "pages/complete/complete",
+      "pages/concern/concern"
+    ],
+    "subpackages":[
+      {
+        "root":"active",
+        "pages":[
+          "pages/number/number",
+          "pages/idcard/idcard",
+          "pages/handcard/handcard",
+          "pages/bioassay/bioassay",
+          "pages/prepay/prepay",
+          "pages/notes/notes"
+        ]
+      },{
+        "root":"registion",
+        "pages": [
+          "pages/number/number",
+          "pages/idcard/idcard",
+          "pages/handcard/handcard",
+          "pages/bioassay/bioassay",
+          "pages/notes/notes"
+        ]
+      }
+    ],
+    "window":{
+      "backgroundTextStyle":"light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "Weixin",
+      "navigationBarTextStyle":"black"
+    },
+    "networkTimeout": {
+      "request": 40000,
+      "downloadFile": 40000
+    },
+    "permission": {
+      "scope.userLocation": {
+        "desc": "你的位置信息仅用于平台大数据分析"
+      }
+    },
+    "lazyCodeLoading": "requiredComponents",
+    "sitemapLocation": "sitemap.json"
+  }
+  

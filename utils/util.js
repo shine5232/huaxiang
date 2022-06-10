@@ -1,0 +1,258 @@
+import {
+  md5
+} from "./md5"
+import {
+  base64src
+} from "./base64src"
+import {
+  baseUrl,
+  baseUrlP
+} from "./baseUrl"
+import {
+  login,
+  watermark
+} from './common'
+import {
+  formatTime,
+  formatDate,
+  formatDates,
+  formatISOTime
+} from "./formatDate"
+var app = getApp();
+const Base64 = require('js-base64');
+const Crypto = require('crypto-js');
+const Configuration = {
+  AccessKeyId: 'R3AHXQJX7FNJ37AZ22BV', //AK
+  SecretKey: 'hwgZ2rFXTwdHqHJJNKGJ37ZwfCLInWD0iWkDv80P', //SK
+  EndPoint: 'https://hx-zhangting.obs.cn-north-1.myhuaweicloud.com',
+}
+//sign签名
+function sign(param, timestamp) {
+  let encryptionkey = 'hxlx_agent';
+  return md5(JSON.stringify(param) + encryptionkey + timestamp);
+}
+//画布生成图片
+function CanvasToImage(option) {
+  let defaultOption = {
+    canvas: '',
+    ctx: '',
+    canvasId: '',
+    imgsrc: '',
+    destWidth: '',
+    destHeight: '',
+    rotate: 0,
+    fileType: 'jpg'
+  }
+  let options = Object.assign({}, defaultOption, option);
+  console.log('src', options);
+  return new Promise(function (resolve, reject) {
+    var img = options.canvas.createImage();
+    img.src = options.imgsrc;
+    img.onload = function () {
+      // 2.1 设置canvas宽高，旋转90° ，宽高互换
+      if (options.rotate) {
+        options.canvas.width = this.height;
+        options.canvas.height = this.width;
+        console.log('this.height', this.height);
+        console.log('this.width', this.width);
+        console.log('options.canvas.height', options.canvas.height);
+        console.log('options.canvas.width', options.canvas.width);
+        // 2.2 画布中心点(也是起始点)平移至中心(0,0)->(x,y)
+        options.ctx.translate(options.canvas.width / 2, options.canvas.height / 2);
+        // 2.3 画布旋转90°
+        options.ctx.rotate(options.rotate * Math.PI / 180);
+        // 2.4 绘制图像 图像起始点需偏移负宽高
+        options.ctx.fillStyle = "#FFFFFF";
+        options.ctx.fillRect(-options.canvas.height / 2, -options.canvas.width / 2, options.canvas.height, options.canvas.width);
+        //options.ctx.restore();
+        options.ctx.drawImage(img, -this.width / 2, -this.height / 2);
+        console.log('ctx', options.ctx);
+      } else {
+        options.canvas.width = this.width;
+        options.canvas.height = this.height;
+        options.ctx.fillStyle = "#FFFFFF";
+        options.ctx.fillRect(0, 0, options.canvas.width, options.canvas.height);
+        //options.ctx.restore();
+        options.ctx.drawImage(img, 0, 0);
+      }
+      console.log('opt', options);
+      wx.canvasToTempFilePath({
+        canvasId: options.canvasId,
+        fileType: options.fileType,
+        canvas: options.canvas,
+        destWidth: options.canvas.width,
+        destHeight: options.canvas.height,
+        quality: 1, //图片质量
+        success(res) {
+          console.log('im', res.tempFilePath);
+          resolve(res.tempFilePath);
+        },
+        fail(res) {
+          console.log('fas', res);
+          reject(res);
+        }
+      })
+    };
+  })
+}
+
+function getPolicyEncode(policy) {
+  // 传入表单上传的policy字段，对policy进行Base64编码
+  const encodedPolicy = Base64.encode(JSON.stringify(policy));
+  return encodedPolicy;
+}
+
+function getSignature(policyEncoded, SecretKey) {
+  // 利用SK对Base64编码后的policy结果进行HMAC-SHA1签名计算
+  const bytes = Crypto.HmacSHA1(policyEncoded, SecretKey);
+  // 对计算结果进行Base64编码，得到最终的签名信息
+  const signature = Crypto.enc.Base64.stringify(bytes);
+  return signature;
+}
+
+function IdentityCodeValid(code) {
+  const city = {
+    11: "北京",
+    12: "天津",
+    13: "河北",
+    14: "山西",
+    15: "内蒙古",
+    21: "辽宁",
+    22: "吉林",
+    23: "黑龙江",
+    31: "上海",
+    32: "江苏",
+    33: "浙江",
+    34: "安徽",
+    35: "福建",
+    36: "江西",
+    37: "山东",
+    41: "河南",
+    42: "湖北",
+    43: "湖南",
+    44: "广东",
+    45: "广西",
+    46: "海南",
+    50: "重庆",
+    51: "四川",
+    52: "贵州",
+    53: "云南",
+    54: "西藏",
+    61: "陕西",
+    62: "甘肃",
+    63: "青海",
+    64: "宁夏",
+    65: "新疆",
+    71: "台湾",
+    81: "香港",
+    82: "澳门",
+    91: "国外"
+  };
+  let pass = true;
+  let codeS = code.toUpperCase();
+  if (!codeS || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(codeS)) {
+    pass = false;
+  } else if (!city[codeS.substr(0, 2)]) {
+    pass = false;
+  } else {
+    //18位身份证需要验证最后一位校验位
+    if (codeS.length == 18) {
+      codeS = codeS.split('');
+      //∑(ai×Wi)(mod 11)
+      //加权因子
+      var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+      //校验位
+      var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+      var sum = 0;
+      var ai = 0;
+      var wi = 0;
+      for (var i = 0; i < 17; i++) {
+        ai = codeS[i];
+        wi = factor[i];
+        sum += ai * wi;
+      }
+      var last = parity[sum % 11];
+      if (parity[sum % 11] != codeS[17]) {
+        pass = false;
+      }
+    }
+  }
+  return pass;
+}
+// 将秒转换为分
+function secondToMinSec(s) {
+  //计算分钟 将秒数除以60，然后下舍入，既得到分钟数
+  var h;
+  h = Math.floor(s / 60);
+  //计算秒 取得秒%60的余数，既得到秒数
+  s = s % 60;
+  //将变量转换为字符串
+  h += '';
+  s += '';
+  //如果只有一位数，前面增加一个0
+  h = (h.length == 1) ? '0' + h : h;
+  s = (s.length == 1) ? '0' + s : s;
+  return h + ':' + s;
+}
+//获取设备信息
+function getSysInfo() {
+  return new Promise(function (resolve, reject) {
+    wx.getSystemInfo({
+      success(res) {
+        wx.setStorageSync('deviceType', res.model);
+        wx.setStorageSync('osVersion', res.system);
+        resolve(res);
+      },
+      fail(error) {
+        console.log(error);
+        reject(false);
+      }
+    })
+  });
+}
+//获取网络信息
+function getNetwork() {
+  return new Promise(function (resolve, reject) {
+    wx.getNetworkType({
+      success(res) {
+        app.globalData.netWorkType = res.networkType;
+        wx.setStorageSync('netWorkType', res.networkType);
+        resolve(res);
+      },
+      fail(error) {
+        reject(false);
+      }
+    })
+  });
+}
+//监听网络状态
+function netWorkStatus() {
+  return new Promise(function (resolve, reject) {
+    if (app.globalData.netWorkStatus) {
+      resolve(true);
+    } else {
+      reject(false);
+    }
+  })
+}
+module.exports = {
+  formatTime,
+  formatDate,
+  formatDates,
+  formatISOTime,
+  baseUrl,
+  baseUrlP,
+  login,
+  watermark,
+  sign,
+  CanvasToImage,
+  getPolicyEncode,
+  getSignature,
+  Configuration,
+  IdentityCodeValid,
+  secondToMinSec,
+  getSysInfo,
+  getNetwork,
+  netWorkStatus,
+  base64src
+}

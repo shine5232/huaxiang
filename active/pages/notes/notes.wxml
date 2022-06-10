@@ -1,0 +1,59 @@
+<view class="nav" style="height:{{navigationBarHeight}}">
+  <view style="height:{{statusBarHeight}}"></view>
+  <view class="title-container">
+    <van-icon name="arrow-left" size="50rpx" catchtap="goBack" />
+    <view>告知签署</view>
+  </view>
+</view>
+<view wx:if="{{ !signed }}" class="body" style="top:{{top}}">
+  <van-sticky style="top:{{top}}" class="sticky">
+      <step type="{{ type }}" active="{{ active }}" />
+    </van-sticky>
+  <view class="upload-body body-ite">
+    <view class="note">
+      <view class="note-title">电话卡合规使用告知书</view>
+      <view class="note-body">
+        <view>为配合国家涉诈电话卡防范治理工作，特向华翔电话卡用户告知相关规定如下：</view>
+        <view>凡华翔电话卡用户不得将电话卡违规转售、转租、转借第三方，否则我司有权解除合同、终止服务，并移交司法部门处置。</view>
+        <view>
+          按照《中华人民共和国刑法修正案（九）》第二百八十七条之二，明知他人利用信息网络实施犯罪，为其犯罪提供互联网接入、服务器托管、网络存储、通讯传输等技术支持，或者提供广告推广、支付结算等帮助，情节严重的，将处三年以下有期徒刑或者拘役，并处或者单处罚金。
+        </view>
+        <view>本人已清楚了解告知书所提示内容，本人愿意遵守国家法规并承担相应法律责任。</view>
+        <view class="sign-body">
+          <view>被告知人：</view>
+          <image src="{{ sign }}" />
+        </view>
+        <view><text decode="true">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</text>{{datetime}}</view>
+      </view>
+    </view>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#FF4B57" catchtap="nextStep" disabled="{{disabled}}">{{
+        nextStepTitle }}</van-button>
+    </view>
+  </view>
+</view>
+<view class="wrapper" wx:if="{{ signed }}" style="top:{{top}};height:{{signHeight}};">
+  <view class="handRight" hidden="{{showText}}">
+    <view class="handTitle">请用正楷字书写</view>
+  </view>
+  <view class="handCenter">
+    <canvas class="handWriting" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove"
+      bindtouchend="uploadScaleEnd" canvas-id="handWriting">
+    </canvas>
+  </view>
+  <view class="handBtn">
+    <view class="handBtn-item">
+      <van-button round color="#7F7F7F" size="small" class="btn ret" custom-style="width:100px" catchtap="retDraw">清除签名
+      </van-button>
+      <van-button round color="#FF4B57" size="small" class="btn com" custom-style="width:100px"
+        catchtap="saveCanvasAsImg">提交签名</van-button>
+    </view>
+  </view>
+</view>
+<!-- 提示框组件 -->
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
+<view style="position:fixed;width:{{ width }}px;z-index:0;top:1000px">
+  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas" style="width:{{ width }}px;height:{{ height }}px"></canvas>
+  <canvas type="2d" id="myCanvas2" canvas-id="secendCanvas" style="width:{{ width }}px;height:{{ height }}px"></canvas>
+</view>

@@ -1,0 +1,53 @@
+<view>
+    <van-sticky>
+        <view class="steps">
+            <step type="{{ type }}" active="{{ active }}" />
+        </view>
+    </van-sticky>
+    <view class="form">
+        <view>手机号码</view>
+        <van-field value="{{ mobile }}" clearable type="number" placeholder="请输入手机号码" bind:change="onChangeMobile" maxlength="11">
+            <icon slot="left-icon" class="iconfont iconfont-leable icon-shouji" />
+        </van-field>
+        <view>身份证后6位</view>
+        <van-field value="{{ iccid }}" clearable placeholder="请输入身份证后6位" bind:change="onChangeIccid" maxlength="6">
+            <icon slot="left-icon" class="iconfont iconfont-leable icon-cardid" />
+        </van-field>
+        <view class="notes" catchtap="popIdcard">身份证后6位？</view>
+        <view class="not-bom">
+            <van-checkbox value="{{ checked }}" checked-color="#FF574C" icon-size="16px" shape="square" bind:change="onChange" />
+            <view class="xieyi">我已阅读并同意<view class="ruwang" catchtap="popAgreement">《入网协议书》</view>
+            </view>
+        </view>
+        <view class="btnNext">
+            <van-button round type="primary" block color="linear-gradient(to right, #FF7446, #FF5D46)" catchtap="nextStep">{{ btnTitle }}</van-button>
+        </view>
+    </view>
+    <!-- 提示框组件 -->
+    <van-toast id="van-toast" />
+
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
+<!-- 遮罩层组件 -->
+<van-popup show="{{ overlay }}" bind:click-overlay="popAgreement" round>
+    <view class="overlay">
+        <view class="pops pops-active">
+            <view class="pops-item">
+                <agreement />
+            </view>
+            <van-button color="linear-gradient(to right, #FF7446, #FF5D46)" size="small" custom-style="width:100px" round catchtap="popAgreement">关闭
+            </van-button>
+        </view>
+    </view>
+</van-popup>
+<van-popup show="{{ overlaycard }}" bind:click-overlay="popIdcard" round>
+    <view class="overlay">
+        <view class="pops pops-note">
+            <view class="pops-item">
+                <image src="/images/idcard.png"></image>
+            </view>
+            <van-button color="linear-gradient(to right, #FF7446, #FF5D46)" size="small" custom-style="width:100px" round catchtap="popIdcard">关闭
+            </van-button>
+        </view>
+    </view>
+</van-popup>

@@ -1,0 +1,19 @@
+{
+  "navigationBarTitleText": "实名补登记",
+  "usingComponents": {
+    "van-steps": "@vant/weapp/steps/index",
+    "van-sticky": "@vant/weapp/sticky/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-cell-group":"@vant/weapp/cell-group/index",
+    "van-loading": "@vant/weapp/loading/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "capture":"/components/capture/capture",
+    "navation":"/components/navation/navation",
+    "step":"/components/step/step"
+  }
+}

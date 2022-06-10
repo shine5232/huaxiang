@@ -1,0 +1,23 @@
+<navation title="预存支付" from="prepay"></navation>
+<view class="body" style="top:{{top}}">
+  <van-sticky style="top:{{top}}" class="sticky">
+    <view class="steps">
+      <step type="{{ type }}" active="{{ active }}" />
+    </view>
+  </van-sticky>
+  <view class="bodys body-ite">
+    <view class="note-body">
+      <view class="note-item">您正在激活手机号：{{ mobile }}</view>
+      <view class="note-item">您选择的套餐是：{{ productName }}</view>
+      <view class="note-item">您选择的套餐需要预存款 <text class="money">{{ money }}</text> 元才可激活</view>
+      <view class="note-item">请支付预存款 <text class="money-big">{{ money }}</text> 元</view>
+      <view class="note-item-bom">请在1小时内完成支付，超时后将自动为您取消订单。</view>
+    </view>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">去支付</van-button>
+    </view>
+  </view>
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
+<!-- 提示框组件 -->
+<van-toast id="van-toast" />

@@ -1,0 +1,36 @@
+<view>
+  <view class="banner banner-sky">
+    <view class="banner-item left">
+      <view>欢迎使用华翔联信</view>
+      <view>——实名补登记</view>
+    </view>
+    <view class="banner-item right">
+      <image src="/images/registion_a.png"></image>
+    </view>
+  </view>
+  <view class="bodys">
+    <view class="label">
+      <view class="l-title">业务办理</view>
+    </view>
+    <view class="content">
+      <view class="con-bodys orange" catchtap="goToPath" data-url="/registion/pages/number/number">
+        <view class="con-bodys-left">
+          <image src="/images/registion_b.png"></image>
+        </view>
+        <view class="con-bodys-right">
+          <view>实名补登记<icon class="iconfont icon-arrow-right-circle"></icon>
+          </view>
+        </view>
+      </view>
+      <view class="con-bodys sky" catchtap="goToPath" data-url="/pages/query/registion/registion">
+        <view class="con-bodys-left">
+          <image src="/images/active_c.png"></image>
+        </view>
+        <view class="con-bodys-right">
+          <view>进度查询<icon class="iconfont icon-arrow-right-circle"></icon>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

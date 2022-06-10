@@ -1,0 +1,24 @@
+/*自定义协议组件页面*/
+.agreement {
+    padding: 0 20rpx;
+}
+
+.agreement .agreement-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    text-align: center;
+    padding: 20rpx 0;
+}
+
+.agreement .agreement-body {
+    font-size: 24rpx;
+    color: #333;
+    line-height: 44rpx;
+    padding: 20rpx 0;
+    max-height: 500rpx;
+    overflow-y: scroll;
+}
+
+.agreement-body .red {
+    color: #FF4B57;
+}

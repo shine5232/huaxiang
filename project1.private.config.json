@@ -1,0 +1,30 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/pays/pays?parames=123",
+                    "pathName": "pages/pays/pays",
+                    "query": "parames=1636947909%23202111151145095514%23prepay_id%3Dwx15114354119786046eb4d270a50ade0000%23F636150201BACE854A4167A3757C0A22",
+                    "scene": null
+                },
+                {
+                    "name": "pages/active/number/number",
+                    "pathName": "pages/active/number/number",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

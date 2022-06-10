@@ -1,0 +1,61 @@
+<view class="body" wx:if="{{isBioass}}">
+    <view wx:if="{{overlaycards}}">
+        <view class="notes black">根据国家工信部25号令相关规定，需要您录制告知书视频。</view>
+        <camera device-position="front" flash="off" binderror="error" class="camera">
+            <cover-view class="controls" style="width: 100%;height: 100%;">
+            </cover-view>
+        </camera>
+        <view class="view-note">
+            <view class="notes waring">请点击按钮录像并朗读以下文字：</view>
+            <view class="note-item">我是XXX，今天是{{date}}，{{mobile}} 是我办理的手机号码，本人承诺依法合规使用，知晓电话卡涉诈的法律风险。</view>
+        </view>
+        <view class="btn">
+            <van-button round block type="primary" wx:if="{{start}}" bindtap="takePhotoStart" catchtap="takePhotoStart">
+                {{btntitle}}</van-button>
+            <van-button round block type="primary" wx:else color="#FF4B57" catchtap="takePhotoEnd">{{btntitle}}
+            </van-button>
+        </view>
+    </view>
+</view>
+<view class="body" wx:else>
+    <view class="body-ite">
+        <van-cell-group>
+            <van-field value="{{ ybcode }}" required clearable label="邮政编码：" placeholder="请输入邮政编码" />
+            <van-field value="{{ city }}" required clearable label="所在城市：" placeholder="请输入所在城市" />
+        </van-cell-group>
+        <view class="btnNext">
+            <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ title }}</van-button>
+        </view>
+    </view>
+</view>
+<!-- 遮罩层组件 -->
+<van-overlay show="{{ overlay }}">
+    <view class="overlay">
+        <van-loading size="28px" type="spinner" vertical>上传检测中...</van-loading>
+    </view>
+</van-overlay>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
+<van-popup show="{{ overlaycard }}" bind:click-overlay="popIdcard" round>
+    <view class="overlay">
+        <view class="pops pops-active">
+            <view class="pops-item">
+                <notes />
+            </view>
+            <van-button color="linear-gradient(to right, #FF7446, #FF5D46)" size="small" custom-style="width:120px" disabled="{{disabled}}" round catchtap="popIdcard" class="btms">{{titles}}</van-button>
+        </view>
+    </view>
+</van-popup>
+<van-popup show="{{ overlaycardt }}" bind:click-overlay="popIdcardt" round>
+    <view class="overlay">
+        <view class="pops pops-active notes">
+            <view class="pops-item">
+               <view class="pops-item-title">公告</view>
+               <view>1、请点击<span class="red">开始录制按钮</span>，使用<span class="red">前置摄像头，开始录制</span>阅读视频</view>
+               <view>2、录制时请<span class="red">匀速朗读</span>一遍屏幕中的文字，朗读后点击<span class="red">红色按钮，结束录制</span>；</view>
+               <view>3、根据工信部复机规定，录制我已阅读《告知书》视频后，视为已知晓告示书全部内容。</view>
+            </view>
+            <van-button color="linear-gradient(to right, #FF7446, #FF5D46)" size="small" custom-style="width:120px" round catchtap="popIdcardt" class="btms">确定</van-button>
+        </view>
+    </view>
+</van-popup>

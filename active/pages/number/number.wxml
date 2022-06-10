@@ -1,0 +1,64 @@
+<!-- <navation title="新卡激活"></navation> -->
+<view>
+  <van-sticky class="sticky">
+    <view class="steps">
+      <step type="{{ type }}" active="{{ active }}" />
+    </view>
+  </van-sticky>
+  <view class="number body-ite">
+    <view class="number-title">请输入手机号和iccid进行认证激活</view>
+    <van-cell-group>
+      <van-field value="{{ mobile }}" required clearable type="number" label="手机号：" placeholder="请输入手机号" bind:change="onChangeMobile" maxlength="11" />
+      <van-field value="{{ iccid }}" required clearable label="ICCID：" placeholder="请输入ICCID后五位" bind:change="onChangeIccid" maxlength="5" />
+      <van-field value="{{ yzm }}" required clearable label="验证码：" placeholder="请输入验证码" bind:change="onChangeYzm" use-button-slot maxlength="4">
+        <code slot="button" width="80" height="30" class="code" catchtap="getCode" id="code" len="4" />
+      </van-field>
+    </van-cell-group>
+    <view class="iccidbody" hidden="{{ !hidden }}">
+      <image class="iccidimg" src="/images/icon/card.png" />
+    </view>
+    <view class="notebody" hidden="{{ !hidden }}">
+      <view class="note">注 释：如果ICCID的最后一位是字母，请输入字母前的5位</view>
+      <view class="iccid">ICCID: <view>8986</view>
+        <view>****</view>
+        <view>****</view><text>90</text><text class="redtext">0Y 00X</text>N
+      </view>
+    </view>
+    <view class="produce" hidden="{{ hidden }}">
+      <van-cell-group>
+        <van-field value="{{ numberFee }} 元" readonly label="预存款：" />
+        <van-field value="{{ minFee }} 元" readonly label="低消：" />
+        <van-field value="{{ proto }} 月" readonly label="合约期：" />
+        <van-field value="{{ productName }}" readonly label="产品信息：" />
+      </van-cell-group>
+      <view class="info">
+        <rich-text class='f13' nodes="{{ productDesc }}"></rich-text>
+      </view>
+    </view>
+    <view class="not-bom">
+      <van-checkbox value="{{ checked }}" checked-color="#FF4B57" icon-size="16px" shape="square" bind:change="onChange" />
+      <view class="xieyi">我已阅读并同意<view class="ruwang" catchtap="popAgreement">《入网协议书》</view>
+      </view>
+    </view>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ btnTitle }}</van-button>
+    </view>
+  </view>
+  <!-- 提示框组件 -->
+  <van-toast id="van-toast" />
+
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
+<!-- 遮罩层组件 -->
+<van-popup show="{{ overlay }}" bind:click-overlay="popAgreement" round>
+  <view class="overlay">
+    <view class="pops pops-active">
+      <view class="pops-item">
+        <!-- 入网协议组件 -->
+        <agreement />
+      </view>
+      <van-button color="#FF4B57" size="small" custom-style="width:100px" round catchtap="popAgreement">关闭
+      </van-button>
+    </view>
+  </view>
+</van-popup>
