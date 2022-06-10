@@ -1,3 +1,15 @@
+var app = getApp();
+var Base64 = require('js-base64');
+var Crypto = require('crypto-js');
+var Configuration = {
+  AccessKeyId: 'R3AHXQJX7FNJ37AZ22BV', //AK
+  SecretKey: 'hwgZ2rFXTwdHqHJJNKGJ37ZwfCLInWD0iWkDv80P', //SK
+  EndPoint: 'https://hx-zhangting.obs.cn-north-1.myhuaweicloud.com',
+}
+var QQMapWX = require('./qqmap-wx-jssdk.min.js');
+var qqmapsdk = new QQMapWX({
+  key: 'BLCBZ-C4QOU-UORVG-22AYH-D55H2-55BIP'
+});
 import {
   md5
 } from "./md5"
@@ -18,14 +30,6 @@ import {
   formatDates,
   formatISOTime
 } from "./formatDate"
-var app = getApp();
-const Base64 = require('js-base64');
-const Crypto = require('crypto-js');
-const Configuration = {
-  AccessKeyId: 'R3AHXQJX7FNJ37AZ22BV', //AK
-  SecretKey: 'hwgZ2rFXTwdHqHJJNKGJ37ZwfCLInWD0iWkDv80P', //SK
-  EndPoint: 'https://hx-zhangting.obs.cn-north-1.myhuaweicloud.com',
-}
 //sign签名
 function sign(param, timestamp) {
   let encryptionkey = 'hxlx_agent';
@@ -235,6 +239,97 @@ function netWorkStatus() {
     }
   })
 }
+//地理位置授权
+function getLocationAuth() {
+  return new Promise((resolve, reject) => {
+    wx.getSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+          wx.showModal({
+            title: '温馨提示',
+            content: '需要获取您的地理位置，请确认授权',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: function (res) {
+                    if (res.authSetting["scope.userLocation"] == true) {
+                      resolve(true);
+                    } else {
+                      reject(false);
+                    }
+                  }
+                })
+              }
+              if(res.cancel){
+                wx.showModal({
+                  title: '温馨提示',
+                  content: '请您打开位置权限，以便为您提供更好的服务！',
+                  showCancel: false,
+                  success: function (res) {
+                    wx.openSetting({
+                      success: function (res) {
+                        if (res.authSetting["scope.userLocation"] == true) {
+                          //resolve(true);
+                        } else {
+                          //reject(false);
+                        }
+                      }
+                    })
+                  }
+                });
+              }
+            }
+          })
+        } else if (res.authSetting['scope.userLocation'] == undefined) {
+          resolve(true);
+        } else {
+          resolve(true);
+        }
+      }
+    })
+  });
+}
+//获取定位信息
+function getLocation() {
+  wx.removeStorageSync('location');
+  return new Promise((resolve, reject) => {
+    const locationFun = (res) => {
+      reverseGeocoder(res).then((ret)=>{
+        wx.offLocationChange(locationFun);
+        resolve(ret);
+      }).catch((err)=>{
+        reject(err);
+      });
+    }
+    wx.startLocationUpdate({
+      success: (res) => {
+        wx.onLocationChange(locationFun);
+      },
+      fail: (err) => {
+       reject(false);
+      }
+    })
+  });
+}
+//地理位置解析
+function reverseGeocoder(location) {
+  return new Promise((resolve,reject)=>{
+    qqmapsdk.reverseGeocoder({
+      location: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      },
+      success: function (res) {
+        wx.setStorageSync('location', res.result.ad_info);
+        resolve(res);
+      },
+      fail(e) {
+        reject(true);
+      }
+    })  
+  });
+    
+}
 module.exports = {
   formatTime,
   formatDate,
@@ -254,5 +349,8 @@ module.exports = {
   getSysInfo,
   getNetwork,
   netWorkStatus,
-  base64src
+  base64src,
+  getLocationAuth,
+  getLocation,
+  qqmapsdk
 }

@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "华翔联信",
   "usingComponents": {
-    
+    "van-icon": "@vant/weapp/icon/index"
   }
 }

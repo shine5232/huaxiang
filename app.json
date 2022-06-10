@@ -44,7 +44,7 @@
     },
     "permission": {
       "scope.userLocation": {
-        "desc": "你的位置信息仅用于平台大数据分析"
+        "desc": "你的位置信息仅用于定位服务"
       }
     },
     "lazyCodeLoading": "requiredComponents",

@@ -5,52 +5,82 @@
         <block wx:for="{{background}}" wx:key="*this">
           <swiper-item>
             <view class="swiper-item">
-              <image src="{{item}}" class="banner-img" catchtap="goToView"/>
+              <image src="{{item}}" class="banner-img" catchtap="goToView" />
             </view>
           </swiper-item>
         </block>
       </swiper>
     </view>
-    <view class="label body-item">
-      <view class="label-title">
-        <view class="label-title-icon red"></view>
-        <view class="label-title-text">新卡激活</view>
-      </view>
-      <view class="label-item">
-        <view class="label-item-i active-back" catchtap="goToPath" data-url="/active/pages/number/number">
-          <view class="label-item-text active">新卡激活</view>
-          <view class="label-item-img">
-            <image src="/images/active_b.png" />
-          </view>
+    <block wx:if="{{type == 1}}">
+      <view class="label body-item">
+        <view class="label-title">
+          <view class="label-title-icon red"></view>
+          <view class="label-title-text">新卡激活</view>
         </view>
-        <view class="label-item-i active-back" catchtap="goToPath" data-url="/pages/query/active/active">
-          <view class="label-item-text active">激活进度查询</view>
-          <view class="label-item-img">
-            <image src="/images/active_c.png" />
+        <view class="label-item">
+          <view class="label-item-i active-back" catchtap="goToPath" data-url="/active/pages/number/number">
+            <view class="label-item-text active">新卡激活</view>
+            <view class="label-item-img">
+              <image src="/images/active_b.png" />
+            </view>
           </view>
-        </view>
-      </view>
-    </view>
-    <view class="label body-item">
-      <view class="label-title">
-        <view class="label-title-icon blue"></view>
-        <view class="label-title-text">实名补登记</view>
-      </view>
-      <view class="label-item">
-        <view class="label-item-i regist-back" catchtap="goToPath" data-url="/registion/pages/number/number">
-          <view class="label-item-text regist">实名补登记</view>
-          <view class="label-item-img">
-            <image src="/images/registion_b.png" />
-          </view>
-        </view>
-        <view class="label-item-i regist-back" catchtap="goToPath" data-url="/pages/query/registion/registion">
-          <view class="label-item-text regist">补登记进度查询</view>
-          <view class="label-item-img">
-            <image src="/images/registion_c.png" />
+          <view class="label-item-i active-back" catchtap="goToPath" data-url="/pages/query/active/active">
+            <view class="label-item-text active">激活进度查询</view>
+            <view class="label-item-img">
+              <image src="/images/active_c.png" />
+            </view>
           </view>
         </view>
       </view>
-    </view>
+      <view class="label body-item">
+        <view class="label-title">
+          <view class="label-title-icon blue"></view>
+          <view class="label-title-text">实名补登记</view>
+        </view>
+        <view class="label-item">
+          <view class="label-item-i regist-back" catchtap="goToPath" data-url="/registion/pages/number/number">
+            <view class="label-item-text regist">实名补登记</view>
+            <view class="label-item-img">
+              <image src="/images/registion_b.png" />
+            </view>
+          </view>
+          <view class="label-item-i regist-back" catchtap="goToPath" data-url="/pages/query/registion/registion">
+            <view class="label-item-text regist">补登记进度查询</view>
+            <view class="label-item-img">
+              <image src="/images/registion_c.png" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view>
+        <view class="label body-item">
+          <view class="label-title">
+            <view class="label-title-icon red"></view>
+            <view class="label-title-text">附近门店</view>
+          </view>
+        </view>
+        <block wx:for="{{distance}}" wx:key="idx" wx:for-item="item">
+          <view class="label-items" catchtap="goToPath" data-url="a">
+            <view class="label-item-i">
+              <view class="label-item-img">
+                <image src="/images/icon/logo.png" />
+              </view>
+              <view class="label-item-text">
+                <view class="text-name">北京华翔联信</view>
+                <view class="text-addr">
+                  <view class="addr">地址：北京市西城区展览路街道京桥国际公馆</view>
+                  <view class="label-item-icon">
+                    <van-icon name="location-o" size="12px" />{{item}}km
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
   </view>
   <view class="kefu">
     <button class="kefu-btn" open-type="contact" bindcontact="handleContact">在线客服</button>
