@@ -86,5 +86,16 @@ Page({
         });
       }
     });
+  },
+  daoHang(){
+    wx.showModal({
+      title: '温馨提示',
+      content: '您是要去这里吗？',
+      success: function (res) {
+        if(res.confirm){
+          console.log('sss');
+        }
+      },
+    });
   }
 })

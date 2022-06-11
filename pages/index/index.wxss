@@ -152,6 +152,22 @@ swiper {
   white-space: nowrap;
 }
 
+.label-item-text .text-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label-item-text .text-name .daoh {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #287ff1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .label-item-text .text-addr {
   font-size: 24rpx;
   color: #999;

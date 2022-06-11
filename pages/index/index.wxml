@@ -62,13 +62,18 @@
           </view>
         </view>
         <block wx:for="{{distance}}" wx:key="idx" wx:for-item="item">
-          <view class="label-items" catchtap="goToPath" data-url="a">
+          <view class="label-items">
             <view class="label-item-i">
               <view class="label-item-img">
                 <image src="/images/icon/logo.png" />
               </view>
               <view class="label-item-text">
-                <view class="text-name">北京华翔联信</view>
+                <view class="text-name">
+                  <view>北京华翔联信</view> 
+                  <view class="daoh" catchtap="daoHang">
+                    <van-icon name="guide-o" color="#287ff1"/>
+                  </view> 
+                </view>
                 <view class="text-addr">
                   <view class="addr">地址：北京市西城区展览路街道京桥国际公馆</view>
                   <view class="label-item-icon">
