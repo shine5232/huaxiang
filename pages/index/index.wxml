@@ -53,7 +53,7 @@
         </view>
       </view>
     </block>
-    <block wx:else>
+    <block wx:elif="{{type == 0}}">
       <view>
         <view class="label body-item">
           <view class="label-title">
@@ -83,7 +83,7 @@
                 <view class="i-content-item">
                   <van-icon name="location-o" />
                   <view class="item-name">门店地址：{{item.addr}}</view>
-                  <view class="item-dis"  catchtap="daoHang" data-option="{{item}}">{{item.distance}}km</view>
+                  <view class="item-dis" catchtap="daoHang" data-option="{{item}}">{{item.distance}}km</view>
                 </view>
               </view>
             </view>

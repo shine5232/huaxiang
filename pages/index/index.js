@@ -1,9 +1,13 @@
 var app = getApp();
 import {
+  baseUrl,
   getLocationAuth,
   getLocation,
   qqmapsdk
 } from '../../utils/util'
+import {
+  POST
+} from '../../utils/promise'
 Page({
   data: {
     background: ['/images/banner.png'],
@@ -13,49 +17,59 @@ Page({
     autoplay: false,
     interval: 2000,
     duration: 500,
-    type:0,
-    distance:[],
-    shopData:[{
-      logo:'',
-      name:'北京华翔联信(展览路)',
-      tel:'10036',
-      location:{
-        latitude:'39.934411',
-        longitude:'116.349794'
+    type: 2,
+    distance: [],
+    shopData: [{
+      logo: '',
+      name: '北京华翔联信(展览路)',
+      tel: '10036',
+      location: {
+        latitude: '39.934411',
+        longitude: '116.349794'
       },
-      time:'9:00-18:00',
-      addr:'北京市西城区展览路街道京桥国际公馆',
-      distance:0
-    },{
-      logo:'',
-      name:'北京华翔联信(西直门)',
-      tel:'10036',
-      location:{
-        latitude:'39.937775',
-        longitude:'116.341732'
+      time: '9:00-18:00',
+      addr: '北京市西城区展览路街道京桥国际公馆',
+      distance: 0
+    }, {
+      logo: '',
+      name: '北京华翔联信(西直门)',
+      tel: '10036',
+      location: {
+        latitude: '39.937775',
+        longitude: '116.341732'
       },
-      time:'9:00-18:00',
-      addr:'北京市西城区西直门南大街168号',
-      distance:0
+      time: '9:00-18:00',
+      addr: '北京市西城区西直门南大街168号',
+      distance: 0
     }],
   },
   onLoad: function (options) {},
   onReady: function () {},
   onShow: function () {
-    this.getLocationInfo();
+    let that = this;
+    that.getType().then((res, rej) => {
+      if(that.data.type == '0'){
+        that.getLocationInfo();
+      }
+    });
   },
   //跳转页面
   goToPath(e) {
     let url = e.currentTarget.dataset.url;
-    if(url == 'a'){
-      this.getLocationInfo();
-    }else{
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    if (url == '/active/pages/number/number' || url == '/registion/pages/number/number') {
+      this.getLocationInfo(url);
+    } else {
+      wx.hideLoading();
       wx.navigateTo({
         url: url
       })
     }
   },
-  goToView(){
+  goToView() {
     wx.reLaunch({
       url: '/pages/concern/concern'
     })
@@ -64,17 +78,25 @@ Page({
     console.log(e.detail.path)
     console.log(e.detail.query)
   },
-  getLocationInfo(){
+  getLocationInfo(url=false) {
     var that = this;
-    getLocation().then((res)=>{
-      wx.showLoading({title:'加载中...'});
-      return that.getDistance(res.result.location);
-    }).then((res)=>{
-      wx.hideLoading();
-    }).catch((e)=>{
-      if(!e){
-        getLocationAuth();
+    let data = {};
+    getLocation().then((res) => {
+      data = res.result.location;
+      if (that.data.type == '0') {
+        return that.getDistance(data);
       }else{
+        if(url){
+          wx.hideLoading();
+          wx.navigateTo({
+            url: url
+          })
+        }
+      }
+    }).catch((e) => {
+      if (!e) {
+        getLocationAuth();
+      } else {
         wx.showModal({
           title: '温馨提示',
           content: '位置信息解析失败，请稍后重试！',
@@ -83,57 +105,90 @@ Page({
       }
     });
   },
-  daoHang(e){
+  daoHang(e) {
     let option = e.currentTarget.dataset.option;
     const that = this;
     wx.showModal({
       title: '温馨提示',
       content: '您是要去这里吗？',
       success: function (res) {
-        if(res.confirm){
+        if (res.confirm) {
           wx.navigateTo({
-            url: '/pages/map/map?option='+JSON.stringify(option)
+            url: '/pages/map/map?option=' + JSON.stringify(option)
           })
         }
       },
     });
   },
-  getDistance(location){
+  getDistance(location) {
     const that = this;
-    return new Promise(function(resolve,reject){
+    wx.showLoading({
+      title: '加载中...'
+    });
+    return new Promise(function (resolve, reject) {
       qqmapsdk.calculateDistance({
-        mode:'driving',
-        from:{
-          latitude:location.lat,
-          longitude:location.lng
+        mode: 'driving',
+        from: {
+          latitude: location.lat,
+          longitude: location.lng
         },
-        to:[{
-          latitude:'39.934411',
-          longitude:'116.349794'
-        },{
-          latitude:'39.937775',
-          longitude:'116.341732'
+        to: [{
+          latitude: '39.934411',
+          longitude: '116.349794'
+        }, {
+          latitude: '39.937775',
+          longitude: '116.341732'
         }],
-        success:function(res){
+        success: function (res) {
           console.log(res);
           var res = res.result;
           for (var i = 0; i < res.elements.length; i++) {
             let num = (res.elements[i].distance / 1000).toFixed(2);
-            let obg = 'shopData['+i+'].distance';
+            let obg = 'shopData[' + i + '].distance';
             that.setData({
-              [obg]:num
+              [obg]: num
             });
           }
           resolve(true);
         },
-        fail: function(error) {
+        fail: function (error) {
           reject(false);
+        },
+        complete: function () {
+          wx.hideLoading();
         }
       });
     });
   },
-  //获取后台配置接口
-  getType(){
+  getType() {
+    let that = this;
+    let url = baseUrl + '/api/getFacelivenessSessionCode';
+    let parms = {
+      type: 0,
+    }
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
+    return new Promise(function (resolve, reject) {
+      setTimeout(() => {
+        wx.hideLoading();
+        that.setData({
+          type: 0
+        });
+        resolve();
+      }, 1000);
 
+      /* POST(url, parms).then(function (res, jet) {
+        if (res.code == 200) {
+          that.setData({
+            type:res.result.type
+          });
+          resolve(res.result.type);
+        }else{
+          reject();
+        }
+      }); */
+    });
   }
 })

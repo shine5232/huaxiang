@@ -42,7 +42,15 @@ Page({
   //页面加载完成
   onLoad() {
     const that = this;
-    wx.clearStorageSync();
+    wx.removeStorageSync('randstring');
+    wx.removeStorageSync('idcardA');
+    wx.removeStorageSync('idcardB');
+    wx.removeStorageSync('mobile');
+    wx.removeStorageSync('videoCheck');
+    wx.removeStorageSync('fileName');
+    wx.removeStorageSync('handId');
+    wx.removeStorageSync('simId');
+    wx.removeStorageSync('cardType');
     login().then((res) => {
       return getSysInfo();
     }).then((res) => {
