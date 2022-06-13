@@ -61,24 +61,29 @@
             <view class="label-title-text">附近门店</view>
           </view>
         </view>
-        <block wx:for="{{distance}}" wx:key="idx" wx:for-item="item">
+        <block wx:for="{{shopData}}" wx:key="key" wx:for-index="idx" wx:for-item="item">
           <view class="label-items">
             <view class="label-item-i">
-              <view class="label-item-img">
+              <view class="i-title">
                 <image src="/images/icon/logo.png" />
+                <view class="text-name">{{item.name}}</view>
               </view>
-              <view class="label-item-text">
-                <view class="text-name">
-                  <view>北京华翔联信</view> 
-                  <view class="daoh" catchtap="daoHang">
-                    <van-icon name="guide-o" color="#287ff1"/>
-                  </view> 
+              <view class="i-content">
+                <view class="i-content-item">
+                  <van-icon name="phone-o" />
+                  <view class="item-name">服务电话：{{item.tel}}</view>
                 </view>
-                <view class="text-addr">
-                  <view class="addr">地址：北京市西城区展览路街道京桥国际公馆</view>
-                  <view class="label-item-icon">
-                    <van-icon name="location-o" size="12px" />{{item}}km
+                <view class="i-content-item">
+                  <van-icon name="underway-o" />
+                  <view class="item-name">营业时间：{{item.time}}</view>
+                  <view class="item-dis" catchtap="daoHang" data-option="{{item}}">
+                    <van-icon name="guide-o" color="#287ff1" size="16px" />
                   </view>
+                </view>
+                <view class="i-content-item">
+                  <van-icon name="location-o" />
+                  <view class="item-name">门店地址：{{item.addr}}</view>
+                  <view class="item-dis"  catchtap="daoHang" data-option="{{item}}">{{item.distance}}km</view>
                 </view>
               </view>
             </view>

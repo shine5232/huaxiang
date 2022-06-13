@@ -6,6 +6,7 @@
       "pages/query/active/active",
       "pages/query/registion/registion",
       "pages/pays/pays",
+      "pages/map/map",
       "pages/pay/pay",
       "pages/complete/complete",
       "pages/concern/concern"

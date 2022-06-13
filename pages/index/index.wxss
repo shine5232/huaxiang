@@ -129,54 +129,53 @@ swiper {
 .label-items {
   background: #fff;
   margin: 5px 0;
+  border-radius: 10rpx;
 }
 
 .label-items .label-item-i {
   padding: 20rpx;
   border-radius: 5px;
   width: initial;
-  display: flex;
 }
 
-.label-items .label-item-img image {
-  width: 60px;
-  height: 60px;
-}
-
-.label-items .label-item-i .label-item-text {
-  display: flex;
-  margin-left: 10px;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.label-item-text .text-name {
+.label-item-i .i-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
-.label-item-text .text-name .daoh {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1px solid #287ff1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.i-title image {
+  width: 40rpx;
+  height: 40rpx;
 }
 
-.label-item-text .text-addr {
-  font-size: 24rpx;
-  color: #999;
+.i-title .text-name {
+  margin-left: 14rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.i-content {
   padding: 10rpx 0;
-  display: flex;
 }
 
-.text-addr .addr {
+.i-content .i-content-item {
+  display: flex;
+  align-items: center;
+  color: #999;
+  font-size: 24rpx;
+  margin: 10rpx 0;
+}
+
+.i-content-item .item-name {
+  margin-left: 10rpx;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  flex: 1;
+}
+
+.i-content-item .item-dis {
+  text-align: right;
+  width: 100rpx;
 }

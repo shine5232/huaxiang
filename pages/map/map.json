@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "导航",
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon/index"
+  }
+}
