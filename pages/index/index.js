@@ -102,7 +102,7 @@ Page({
       } else {
         wx.showModal({
           title: '温馨提示',
-          content: '位置信息解析失败，请稍后重试！',
+          content: '系统检查到未开启GPS定位服务，请打开定位',
           showCancel: false,
         });
       }
