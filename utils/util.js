@@ -247,7 +247,7 @@ function getLocationAuth() {
         if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
           wx.showModal({
             title: '温馨提示',
-            content: '需要获取您的地理位置，请确认授权',
+            content: '系统检查到未开启GPS定位服务，请打开定位',
             success: function (res) {
               if (res.confirm) {
                 wx.openSetting({
@@ -263,7 +263,7 @@ function getLocationAuth() {
               if(res.cancel){
                 wx.showModal({
                   title: '温馨提示',
-                  content: '请您打开位置权限，以便为您提供更好的服务！',
+                  content: '系统检查到未开启GPS定位服务，请打开定位',
                   showCancel: false,
                   success: function (res) {
                     wx.openSetting({

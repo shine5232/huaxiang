@@ -39,7 +39,7 @@ Page({
       } else {
         wx.showModal({
           title: '温馨提示',
-          content: '系统检查到未开启GPS定位服务，请打开定位',
+          content: 'GPS定位信息无法获取，请稍后再试。',
           showCancel: false,
         });
       }
