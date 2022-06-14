@@ -263,7 +263,7 @@ function getLocationAuth() {
               if(res.cancel){
                 wx.showModal({
                   title: '温馨提示',
-                  content: '系统检查到未开启GPS定位服务，请打开定位',
+                  content: '为了给您提供更好的服务，请打开定位',
                   showCancel: false,
                   success: function (res) {
                     wx.openSetting({
