@@ -48,7 +48,7 @@ Page({
   onShow: function () {
     let that = this;
     that.getType().then((res, rej) => {
-      if(that.data.type == '0'){
+      if (that.data.type == '0') {
         that.getLocationInfo();
       }
     });
@@ -56,10 +56,7 @@ Page({
   //跳转页面
   goToPath(e) {
     let url = e.currentTarget.dataset.url;
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
-    });
+    
     if (url == '/active/pages/number/number' || url == '/registion/pages/number/number') {
       this.getLocationInfo(url);
     } else {
@@ -78,22 +75,28 @@ Page({
     console.log(e.detail.path)
     console.log(e.detail.query)
   },
-  getLocationInfo(url=false) {
+  getLocationInfo(url = false) {
     var that = this;
     let data = {};
+    wx.showLoading({
+      title: '加载中...',
+      mask: true
+    });
     getLocation().then((res) => {
       data = res.result.location;
       if (that.data.type == '0') {
         return that.getDistance(data);
-      }else{
-        if(url){
-          wx.hideLoading();
+      } else {
+        if (url) {
           wx.navigateTo({
             url: url
           })
         }
       }
+    }).then((e)=>{
+      wx.hideLoading();
     }).catch((e) => {
+      wx.hideLoading();
       if (!e) {
         getLocationAuth();
       } else {
@@ -149,7 +152,7 @@ Page({
               [obg]: num
             });
           }
-          resolve(true);
+          resolve();
         },
         fail: function (error) {
           reject(false);
@@ -162,33 +165,27 @@ Page({
   },
   getType() {
     let that = this;
-    let url = baseUrl + '/api/getFacelivenessSessionCode';
+    let url = baseUrl + '/api/user/getSysCfg';
     let parms = {
-      type: 0,
+        cfgType: 'HXXCX_CFG',
+        cfgKey: 'ISSHOWMAP'
     }
     wx.showLoading({
       title: '加载中...',
       mask: true
     });
-    return new Promise(function (resolve, reject) {
-      setTimeout(() => {
+    return new Promise(function(resolve,reject){
+      POST(url,parms).then(function (res, jet) {
         wx.hideLoading();
-        that.setData({
-          type: 0
-        });
-        resolve();
-      }, 1000);
-
-      /* POST(url, parms).then(function (res, jet) {
         if (res.code == 200) {
           that.setData({
-            type:res.result.type
+            type:res.datas
           });
-          resolve(res.result.type);
-        }else{
+          resolve(res.datas);
+        } else {
           reject();
         }
-      }); */
-    });
+      });
+    });    
   }
 })

@@ -24,7 +24,6 @@ function login() {
             },
             method: 'GET',
             success: (res) => {
-              console.log('res',res);
               if (res.data.code == 200) {
                 wx.setStorageSync('openid', res.data.data.openid);
                 wx.setStorageSync('deviceId', res.data.data.openid);

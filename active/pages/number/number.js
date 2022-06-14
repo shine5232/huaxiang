@@ -37,6 +37,7 @@ Page({
     productDesc: "",
     btnTitle: '提交确认',
     next: 1,
+    areaLim: '',
     statusBarHeight: app.globalData.statusBarHeight + 'px',
     navigationBarHeight: (app.globalData.statusBarHeight + 44) + 'px',
     top: (app.globalData.statusBarHeight + 44) + 'px',
@@ -88,26 +89,6 @@ Page({
       next: 1,
       productId: '',
     });
-  },
-  //点击下一步
-  nextStep() {
-    const that = this;
-    if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit()) {
-      that.checkBioassay().then(function (ret, jet) {
-        if (that.data.orderStatus == 13) { //存在预存
-          that.goToUrl();
-        } else { //跳转下一步
-          that.judgeOrderStatus();
-        }
-      }).catch((e) => {
-        Dialog.alert({
-          title: '提示信息',
-          message: e,
-        }).then(() => {
-          wx.navigateBack();
-        });
-      });
-    }
   },
   //提交验证手机号
   verifyMobile() {
@@ -269,6 +250,9 @@ Page({
         if (datas.orderId) { //存在预约订单
           that.getOrderInfo(datas.orderId);
         }
+        if (datas.numberOperType == 0) {
+          that.getMianBei();
+        }
       } else {
         Toast({
           type: 'fail',
@@ -392,7 +376,69 @@ Page({
       });
     });
   },
-  onUnload(){
+  //调用系统配置
+  getMianBei() {
+    let that = this;
+    let url = baseUrl + '/api/user/getSysCfg';
+    let parms = {
+      cfgType: 'SAS_CHECK',
+      cfgKey: 'RISK_AREA_CODE'
+    };
+    return new Promise(function (resolve, reject) {
+      POST(url, parms).then(function (res, jet) {
+        if (res.code == 200) {
+          that.setData({
+            areaLim: res.datas
+          });
+        } else {
+          reject(res.msg);
+        }
+      });
+    });
+  },
+  //地区限制
+  checkArea(){
+    let that = this;
+    let location = wx.getStorageSync('location');
+    let adcode = location.ad_info.adcode.slice(0,4);
+    let limit = that.data.areaLim.split('#');
+    let has = limit.indexOf(adcode);
+    if(has){
+      Dialog.alert({
+        title: '入网提示',
+        message: '您的号码激活信息异常，请重试或联系售卡人员。',
+        confirmButtonText:'退出自助激活'
+      }).then(() => {
+        wx.reLaunch({
+          url: '/pages/index/index'
+        })
+      });
+      return false;
+    }else{
+      return true;
+    }
+  },
+  //点击下一步
+  nextStep() {
+    const that = this;
+    if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit() && that.checkArea()) {
+      that.checkBioassay().then(function (ret, jet) {
+        if (that.data.orderStatus == 13) { //存在预存
+          that.goToUrl();
+        } else { //跳转下一步
+          that.judgeOrderStatus();
+        }
+      }).catch((e) => {
+        Dialog.alert({
+          title: '提示信息',
+          message: e,
+        }).then(() => {
+          wx.navigateBack();
+        });
+      });
+    }
+  },
+  onUnload() {
     console.log('number页面销毁了');
   }
 })

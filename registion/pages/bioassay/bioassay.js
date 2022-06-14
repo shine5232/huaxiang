@@ -4,7 +4,8 @@ import {
   baseUrl,
   baseUrlP,
   base64src,
-  watermark
+  watermark,
+  getAuthVioce
 } from '../../../utils/util'
 import {
   POST,
@@ -125,118 +126,11 @@ Page({
   },
   onShow() {
     const that = this;
-    //if (!app.globalData.isBioass) {
-    that.getAuthVioce().then((data) => {
-      that.stringUsed();
-    }).catch((error) => {});
-    //}
-  },
-  //获取录音录像权限
-  getAuthVioce() {
-    return new Promise(function (resolve, reject) {
-      wx.getSetting({
-        success(res) {
-          if (!res.authSetting['scope.camera']) { //获取摄像头权限
-            wx.authorize({
-              scope: 'scope.camera',
-              success() {
-                //console.log('授权成功')
-                resolve(true);
-              },
-              fail() {
-                wx.showModal({
-                  title: '提示',
-                  content: '尚未进行授权，部分功能将无法使用',
-                  showCancel: false,
-                  success(res) {
-                    if (res.confirm) {
-                      //console.log('用户点击确定')
-                      wx.openSetting({ //这里的方法是调到一个添加权限的页面，可以自己尝试
-                        success: (res) => {
-                          if (!res.authSetting['scope.camera']) {
-                            wx.authorize({
-                              scope: 'scope.camera',
-                              success() {
-                                //console.log('授权成功')
-                                resolve(true);
-                              },
-                              fail() {
-                                //console.log('用户点击取消')
-                                resolve(false);
-                              }
-                            })
-                          } else {
-                            resolve(true);
-                          }
-                        },
-                        fail: function () {
-                          //console.log("授权设置录音失败");
-                          reject(false);
-                        }
-                      })
-                    } else if (res.cancel) {
-                      //console.log('用户点击取消1')
-                      reject(false);
-                    }
-                  }
-                })
-              }
-            })
-          } else {
-            resolve(true);
-          }
-          if (!res.authSetting['scope.record']) { //获取录音机权限
-            wx.authorize({
-              scope: 'scope.record',
-              success() {
-                //console.log('授权成功')
-                resolve(true);
-              },
-              fail() {
-                wx.showModal({
-                  title: '提示',
-                  content: '尚未进行授权，部分功能将无法使用',
-                  showCancel: false,
-                  success(res) {
-                    if (res.confirm) {
-                      //console.log('用户点击确定')
-                      wx.openSetting({ //这里的方法是调到一个添加权限的页面，可以自己尝试
-                        success: (res) => {
-                          if (!res.authSetting['scope.record']) {
-                            wx.authorize({
-                              scope: 'scope.record',
-                              success() {
-                                //console.log('授权成功')
-                                resolve(true);
-                              },
-                              fail() {
-                                //console.log('用户点击取消')
-                                resolve(false);
-                              }
-                            })
-                          } else {
-                            resolve(true);
-                          }
-                        },
-                        fail: function () {
-                          //console.log("授权设置录音失败");
-                          reject(false);
-                        }
-                      })
-                    } else if (res.cancel) {
-                      //console.log('用户点击取消1')
-                      reject(false);
-                    }
-                  }
-                })
-              }
-            })
-          } else {
-            resolve(true);
-          }
-        }
-      })
-    });
+    if (!app.globalData.isBioass) {
+      getAuthVioce().then((data) => {
+        that.stringUsed();
+      }).catch((error) => {});
+    }
   },
   //开始录制
   takePhotoStart() {
@@ -331,21 +225,33 @@ Page({
             }).then((t)=>{
               return that.opIdsFun(t.datas.picnamehand,1,1);
             }).then(()=>{
-              that.faceComparisonSas();
+              return that.faceComparisonSas();
+            }).then(()=>{
+              return that.faceVerify();
+            }).then(()=>{
+              return that.submitOrderRealName();
+            }).then(()=>{
+              return that.recordLoginInfo();
+            }).then(()=>{
+              wx.hideLoading();
+              wx.reLaunch({
+                url: '/pages/complete/complete?title=实名补登记&from=reg_complete&note=实名补登记提交成功，系统正在审核，请您耐心等候'
+              });
             }).catch((error) => {
+              wx.hideLoading();
               that.restartVoice(error);
             });
           } else {
-            that.restartVoice(res.msg);
+            that.restartVoice('视频上传失败');
           }
         }).catch((error) => {
           console.log('视频错误',error);
-          that.restartVoice(error.msg);
+          that.restartVoice('视频上传调用失败');
         });
       },
       fail: function (e) {
-        that.restartVoice();
-        console.log('录制失败', e);
+        that.restartVoice('录制失败');
+        console.log('视频录制失败', e);
       }
     });
   },
@@ -356,7 +262,7 @@ Page({
       }else{
         app.globalData.opIds[index] = f;
       }
-      resolve(true);
+      resolve();
     });
   },
   //重新录制
@@ -412,78 +318,76 @@ Page({
   //图片上传
   upLoadImg(fileName, name, clientFile, type) {
     const url = baseUrl + '/api/uploadFileSas';
-    let param = {
+    let parms = {
       fileName: name,
       fechType: 1,
       type: type
     };
+    console.log('uploadFileSas', parms);
     return new Promise(function (resolve, reject) {
-      FILE(url, fileName, clientFile, param, false)
+      FILE(url, fileName, clientFile, parms, false)
         .then((res) => {
           if (res.code == 200) {
             resolve(res);
           } else {
-            reject('上传失败');
+            reject('图片上传失败');
           }
         })
         .catch((error) => {
-          reject('上传失败');
+          reject('请求上传失败');
         });
     });
   },
-  //人脸比对
+  //人照比对
   faceComparisonSas() {
-    const that = this;
     let url = baseUrl + '/api/faceComparisonSas';
     let idcardA = wx.getStorageSync('idcardA');
     let parms = {
       picnamez: idcardA.picnamez,
       picnamehand: app.globalData.piclivebest
     }
-    POST(url, parms).then(function (res, jet) {
-      if (res.code == 200) {
-        that.faceVerify();
-      } else {
-        that.restartVoice(res.msg);
-      }
-    }).catch((e) => {
-      that.restartVoice();
+    console.log('faceComparisonSas', parms);
+    return new Promise(function(resolve,reject){
+      POST(url, parms).then(function (res, jet) {
+        if (res.code == 200) {
+          resolve();
+        } else {
+          reject(res.msg);
+        }
+      }).catch((e) => {
+        reject('请求失败');
+      });
     });
   },
-  //活体检测
+  //在线活体
   faceVerify() {
-    const that = this;
     let url = baseUrl + '/api/faceVerify';
     let parms = {
       opIds: app.globalData.opIds,
       svcNumber: wx.getStorageSync('mobile')
     }
-    POST(url, parms).then(function (res, jet) {
-      if (res.code == 200) {
-        wx.removeStorageSync('timestamp');
-        wx.removeStorageSync('randstring');
-        wx.removeStorageSync('session_id');
-        //直接提交订单
-        that.submitOrderRealName();
-      } else {
-        wx.removeStorageSync('timestamp');
-        wx.removeStorageSync('randstring');
-        wx.removeStorageSync('session_id');
-        that.restartVoice(res.msg);
-      }
-    }).catch((e) => {
-      that.restartVoice();
+    console.log('faceVerify', parms);
+    return new Promise(function(resolve,reject){
+      POST(url, parms).then(function (res, jet) {
+        if (res.code == 200) {
+          wx.removeStorageSync('timestamp');
+          wx.removeStorageSync('randstring');
+          wx.removeStorageSync('session_id');
+          wx.removeStorageSync('failNum');
+          resolve();
+        } else {
+          wx.removeStorageSync('timestamp');
+          wx.removeStorageSync('randstring');
+          wx.removeStorageSync('session_id');
+          reject(res.msg);
+        }
+      }).catch((e) => {
+        reject('请求失败');
+      });
     });
-  },
-  //页面销毁
-  onUnload() {
-    const that = this;
-    clearInterval(that.data.timeLoopT);
-    clearInterval(that.data.timeLoop);
   },
   //提交实名订单
   submitOrderRealName() {
-    const that = this;
     let url = baseUrl + '/api/user/submitOrderRealName';
     let idcardA = wx.getStorageSync('idcardA');
     let idcardB = wx.getStorageSync('idcardB');
@@ -513,32 +417,23 @@ Page({
       picAttachC: videoCheck == '1' ? fileName : '',
       type:type
     }
-    console.log('params1', parms);
-    POST(url, parms).then(function (res, jet) {
-      if (res.code == 200) {
-        console.log('111');
-        return that.recordLoginInfo();
-      } else {
-        Toast({
-          type: 'fail',
-          message: res.msg
-        });
-      }
-    }).then(() => {
-      console.log('222');
-      wx.hideLoading();
-      wx.reLaunch({
-        url: '/pages/complete/complete?title=实名补登记&from=reg_complete&note=实名补登记提交成功，系统正在审核，请您耐心等候'
+    console.log('submitOrderRealName', parms);
+    return new Promise(function(resolve,reject){
+      POST(url, parms).then(function (res, jet) {
+        if (res.code == 200) {
+          resolve();
+        } else {
+          reject(res.msg);
+        }
+      }).catch(()=>{
+        reject('请求失败');
       });
-    }).catch(() => {
-      wx.hideLoading();
-      console.log('333');
     });
   },
   //记录登录日志
   recordLoginInfo() {
     let url = baseUrlP + '/app/login/recordLoginInfo';
-    let location = JSON.parse(wx.getStorageSync('location'));
+    let location = wx.getStorageSync('location');
     let mobile = wx.getStorageSync('mobile');
     let deviceId = wx.getStorageSync('deviceId');
     let deviceType = wx.getStorageSync('deviceType');
@@ -548,26 +443,35 @@ Page({
       fromType: 'RealName',
       osType: 'XCX',
       serviceNum: mobile,
-      longitude: '',
-      latitude: '',
-      areaText: '',
-      countryCode: '',
-      adCode: '',
-      cityCode: '',
+      longitude: location.location.lng,
+      latitude: location.location.lat,
+      areaText: location.address,
+      countryCode: location.ad_info.nation_code,
+      adCode: location.ad_info.adcode,
+      cityCode: location.ad_info.city_code,
       deviceId: deviceId,
       deviceType: deviceType,
       osVersion: osVersion,
       netWorkType: netWorkType
     }
-    console.log('params2', parms);
+    console.log('recordLoginInfo', parms);
     return new Promise(function (resolve, reject) {
       POST(url, parms).then(function (res, jet) {
-        console.log('444', res);
-        resolve(true);
+        if (res.code == 200) {
+          resolve();
+        } else {
+          reject(res.msg);
+        }
       }).catch(() => {
-        resolve(true);
+        reject('请求失败');
       });
     });
+  },
+  //页面销毁
+  onUnload() {
+    const that = this;
+    clearInterval(that.data.timeLoopT);
+    clearInterval(that.data.timeLoop);
   },
   //点击下一步
   nextStep() {

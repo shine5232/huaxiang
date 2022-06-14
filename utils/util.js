@@ -320,7 +320,7 @@ function reverseGeocoder(location) {
         longitude: location.longitude
       },
       success: function (res) {
-        wx.setStorageSync('location', res.result.ad_info);
+        wx.setStorageSync('location', res.result);
         resolve(res);
       },
       fail(e) {
@@ -328,7 +328,101 @@ function reverseGeocoder(location) {
       }
     })  
   });
-    
+}
+ //获取录音录像权限
+function getAuthVioce() {
+  return new Promise(function (resolve, reject) {
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.camera']) { //获取摄像头权限
+          wx.authorize({
+            scope: 'scope.camera',
+            success() {
+              resolve(true);
+            },
+            fail() {
+              wx.showModal({
+                title: '提示',
+                content: '尚未进行授权，部分功能将无法使用',
+                showCancel: false,
+                success(res) {
+                  if (res.confirm) {
+                    wx.openSetting({
+                      success: (res) => {
+                        if (!res.authSetting['scope.camera']) {
+                          wx.authorize({
+                            scope: 'scope.camera',
+                            success() {
+                              resolve(true);
+                            },
+                            fail() {
+                              resolve(false);
+                            }
+                          })
+                        } else {
+                          resolve(true);
+                        }
+                      },
+                      fail: function () {
+                        reject(false);
+                      }
+                    })
+                  } else if (res.cancel) {
+                    reject(false);
+                  }
+                }
+              })
+            }
+          })
+        } else {
+          resolve(true);
+        }
+        if (!res.authSetting['scope.record']) { //获取录音机权限
+          wx.authorize({
+            scope: 'scope.record',
+            success() {
+              resolve(true);
+            },
+            fail() {
+              wx.showModal({
+                title: '提示',
+                content: '尚未进行授权，部分功能将无法使用',
+                showCancel: false,
+                success(res) {
+                  if (res.confirm) {
+                    wx.openSetting({
+                      success: (res) => {
+                        if (!res.authSetting['scope.record']) {
+                          wx.authorize({
+                            scope: 'scope.record',
+                            success() {
+                              resolve(true);
+                            },
+                            fail() {
+                              resolve(false);
+                            }
+                          })
+                        } else {
+                          resolve(true);
+                        }
+                      },
+                      fail: function () {
+                        reject(false);
+                      }
+                    })
+                  } else if (res.cancel) {
+                    reject(false);
+                  }
+                }
+              })
+            }
+          })
+        } else {
+          resolve(true);
+        }
+      }
+    })
+  });
 }
 module.exports = {
   formatTime,
@@ -352,5 +446,6 @@ module.exports = {
   base64src,
   getLocationAuth,
   getLocation,
-  qqmapsdk
+  qqmapsdk,
+  getAuthVioce
 }

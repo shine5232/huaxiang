@@ -726,16 +726,17 @@ Page({
     let deviceType = wx.getStorageSync('deviceType');
     let osVersion = wx.getStorageSync('osVersion');
     let netWorkType = wx.getStorageSync('netWorkType');
+    let location = wx.getStorageSync('location');
     let parms = {
       fromType: 'OpenUser',
       osType: 'XCX',
       serviceNum: mobile,
-      longitude: '',
-      latitude: '',
-      areaText: '',
-      countryCode: '',
-      adCode: '',
-      cityCode: '',
+      longitude: location.location.lng,
+      latitude: location.location.lat,
+      areaText: location.address,
+      countryCode: location.ad_info.nation_code,
+      adCode: location.ad_info.adcode,
+      cityCode: location.ad_info.city_code,
       deviceId: deviceId,
       deviceType: deviceType,
       osVersion: osVersion,
