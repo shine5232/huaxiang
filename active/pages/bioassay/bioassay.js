@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 import {
   baseUrl,
@@ -119,7 +118,11 @@ Page({
           timeLoopT: timeLoopT
         });
       } else {
-        Toast.fail(res.msg);
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
       }
     });
   },
@@ -332,10 +335,10 @@ Page({
   },
   //人照比对
   faceComparisonSas() {
-    const that = this;
     let url = baseUrl + '/api/faceComparisonSasNew';
+    let idcardA = wx.getStorageSync('idcardA');
     let parms = {
-      picnamez: wx.getStorageSync('picnamez'),
+      picnamez: idcardA.picnamez,
       piclivebest: app.globalData.piclivebest,
       orderId: app.globalData.orderId
     }

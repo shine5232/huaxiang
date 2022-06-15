@@ -6,13 +6,11 @@
     "van-button": "@vant/weapp/button/index",
     "van-loading": "@vant/weapp/loading/index",
     "van-overlay": "@vant/weapp/overlay/index",
-    "van-toast": "@vant/weapp/toast/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-field": "@vant/weapp/field/index",
     "van-cell-group":"@vant/weapp/cell-group/index",
     "van-popup": "@vant/weapp/popup/index",
     "capture":"/components/capture/capture",
-    "van-dialog": "@vant/weapp/dialog/index",
     "navation":"/components/navation/navation",
     "step":"/components/step/step"
   }

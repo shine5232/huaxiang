@@ -50,8 +50,6 @@
     </view>
   </view>
 </view>
-<!-- 提示框组件 -->
-<van-toast id="van-toast" />
 <van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
 <view style="position:fixed;width:{{ width }}px;z-index:0;top:1000px">
   <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas" style="width:{{ width }}px;height:{{ height }}px"></canvas>

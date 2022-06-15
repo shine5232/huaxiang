@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import {
   baseUrl,
   formatDates
@@ -89,32 +88,60 @@ Page({
     let idcard = wx.getStorageSync('idcard');
     let time = formatDates(new Date());
     if (that.data.fileLista == '') {
-      Toast.fail('请上传身份证人像面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传身份证人像面照片'
+      });
       return false;
     }
     if (that.data.fileListb == '') {
-      Toast.fail('请上传身份证国徽面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传身份证国徽面照片'
+      });
       return false;
     }
     if (that.data.img1 == 0) {
-      Toast.fail('请重新上传身份证人像面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请重新上传身份证人像面照片'
+      });
       return false;
     }
     if (that.data.img2 == 0) {
-      Toast.fail('请重新上传身份证国徽面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请重新上传身份证国徽面照片'
+      });
       return false;
     }
     if (name != idcardA.cardInfo.姓名.words) {
-      Toast.fail('请检查姓名是否正确');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请检查姓名是否正确'
+      });
       return false;
     }
     if (parseInt(idcard) != parseInt(idcardA.cardInfo.公民身份号码.words)) {
-      Toast.fail('请检查身份证号是否正确');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请检查身份证号是否正确'
+      });
       return false;
     }
     if (idcardB.cardInfo.失效日期.words != '长期') {
       if (parseInt(time) >= parseInt(idcardB.cardInfo.失效日期.words)) {
-        Toast.fail('身份证过期，请上传最新身份证');
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'身份证过期，请上传最新身份证'
+        });
         return false;
       }
     }
@@ -192,14 +219,17 @@ Page({
           fileLista: imgPath
         });
         wx.hideLoading();
-        app.globalData.idcardA = data.datas;
         wx.setStorageSync('idcardA', data.datas);
       }).catch((error) => {
         that.setData({
           img1: 0,
         });
         wx.hideLoading();
-        Toast.fail('请重新上传身份证人像面照片');
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'请重新上传身份证人像面照片'
+        });
       });
     } else if (type == 2) {
       that.upLoadImg('clientFile', imgPath, 2).then((data) => {
@@ -208,20 +238,23 @@ Page({
           fileListb: imgPath
         });
         wx.hideLoading();
-        app.globalData.idcardB = data.datas;
         wx.setStorageSync('idcardB', data.datas);
       }).catch((error) => {
         that.setData({
           img2: 0,
         });
         wx.hideLoading();
-        Toast.fail('请重新上传身份证国徽面照片');
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'请重新上传身份证国徽面照片'
+        });
       });
     }
   },
   //监听拍照取消
   canclePhotos() {
-    const that = this;
+    let that = this;
     that.setData({
       captureHidden: true,
       back: 0,
@@ -229,8 +262,7 @@ Page({
   },
   //图片上传
   upLoadImg(fileName, clientFile, type) {
-    const that = this;
-    const url = baseUrl + '/api/uploadFileSas'
+    let url = baseUrl + '/api/uploadFileSas'
     let param = {
       fileName: new Date().getTime() + '_' + wx.getStorageSync('mobile'),
       fechType: 1,
@@ -253,28 +285,6 @@ Page({
         });
     });
   },
-  //人脸比对
-  faceComparisonSas() {
-    const that = this;
-    that.setData({
-      showT: true
-    });
-    let url = baseUrl + '/api/faceComparisonSas';
-    let params = {
-      picnamez: app.globalData.idcardA.picnamez,
-      picnamehand: app.globalData.handCard.picnamehand
-    }
-    POST(url, params).then(function (res, jet) {
-      that.setData({
-        showT: false
-      });
-      if (res.code == 200) {
-        that.creatOrder();
-      } else {
-        Toast.fail(res.msg);
-      }
-    });
-  },
   //根据号卡类型跳转判断
   creatOrder() {
     let numberOperType = parseInt(wx.getStorageSync('numberOperType'));
@@ -284,7 +294,7 @@ Page({
         url: '/registion/pages/handcard/handcard'
       })
     } else if (numberOperType == '2') {
-      //2：小号/无实体卡;
+      //2：小号/无实体卡/开机实名;
       wx.navigateTo({
         url: '/registion/pages/bioassay/bioassay'
       })

@@ -3,7 +3,6 @@
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "van-field": "@vant/weapp/field/index",
-    "van-toast": "@vant/weapp/toast/index",
     "code": "../../../components/code/code",
     "van-divider": "@vant/weapp/divider/index",
     "van-dialog": "@vant/weapp/dialog/index",

@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 import {
   baseUrl,
@@ -46,15 +45,6 @@ Page({
   //页面加载完成
   onLoad() {
     const that = this;
-    wx.removeStorageSync('randstring');
-    wx.removeStorageSync('idcardA');
-    wx.removeStorageSync('idcardB');
-    wx.removeStorageSync('mobile');
-    wx.removeStorageSync('videoCheck');
-    wx.removeStorageSync('fileName');
-    wx.removeStorageSync('handId');
-    wx.removeStorageSync('simId');
-    wx.removeStorageSync('cardType');
     that.code = that.selectComponent("#code");
     login().then((res) => {
       return getSysInfo();
@@ -65,6 +55,19 @@ Page({
   //监听小程序初始化完成
   onShow() {
     const that = this;
+    wx.removeStorageSync('randstring');
+    wx.removeStorageSync('idcardA');
+    wx.removeStorageSync('idcardB');
+    wx.removeStorageSync('handCard');
+    wx.removeStorageSync('mobile');
+    wx.removeStorageSync('videoCheck');
+    wx.removeStorageSync('fileName');
+    wx.removeStorageSync('handId');
+    wx.removeStorageSync('simId');
+    wx.removeStorageSync('cardType');
+    wx.removeStorageSync('certName');
+    wx.removeStorageSync('idcard');
+    wx.removeStorageSync('numberOperType');
     that.getCode();
     that.setData({
       type: 1,
@@ -94,10 +97,10 @@ Page({
   verifyMobile() {
     const that = this;
     if (that.data.mobile == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入手机号',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入手机号'
       });
       return false;
     }
@@ -108,10 +111,10 @@ Page({
     const that = this;
     const iccid = that.data.iccid;
     if (iccid == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入ICCID后五位',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入ICCID后五位'
       });
       return false;
     }
@@ -122,19 +125,19 @@ Page({
     const that = this;
     const yzm = that.data.yzm;
     if (yzm == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入验证码',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入验证码'
       });
       return false;
     } else {
       let code = wx.getStorageSync('code');
       if (yzm.toLowerCase() != code) {
-        Toast({
-          type: 'fail',
-          message: '验证码不正确',
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'验证码不正确'
         });
         return false;
       } else {
@@ -146,10 +149,10 @@ Page({
   verifyAgreement() {
     const that = this;
     if (!that.data.checked) {
-      Toast({
-        type: 'fail',
-        message: '请同意并勾选协议',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请同意并勾选协议'
       });
       return false;
     }
@@ -159,10 +162,10 @@ Page({
   verifySubmit() {
     const that = this;
     if (!that.data.submit) {
-      Toast({
-        type: 'fail',
-        message: that.data.message,
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:that.data.message
       });
       return false;
     }
@@ -223,10 +226,10 @@ Page({
       if (res.code == 200) {
         let datas = res.datas;
         wx.setStorageSync('picnamez', datas.picnamez);
+        wx.setStorageSync('mobile', mobile);
+        wx.setStorageSync('numberOperType', datas.numberOperType);
         app.globalData.iccid = datas.iccid;
         app.globalData.mobile = that.data.mobile;
-        wx.setStorageSync('mobile', mobile);
-        app.globalData.numberOperType = datas.numberOperType;
         app.globalData.productInfo = {
           productName: datas.productName,
           minFee: datas.minFee / 100,
@@ -250,14 +253,15 @@ Page({
         if (datas.orderId) { //存在预约订单
           that.getOrderInfo(datas.orderId);
         }
-        if (datas.numberOperType == 0) {
-          that.getMianBei();
+        if (datas.numberOperType == '0') {
+          that.getAreaLimt();
         }
       } else {
-        Toast({
-          type: 'fail',
-          message: res.msg,
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg,
+          duration:2000
         });
         that.setData({
           hidden: true,
@@ -290,7 +294,12 @@ Page({
           orderStatus: datas.orderStatus,
         });
       } else {
-        Toast.fail(res.msg);
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg,
+          duration:2000
+        });
       }
     });
   },
@@ -314,13 +323,13 @@ Page({
           url: '/active/pages/prepay/prepay?orderId=' + that.data.orderId
         })
       } else { //非待支付状态
-        if (that.data.numberOperType == 0 || that.data.numberOperType == 1) {
+        if (that.data.numberOperType == '0' || that.data.numberOperType == '1') {
           //0：白卡/普通卡;1：大语音卡
           wx.navigateTo({
             url: '/active/pages/handcard/handcard'
           })
         }
-        if (that.data.numberOperType == 2) {
+        if (that.data.numberOperType == '2') {
           //2：小号/无实体卡;
           wx.navigateTo({
             url: '/active/pages/bioassay/bioassay'
@@ -347,7 +356,7 @@ Page({
       that.onShow();
     });
   },
-  //调用系统配置，检测该账号是否进行活体检测
+  //调用系统配置，是否进行活体检测
   checkBioassay() {
     const that = this;
     let url = baseUrl + '/api/user/getSysCfg';
@@ -376,8 +385,8 @@ Page({
       });
     });
   },
-  //调用系统配置
-  getMianBei() {
+  //调用系统配置，获取限制地区code
+  getAreaLimt() {
     let that = this;
     let url = baseUrl + '/api/user/getSysCfg';
     let parms = {
@@ -396,27 +405,62 @@ Page({
       });
     });
   },
-  //地区限制
-  checkArea(){
+  //地区校验
+  checkArea() {
     let that = this;
-    let location = wx.getStorageSync('location');
-    let adcode = location.ad_info.adcode.slice(0,4);
-    let limit = that.data.areaLim.split('#');
-    let has = limit.indexOf(adcode);
-    if(has){
-      Dialog.alert({
-        title: '入网提示',
-        message: '您的号码激活信息异常，请重试或联系售卡人员。',
-        confirmButtonText:'退出自助激活'
-      }).then(() => {
-        wx.reLaunch({
-          url: '/pages/index/index'
-        })
-      });
-      return false;
-    }else{
+    if (that.data.numberOperType == '0') {
+      let location = wx.getStorageSync('location');
+      let adcode = location.ad_info.adcode.slice(0, 4);
+      let limit = that.data.areaLim.split('#');
+      let has = limit.indexOf(adcode);
+      if (has) {
+        that.areaLog();
+        Dialog.alert({
+          title: '入网提示',
+          message: '您的号码激活信息异常，请重试或联系售卡人员。',
+          confirmButtonText: '退出自助激活'
+        }).then(() => {
+          wx.navigateBack();
+        });
+        return false;
+      } else {
+        return true;
+      }
+    } else {
       return true;
     }
+  },
+  //地区限制日志
+  areaLog() {
+    let that = this;
+    let url = baseUrlP + '/app/login/recordLoginInfo';
+    let mobile = wx.getStorageSync('mobile');
+    let deviceId = wx.getStorageSync('deviceId');
+    let deviceType = wx.getStorageSync('deviceType');
+    let osVersion = wx.getStorageSync('osVersion');
+    let netWorkType = wx.getStorageSync('netWorkType');
+    let location = wx.getStorageSync('location');
+    let parms = {
+      fromType: 'OpenUser_mianbei',
+      osType: 'XCX',
+      serviceNum: mobile,
+      longitude: location.location.lng,
+      latitude: location.location.lat,
+      areaText: location.address,
+      countryCode: location.ad_info.nation_code,
+      adCode: location.ad_info.adcode,
+      cityCode: location.ad_info.city_code,
+      deviceId: deviceId,
+      deviceType: deviceType,
+      osVersion: osVersion,
+      netWorkType: netWorkType,
+      iccid: that.data.iccid
+    }
+    return new Promise(function (resolve, reject) {
+      POST(url, parms).then(function (res, jet) {
+        resolve();
+      });
+    });
   },
   //点击下一步
   nextStep() {
@@ -438,7 +482,4 @@ Page({
       });
     }
   },
-  onUnload() {
-    console.log('number页面销毁了');
-  }
 })

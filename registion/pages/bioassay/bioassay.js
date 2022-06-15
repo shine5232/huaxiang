@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 import {
   baseUrl,
@@ -120,7 +119,11 @@ Page({
           timeLoopT: timeLoopT
         });
       } else {
-        Toast.fail(res.msg);
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
       }
     });
   },

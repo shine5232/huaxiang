@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import {
   baseUrl,
   getSysInfo,
@@ -45,12 +44,16 @@ Page({
     wx.removeStorageSync('randstring');
     wx.removeStorageSync('idcardA');
     wx.removeStorageSync('idcardB');
+    wx.removeStorageSync('handCard');
     wx.removeStorageSync('mobile');
     wx.removeStorageSync('videoCheck');
     wx.removeStorageSync('fileName');
     wx.removeStorageSync('handId');
     wx.removeStorageSync('simId');
     wx.removeStorageSync('cardType');
+    wx.removeStorageSync('certName');
+    wx.removeStorageSync('idcard');
+    wx.removeStorageSync('numberOperType');
     login().then((res) => {
       return getSysInfo();
     }).then((res) => {
@@ -95,30 +98,33 @@ Page({
   verifyMobile() {
     const that = this;
     if (that.data.mobile == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入手机号'
+      wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: '请输入手机号'
       });
       return false;
-    }else{
-        if (!/^1(3|4|5|6|7|8)\d{9}$/.test(that.data.mobile)) {
-          Toast({
-            type: 'fail',
-            message: '手机号不正确'
-          });
-          return false;
-        }
-        return true;
+    } else {
+      if (!/^1(3|4|5|6|7|8)\d{9}$/.test(that.data.mobile)) {
+        wx.showToast({
+          icon: 'none',
+          mask: true,
+          title: '手机号不正确'
+        });
+        return false;
+      }
+      return true;
     }
   },
   //提交验证身份证后6位
   verifyIccid() {
     const that = this;
-    let iccid = that.data.iccid.replace(/\s*/g,"");
+    let iccid = that.data.iccid.replace(/\s*/g, "");
     if (iccid.length != 6) {
-      Toast({
-        type: 'fail',
-        message: '请输入身份证后6位'
+      wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: '请输入身份证后6位'
       });
       return false;
     }
@@ -128,9 +134,10 @@ Page({
   verifyAgreement() {
     const that = this;
     if (!that.data.checked) {
-      Toast({
-        type: 'fail',
-        message: '请同意并勾选协议'
+      wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: '请同意并勾选协议'
       });
       return false;
     }
@@ -189,9 +196,10 @@ Page({
           });
         }
       } else {
-        Toast({
-          type: 'fail',
-          message: res.msg
+        wx.showToast({
+          icon: 'none',
+          mask: true,
+          title: res.msg
         });
       }
     });

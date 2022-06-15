@@ -2,7 +2,6 @@
   "navigationBarTitleText": "激活成功",
   "navigationStyle":"custom",
   "usingComponents": {
-    "van-dialog": "@vant/weapp/dialog/index",
     "navation": "/components/navation/navation"
   }
 }

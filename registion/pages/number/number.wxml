@@ -23,11 +23,7 @@
             <van-button round type="primary" block color="linear-gradient(to right, #FF7446, #FF5D46)" catchtap="nextStep">{{ btnTitle }}</van-button>
         </view>
     </view>
-    <!-- 提示框组件 -->
-    <van-toast id="van-toast" />
-
 </view>
-<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
 <!-- 遮罩层组件 -->
 <van-popup show="{{ overlay }}" bind:click-overlay="popAgreement" round>
     <view class="overlay">

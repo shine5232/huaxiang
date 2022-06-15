@@ -44,9 +44,6 @@
       <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ btnTitle }}</van-button>
     </view>
   </view>
-  <!-- 提示框组件 -->
-  <van-toast id="van-toast" />
-
 </view>
 <van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
 <!-- 遮罩层组件 -->

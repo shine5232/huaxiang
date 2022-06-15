@@ -1,5 +1,4 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast';
-import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog';
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 var app = getApp();
 Page({
   data: {
@@ -31,7 +30,6 @@ Page({
       cancelButtonText: '确认退出',
       confirmButtonText: '去支付',
     }).then(() => {
-      //Toast('支付暂未开通');
       wx.reLaunch({
         url: '/pages/pay/pay?orderId=' + app.globalData.orderId
       })

@@ -35,5 +35,4 @@
   <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
     style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
 </view>
-<van-toast id="van-toast" />
 <van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />

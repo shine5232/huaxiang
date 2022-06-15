@@ -19,5 +19,3 @@
   </view>
 </view>
 <van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
-<!-- 提示框组件 -->
-<van-toast id="van-toast" />

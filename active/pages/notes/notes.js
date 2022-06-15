@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import {
   formatTime,
   baseUrl,
@@ -647,9 +646,10 @@ Page({
                 nextStepTitle: '下一步'
               });
             } else {
-              Toast.fail({
-                message: '签名对比失败，请重新书写',
-                zIndex: 2000
+              wx.showToast({
+                icon:'none',
+                mask:true,
+                title:'签名对比失败，请重新书写',
               });
             }
           } else {
@@ -700,10 +700,10 @@ Page({
       if (res.code == 200) {
         return that.recordLoginInfo();
       } else {
-        Toast({
-          type: 'fail',
-          message: res.msg,
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg,
         });
       }
     }).then(function (res, rej) {

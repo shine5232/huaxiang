@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import {
   baseUrl,
   IdentityCodeValid
@@ -111,10 +110,10 @@ Page({
           message: message
         });
       } else {
-        Toast({
-          type: 'fail',
-          message: res.msg,
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
         });
       }
     }).catch((e) => {});
@@ -123,18 +122,18 @@ Page({
   verifyMobile() {
     const that = this;
     if (that.data.mobile == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入手机号',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入手机号'
       });
       return false;
     } else {
       if (!/^1(3|4|5|6|7|8)\d{9}$/.test(that.data.mobile)) {
-        Toast({
-          type: 'fail',
-          message: '手机号码不正确',
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'手机号码不正确'
         });
         return false;
       }
@@ -146,19 +145,19 @@ Page({
     const that = this;
     const iccid = that.data.iccid;
     if (iccid == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入身份证号码',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入身份证号码'
       });
       return false;
     } else {
       let res = IdentityCodeValid(iccid);
       if (!res) {
-        Toast({
-          type: 'fail',
-          message: '请输入正确的身份证号码',
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'请输入正确的身份证号码'
         });
         return false;
       }
@@ -170,19 +169,19 @@ Page({
     const that = this;
     const yzm = that.data.yzm;
     if (yzm == '') {
-      Toast({
-        type: 'fail',
-        message: '请输入验证码',
-        duration: 1000
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入验证码'
       });
       return false;
     } else {
       let code = wx.getStorageSync('code');
       if (yzm.toLowerCase() != code) {
-        Toast({
-          type: 'fail',
-          message: '验证码不正确',
-          duration: 1000
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'验证码不正确'
         });
         return false;
       } else {

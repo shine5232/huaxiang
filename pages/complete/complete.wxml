@@ -20,4 +20,3 @@
     <official-account>微信公众号</official-account>
   </view>
 </view>
-<van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />

@@ -7,7 +7,6 @@
     "van-cell-group":"@vant/weapp/cell-group/index",
     "van-checkbox": "@vant/weapp/checkbox/index",
     "van-sticky": "@vant/weapp/sticky/index",
-    "van-toast": "@vant/weapp/toast/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "agreement":"/components/agreement/agreement",

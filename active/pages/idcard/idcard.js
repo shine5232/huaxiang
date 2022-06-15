@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import {
   baseUrl,
   formatDates,
@@ -80,44 +79,80 @@ Page({
   //验证照片是否上传
   verifyIdCarda() {
     const that = this;
-    let idcardB = app.globalData.idcardB;
+    let idcardB = wx.getStorageSync('idcardB');
     let time = formatDates(new Date());
     if (that.data.mobile == '') {
-      Toast.fail('请输入紧急联系电话');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请输入紧急联系电话'
+      });
       return false;
     } else {
       if (!/^1(3|4|5|7|8)\d{9}$/.test(that.data.mobile)) {
-        Toast.fail('联系电话格式不正确');
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'联系电话格式不正确'
+        });
         return false;
       }
     }
     if (that.data.fileLista == '') {
-      Toast.fail('请上传身份证人像面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传身份证人像面照片'
+      });
       return false;
     }
     if (that.data.fileListb == '') {
-      Toast.fail('请上传身份证国徽面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传身份证国徽面照片'
+      });
       return false;
     }
     if (that.data.fileListc == '') {
-      Toast.fail('请上传本人的免冠照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传本人的免冠照片'
+      });
       return false;
     }
     if (that.data.img1 == 0) {
-      Toast.fail('请重新上传身份证人像面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请重新上传身份证人像面照片'
+      });
       return false;
     }
     if (that.data.img2 == 0) {
-      Toast.fail('请重新上传身份证国徽面照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请重新上传身份证国徽面照片'
+      });
       return false;
     }
     if (that.data.img3 == 0) {
-      Toast.fail('请重新上传本人的免冠照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请重新上传本人的免冠照片'
+      });
       return false;
     }
     if (idcardB.cardInfo.失效日期.words != '长期') {
       if (parseInt(time) >= parseInt(idcardB.cardInfo.失效日期.words)) {
-        Toast.fail('身份证过期，请上传最新身份证');
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'身份证过期，请上传最新身份证'
+        });
         return false;
       }
     }
@@ -190,12 +225,10 @@ Page({
         that.setData({
           img1: 1
         });
-        app.globalData.idcardA = data.datas;
         that.setData({
           fileLista: imgPath
         });
-        wx.setStorageSync('picnamez', data.datas.picnamez)
-        wx.setStorageSync('picname', data.datas.cardInfo.姓名.words)
+        wx.setStorageSync('idcardA', data.datas);
       }).catch((error) => {
         that.setData({
           img1: 0
@@ -206,7 +239,7 @@ Page({
         that.setData({
           img2: 1
         });
-        app.globalData.idcardB = data.datas;
+        wx.setStorageSync('idcardB', data.datas);
         that.setData({
           fileListb: imgPath
         });
@@ -220,7 +253,7 @@ Page({
         that.setData({
           img3: 1
         });
-        app.globalData.handCard = data.datas;
+        wx.setStorageSync('handCard', data.datas);
         that.setData({
           fileListc: imgPath
         });
@@ -276,9 +309,11 @@ Page({
       showT: true
     });
     let url = baseUrl + '/api/faceComparisonSas';
+    let idcardA = wx.getStorageSync('idcardA');
+    let handCard = wx.getStorageSync('handCard');
     let params = {
-      picnamez: app.globalData.idcardA.picnamez,
-      picnamehand: app.globalData.handCard.picnamehand
+      picnamez: idcardA.picnamez,
+      picnamehand: handCard.picnamehand
     }
     POST(url, params).then(function (res, jet) {
       that.setData({
@@ -287,7 +322,11 @@ Page({
       if (res.code == 200) {
         that.creatOrder();
       } else {
-        Toast.fail(res.msg);
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
       }
     });
   },
@@ -298,24 +337,28 @@ Page({
       showT: true
     });
     let url = baseUrl + '/api/user/openUserReservation';
+    let idcardA = wx.getStorageSync('idcardA');
+    let idcardB = wx.getStorageSync('idcardB');
+    let handCard = wx.getStorageSync('handCard');
+    let numberOperType = parseInt(wx.getStorageSync('numberOperType'));
     let params = {
       svcNumber: app.globalData.mobile,
       iccid: app.globalData.iccid,
       fechType: 1,
       orderSubType: 44,
       linkPhone: that.data.mobile,
-      picnamez: app.globalData.idcardA.picnamez,
-      picnamef: app.globalData.idcardB.picnamef,
-      picnamehand: app.globalData.handCard.picnamehand,
-      custcertno: app.globalData.idcardA.cardInfo.公民身份号码.words,
-      custname: app.globalData.idcardA.cardInfo.姓名.words,
-      gender: app.globalData.idcardA.cardInfo.性别.words,
-      nation: app.globalData.idcardA.cardInfo.民族.words,
-      birthdayDate: app.globalData.idcardA.cardInfo.出生.words,
-      address: app.globalData.idcardA.cardInfo.住址.words,
-      issuingauthority: app.globalData.idcardB.cardInfo.签发机关.words,
-      certvalidDate: app.globalData.idcardB.cardInfo.签发日期.words,
-      certexpDate: app.globalData.idcardB.cardInfo.失效日期.words == '长期' ? '20991231' : app.globalData.idcardB.cardInfo.失效日期.words,
+      picnamez: idcardA.picnamez,
+      picnamef: idcardB.picnamef,
+      picnamehand: handCard.picnamehand,
+      custcertno: idcardA.cardInfo.公民身份号码.words,
+      custname: idcardA.cardInfo.姓名.words,
+      gender: idcardA.cardInfo.性别.words,
+      nation: idcardA.cardInfo.民族.words,
+      birthdayDate: idcardA.cardInfo.出生.words,
+      address: idcardA.cardInfo.住址.words,
+      issuingauthority: idcardB.cardInfo.签发机关.words,
+      certvalidDate: idcardB.cardInfo.签发日期.words,
+      certexpDate: idcardB.cardInfo.失效日期.words == '长期' ? '20991231' : idcardB.cardInfo.失效日期.words,
     }
     POST(url, params).then(function (res, jet) {
       that.setData({
@@ -323,18 +366,22 @@ Page({
       });
       if (res.code == 200) {
         app.globalData.orderId = res.datas.orderId;
-        if (app.globalData.numberOperType == 0 || app.globalData.numberOperType == 1) {
+        if (numberOperType == '0' || numberOperType == '1') {
           wx.reLaunch({
             url: '/active/pages/handcard/handcard'
           })
         }
-        if (app.globalData.numberOperType == 2) {
+        if (numberOperType == '2') {
           wx.navigateTo({
             url: '/active/pages/bioassay/bioassay'
           })
         }
       } else {
-        Toast.fail(res.msg);
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
       }
     });
   },

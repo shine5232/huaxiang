@@ -13,14 +13,9 @@ App({
     statusBarHeight: wx.getSystemInfoSync()['statusBarHeight'],
     location: {},//位置信息
     qqmapsdk:{},//mapsdk
-    idcardA: null,//身份证正面信息
-    idcardB: null,//身份证背面信息
-    handCard: null,//免冠照
     sessionId: null,//会话id
     numberOperType: null,//号码类型
     orderId: '',//订单id
-    handId: null,//手持照id
-    simId: null,//sim卡照id
     piclivebest: null,//最佳活体照id
     piclivestdA: null,//标准活体照A
     piclivestdB: null,//标准活体照B

@@ -5,7 +5,6 @@
     "van-button": "@vant/weapp/button/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "van-toast": "@vant/weapp/toast/index",
     "navation":"../../../components/navation/navation",
     "step":"../../../components/step/step"
   }

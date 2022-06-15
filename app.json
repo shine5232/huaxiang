@@ -8,6 +8,7 @@
       "pages/pays/pays",
       "pages/map/map",
       "pages/pay/pay",
+      "pages/prepay/prepay",
       "pages/complete/complete",
       "pages/concern/concern"
     ],
@@ -19,7 +20,6 @@
           "pages/idcard/idcard",
           "pages/handcard/handcard",
           "pages/bioassay/bioassay",
-          "pages/prepay/prepay",
           "pages/notes/notes"
         ]
       },{

@@ -1,4 +1,3 @@
-import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast'
 import {
   baseUrl
 } from '../../../utils/util'
@@ -136,11 +135,19 @@ Page({
   verifyIdCarda() {
     const that = this;
     if (that.data.fileLista == '') {
-      Toast.fail('请上传手持照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传手持照片'
+      });
       return false;
     }
     if (that.data.fileListb == '') {
-      Toast.fail('请上传SIM卡照片');
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请上传SIM卡照片'
+      });
       return false;
     }
     return true;
@@ -213,7 +220,11 @@ Page({
           url: '/active/pages/bioassay/bioassay'
         })
       } else {
-        Toast.fail(res.msg);
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
       }
     });
   },
