@@ -106,7 +106,6 @@ Page({
     });
     if (type == 4) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
-        app.globalData.handId = data.datas.picnamehand;
         wx.setStorageSync('handId', data.datas.picnamehand);
         that.setData({
           fileLista: imgPath
@@ -114,7 +113,6 @@ Page({
       }).catch((error) => {});
     } else if (type == 5) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
-        app.globalData.simId = data.datas.picnamehand;
         wx.setStorageSync('simId', data.datas.picnamehand);
         that.setData({
           fileListb: imgPath

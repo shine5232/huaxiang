@@ -108,15 +108,14 @@ Page({
     });
     if (type == 4) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
-        app.globalData.handId = data.datas.picnamehand;
+        wx.setStorageSync('handId', data.datas.picnamehand);
         that.setData({
           fileLista: imgPath
         });
       }).catch((error) => {});
     } else if (type == 5) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
-        app.globalData.simId = data.datas.picnamehand;
-        console.log('picnamehand', data.datas.picnamehand);
+        wx.setStorageSync('simId', data.datas.picnamehand);
         that.setData({
           fileListb: imgPath
         });
@@ -209,10 +208,12 @@ Page({
   savePicAttach() {
     const that = this;
     let url = baseUrl + '/api/user/savePicAttach';
+    let handId = wx.getStorageSync('handId');
+    let simId = wx.getStorageSync('simId');
     let params = {
       orderId: app.globalData.orderId,
-      picAttachA: app.globalData.handId,
-      picAttachB: app.globalData.simId,
+      picAttachA: handId,
+      picAttachB: simId,
     }
     POST(url, params, true).then(function (res, jet) {
       if (res.code == 200) {
