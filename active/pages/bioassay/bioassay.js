@@ -337,8 +337,9 @@ Page({
   faceComparisonSas() {
     let url = baseUrl + '/api/faceComparisonSasNew';
     let idcardA = wx.getStorageSync('idcardA');
+    let picnamez = wx.getStorageSync('picnamez');
     let parms = {
-      picnamez: idcardA.picnamez,
+      picnamez: idcardA?idcardA.picnamez:picnamez,
       piclivebest: app.globalData.piclivebest,
       orderId: app.globalData.orderId
     }

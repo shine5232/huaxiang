@@ -67,6 +67,7 @@ Page({
     wx.removeStorageSync('cardType');
     wx.removeStorageSync('certName');
     wx.removeStorageSync('idcard');
+    wx.removeStorageSync('picnamez');
     wx.removeStorageSync('numberOperType');
     that.getCode();
     that.setData({
@@ -320,7 +321,7 @@ Page({
     if (that.data.orderId) {
       if (that.data.orderStatus == 13) { //待支付状态，跳转支付页面
         wx.navigateTo({
-          url: '/active/pages/prepay/prepay?orderId=' + that.data.orderId
+          url: '/pages/prepay/prepay?orderId=' + that.data.orderId
         })
       } else { //非待支付状态
         if (that.data.numberOperType == '0' || that.data.numberOperType == '1') {

@@ -50,6 +50,7 @@ Page({
     wx.removeStorageSync('fileName');
     wx.removeStorageSync('handId');
     wx.removeStorageSync('simId');
+    wx.removeStorageSync('picnamez');
     wx.removeStorageSync('cardType');
     wx.removeStorageSync('certName');
     wx.removeStorageSync('idcard');

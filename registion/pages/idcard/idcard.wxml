@@ -75,3 +75,7 @@
     </view>
   </view>
 </view>
+<view style="position:fixed;width:100px;height:100px;left:200%;z-index:0">
+  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
+    style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
+</view>

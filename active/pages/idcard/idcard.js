@@ -1,6 +1,7 @@
 import {
   baseUrl,
   formatDates,
+  watermark
 } from '../../../utils/util'
 import {
   FILE,
@@ -39,6 +40,8 @@ Page({
     navigationBarHeight: (app.globalData.statusBarHeight + 44) + 'px',
     top: (app.globalData.statusBarHeight + 44) + 'px',
     signHeight: (app.globalData.windowHeight - (app.globalData.statusBarHeight + 44)) + 'px',
+    canvas1: null,
+    ctx1: null,
   },
   onLoad() {
     const that = this;
@@ -48,6 +51,21 @@ Page({
       title: app.globalData.isBioass ? '下一步' : '下一步，手持验证',
     });
     that.appCanLocalUpload();
+  },
+  onReady() {
+    const that = this;
+    const query = wx.createSelectorQuery();
+    query.select('#myCanvas1').fields({
+      node: true,
+      size: true
+    }).exec((res) => {
+      const canvas1 = res[0].node;
+      const ctx1 = canvas1.getContext('2d');
+      that.setData({
+        canvas1,
+        ctx1
+      });
+    });
   },
   onShow() {},
   //监听手机号
@@ -200,7 +218,9 @@ Page({
         sizeType: ['original', 'compressed'],
         sourceType: ['album'],
         success(res) {
-          that.submitImgUpload(that.data.cardType, res.tempFilePaths[0]);
+          watermark(res.tempFilePaths[0],that).then((ret)=>{
+            that.submitImgUpload(that.data.cardType, ret);
+          });
         }
       })
     }
@@ -212,7 +232,9 @@ Page({
       captureHidden: true,
       back: 0,
     });
-    that.submitImgUpload(e.detail.cardType, e.detail.imgPath);
+    watermark(e.detail.imgPath,that).then((res)=>{
+      that.submitImgUpload(e.detail.cardType, res);
+    });
   },
   //提交图片上传
   submitImgUpload(type, imgPath) {

@@ -71,7 +71,7 @@ function watermark(file, that) {
         fileType: 'jpg',
         quality: 1,
         success(res) {
-          console.log('res222', res.tempFilePath);
+          console.log('watermark_img', res.tempFilePath);
           resolve(res.tempFilePath);
         },
         fail(res) {
