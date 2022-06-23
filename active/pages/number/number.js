@@ -414,7 +414,7 @@ Page({
       let adcode = location.ad_info.adcode.slice(0, 4);
       let limit = that.data.areaLim.split('#');
       let has = limit.indexOf(adcode);
-      if (has) {
+      if (has > -1) {
         that.areaLog();
         Dialog.alert({
           title: '入网提示',

@@ -1,4 +1,3 @@
-
 var app = getApp();
 Component({
   properties: {
@@ -10,19 +9,19 @@ Component({
     navigationBarHeight: (app.globalData.statusBarHeight + 44) + 'px',
     top: (app.globalData.statusBarHeight + 44) + 'px',
     signHeight: (app.globalData.windowHeight - (app.globalData.statusBarHeight + 44)) + 'px',
-    hidden:true,
+    hidden: true,
   },
   lifetimes: {
     attached: function () {
       // 在组件实例进入页面节点树时执行
       const that = this;
-      if(that.data.from == 'number'){
+      if (that.data.from == 'number') {
         that.setData({
-          hidden:false
+          hidden: false
         });
-      }else{
+      } else {
         that.setData({
-          hidden:true
+          hidden: true
         });
       }
     },
@@ -39,19 +38,15 @@ Component({
      * 监听返回按钮
      */
     goBack() {
-      const that = this;
-      if(that.data.from == 'act_number' || that.data.from == 'act_complete'){
+      let fromUrl = wx.getStorageSync('fromUrl');
+      if (fromUrl != undefined && fromUrl != '') {
         wx.reLaunch({
-          url: '/pages/navation/active/active'
+          url: fromUrl
         })
-      }else if(that.data.from == 'reg_number' || that.data.from == 'reg_complete'){
+      } else {
         wx.reLaunch({
-          url:'/pages/navation/registion/registion'
-        });
-      }else if(that.data.from == 'reg_nav' || that.data.from == 'act_nav'){
-        return false;
-      }else{
-        wx.navigateBack();
+          url: '/pages/index/index'
+        })
       }
     },
   },

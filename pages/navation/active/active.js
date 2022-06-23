@@ -13,7 +13,7 @@ Page({
 
   },
   onShow: function () {
-
+    wx.setStorageSync('fromUrl', '/pages/navation/active/active');
   },
   //跳转页面
   goToPath(e) {

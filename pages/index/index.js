@@ -17,7 +17,7 @@ Page({
     autoplay: false,
     interval: 2000,
     duration: 500,
-    type: 2,
+    type: 1,
     distance: [],
     shopData: [{
       logo: '',
@@ -46,17 +46,17 @@ Page({
   onLoad: function (options) {},
   onReady: function () {},
   onShow: function () {
-    let that = this;
+    /* let that = this;
     that.getType().then((res, rej) => {
       if (that.data.type == '0') {
         that.getLocationInfo();
       }
-    });
+    }); */
+    wx.setStorageSync('fromUrl', '/pages/index/index');
   },
   //跳转页面
   goToPath(e) {
     let url = e.currentTarget.dataset.url;
-    
     if (url == '/active/pages/number/number' || url == '/registion/pages/number/number') {
       this.getLocationInfo(url);
     } else {
@@ -93,7 +93,7 @@ Page({
           })
         }
       }
-    }).then((e)=>{
+    }).then((e) => {
       wx.hideLoading();
     }).catch((e) => {
       wx.hideLoading();
@@ -110,7 +110,6 @@ Page({
   },
   daoHang(e) {
     let option = e.currentTarget.dataset.option;
-    const that = this;
     wx.showModal({
       title: '温馨提示',
       content: '您是要去这里吗？',
@@ -167,25 +166,25 @@ Page({
     let that = this;
     let url = baseUrl + '/api/user/getSysCfg';
     let parms = {
-        cfgType: 'HXXCX_CFG',
-        cfgKey: 'ISSHOWMAP'
+      cfgType: 'HXXCX_CFG',
+      cfgKey: 'ISSHOWMAP'
     }
     wx.showLoading({
       title: '加载中...',
       mask: true
     });
-    return new Promise(function(resolve,reject){
-      POST(url,parms).then(function (res, jet) {
+    return new Promise(function (resolve, reject) {
+      POST(url, parms).then(function (res, jet) {
         wx.hideLoading();
         if (res.code == 200) {
           that.setData({
-            type:res.datas
+            type: res.datas
           });
           resolve(res.datas);
         } else {
           reject();
         }
       });
-    });    
+    });
   }
 })

@@ -14,7 +14,7 @@ Page({
 
   },
   onShow: function () {
-
+    wx.setStorageSync('fromUrl', '/pages/navation/registion/registion');
   },
   //跳转页面
   goToPath(e) {

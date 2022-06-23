@@ -1,7 +1,7 @@
 <view class="nav" style="height:{{navigationBarHeight}}">
   <view style="height:{{statusBarHeight}}"></view>
   <view class="title-container">
-    <van-icon name="arrow-left" size="50rpx" catchtap="goBack" wx:if="{{hidden}}" />
-    <view>{{title}}</view>
+    <van-icon name="arrow-left" catchtap="goBack" wx:if="{{hidden}}" class="leftBtn"/>
+    <view class="title">{{title}}</view>
   </view>
 </view>

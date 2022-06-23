@@ -37,5 +37,8 @@
   align-items: center;
   position: relative;
   width: 96%;
-  margin: 0 auto;
+}
+.title-container .leftBtn{
+  font-size: 40rpx;
+  margin-right: 10px;
 }

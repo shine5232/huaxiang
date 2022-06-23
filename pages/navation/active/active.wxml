@@ -1,5 +1,3 @@
-<!-- <navation title="新卡激活" from="act_nav"></navation> -->
-<!-- <view class="body" style="top:{{top}}"> -->
 <view>
   <view class="banner banner-waring">
     <view class="banner-item left">

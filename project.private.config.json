@@ -26,6 +26,41 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "激活活体",
+          "pathName": "active/pages/bioassay/bioassay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "完成页面",
+          "pathName": "pages/complete/complete",
+          "query": "title=完成页面",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预支付页面",
+          "pathName": "pages/prepay/prepay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-身份证",
+          "pathName": "active/pages/idcard/idcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-手持卡",
+          "pathName": "active/pages/handcard/handcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
