@@ -29,7 +29,6 @@ Page({
     mobile: '',
     area: '',
     back: 0,
-    showT: false,
     isBioass: true,
     title: '下一步，活体检测',
     statusBarHeight: app.globalData.statusBarHeight + 'px',
@@ -98,12 +97,13 @@ Page({
         back: 1,
       });
     } else { //从相册选择
-      wx.chooseImage({
+      wx.chooseMedia({
         count: 1,
+        mediaType:['image'],
         sizeType: ['original', 'compressed'],
         sourceType: ['album'],
         success(res) {
-          watermark(res.tempFilePaths[0],that).then((ret)=>{
+          watermark(res.tempFiles[0].tempFilePath,that).then((ret)=>{
             that.submitImgUpload(that.data.cardType, ret);
           });
         }
@@ -123,9 +123,6 @@ Page({
   //提交图片上传
   submitImgUpload(type, imgPath) {
     const that = this;
-    that.setData({
-      showT: true
-    });
     if (type == 4) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
         wx.setStorageSync('handId', data.datas.picnamehand);
@@ -200,13 +197,10 @@ Page({
       type: type
     };
     return new Promise(function (resolve, reject) {
-      FILE(url, fileName, clientFile, param)
+      FILE(url, fileName, clientFile, param,1,1)
         .then((res) => {
           console.log('上传成功：', res);
           if (res.code == 200) {
-            that.setData({
-              showT: false
-            });
             resolve(res);
           } else {
             reject(res);
@@ -214,9 +208,6 @@ Page({
         })
         .catch((error) => {
           console.log('上传失败：', error);
-          that.setData({
-            showT: false
-          });
           reject(error);
         });
     });

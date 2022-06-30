@@ -64,7 +64,11 @@ Component({
       ctx.takePhoto({
         quality: 'high',
         success: (res) => {
-          let option = {
+          that.triggerEvent("takePhotos", {
+            cardType: that.data.cardType,
+            imgPath: res.tempImagePath
+          });
+          /* let option = {
             canvas: that.data.myCanvas1_canvas,
             ctx: that.data.myCanvas1_ctx,
             canvasId: 'firstCanvas',
@@ -79,7 +83,7 @@ Component({
               cardType: that.data.cardType,
               imgPath: data
             });
-          }).catch((error) => {});
+          }).catch((error) => {}); */
         },
         fail: (e) => {
           console.log(e);

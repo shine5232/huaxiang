@@ -30,7 +30,6 @@ Page({
     captureHidden: true,
     rotate: false,
     back: 0,
-    showT: false,
     img1: 0,
     img2: 0,
     img3: 0,
@@ -213,12 +212,13 @@ Page({
         back: 1,
       });
     } else { //从相册选择
-      wx.chooseImage({
+      wx.chooseMedia({
         count: 1,
+        mediaType:['image'],
         sizeType: ['original', 'compressed'],
         sourceType: ['album'],
         success(res) {
-          watermark(res.tempFilePaths[0],that).then((ret)=>{
+          watermark(res.tempFiles[0].tempFilePath,that).then((ret)=>{
             that.submitImgUpload(that.data.cardType, ret);
           });
         }
@@ -239,9 +239,6 @@ Page({
   //提交图片上传
   submitImgUpload(type, imgPath) {
     const that = this;
-    that.setData({
-      showT: true
-    });
     if (type == 1) {
       that.upLoadImg('clientFile', imgPath, 1).then((data) => {
         that.setData({
@@ -298,6 +295,7 @@ Page({
   upLoadImg(fileName, clientFile, type) {
     const that = this;
     const url = baseUrl + '/api/uploadFileSas'
+    //const url = 'https://laravel.harus.icu/api/upload/vioceFile';
     let param = {
       fileName: new Date().getTime() + '_' + app.globalData.mobile,
       fechType: 1,
@@ -305,21 +303,15 @@ Page({
     };
     console.log('pam', param);
     return new Promise(function (resolve, reject) {
-      FILE(url, fileName, clientFile, param)
+      FILE(url, fileName, clientFile, param,1,1)
         .then((res) => {
           if (res.code == 200) {
-            that.setData({
-              showT: false
-            });
             resolve(res);
           } else {
             reject(res);
           }
         })
         .catch((error) => {
-          that.setData({
-            showT: false
-          });
           reject(error);
         });
     });
@@ -327,9 +319,6 @@ Page({
   //人脸比对
   faceComparisonSas() {
     const that = this;
-    that.setData({
-      showT: true
-    });
     let url = baseUrl + '/api/faceComparisonSas';
     let idcardA = wx.getStorageSync('idcardA');
     let handCard = wx.getStorageSync('handCard');
@@ -337,10 +326,7 @@ Page({
       picnamez: idcardA.picnamez,
       picnamehand: handCard.picnamehand
     }
-    POST(url, params).then(function (res, jet) {
-      that.setData({
-        showT: false
-      });
+    POST(url, params,1).then(function (res, jet) {
       if (res.code == 200) {
         that.creatOrder();
       } else {
@@ -355,9 +341,6 @@ Page({
   //创建预约订单
   creatOrder() {
     const that = this
-    that.setData({
-      showT: true
-    });
     let url = baseUrl + '/api/user/openUserReservation';
     let idcardA = wx.getStorageSync('idcardA');
     let idcardB = wx.getStorageSync('idcardB');
@@ -382,10 +365,7 @@ Page({
       certvalidDate: idcardB.cardInfo.签发日期.words,
       certexpDate: idcardB.cardInfo.失效日期.words == '长期' ? '20991231' : idcardB.cardInfo.失效日期.words,
     }
-    POST(url, params).then(function (res, jet) {
-      that.setData({
-        showT: false
-      });
+    POST(url, params,1).then(function (res, jet) {
       if (res.code == 200) {
         app.globalData.orderId = res.datas.orderId;
         if (numberOperType == '0' || numberOperType == '1') {

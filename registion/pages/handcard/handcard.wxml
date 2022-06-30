@@ -83,11 +83,6 @@
     <capture cardType="{{ cardType }}" rotate="{{rotate}}" bind:takePhotos="takePhotos"
       bind:canclePhotos="canclePhotos"></capture>
   </view>
-  <van-overlay show="{{ showT }}" class="overlay">
-    <view class="wrapper">
-      <van-loading size="24px" vertical color="#FFFFFF" size="34px">上传中...</van-loading>
-    </view>
-  </van-overlay>
 </view>
 <view class="body" wx:else>
   <view class="body-ite">

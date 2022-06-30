@@ -4,6 +4,7 @@ import {
 import {
   formatTime
 } from './formatDate'
+var app = getApp();
 //小程序登录
 function login() {
   let openid = wx.getStorageSync('openid');
@@ -50,35 +51,46 @@ function login() {
 }
 //图片添加水印
 function watermark(file, that) {
-  return new Promise(async (resolve, reject) => {
-    const imgInfo = await wx.getImageInfo({
-      src: file
+  wx.showLoading({
+    title: '请稍后..',
+    mask: true
+  })
+  return new Promise((resolve, reject) => {
+    wx.getImageInfo({
+      src: file,
+      success:function(res){
+        let imgInfo = res
+        that.data.canvas1.width = imgInfo.width;
+        that.data.canvas1.height = imgInfo.height;
+        let image = that.data.canvas1.createImage();
+        image.src = res.path;
+        image.onload = () => {
+          that.data.ctx1.drawImage(image, 0, 0, imgInfo.width, imgInfo.height);
+          that.data.ctx1.font = '24px';
+          that.data.ctx1.textAlign = 'left';
+          that.data.ctx1.fillStyle = "rgba(204,204,204,0.5)";
+          that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', 10, imgInfo.height/1.5);
+          setTimeout(() => {
+            wx.canvasToTempFilePath({
+              canvas: that.data.canvas1,
+              fileType: 'jpg',
+              quality: 1,
+              success(res) {
+                wx.hideLoading();
+                console.log('watermark_img', res.tempFilePath);
+                resolve(res.tempFilePath);
+              },
+              fail(res) {
+                reject(false);
+              },
+            }, that);
+          }, 500);
+        }
+      },
+      fail:function(){
+        reject(false);
+      }
     });
-    that.data.canvas1.width = imgInfo.width;
-    that.data.canvas1.height = imgInfo.height;
-    const image = that.data.canvas1.createImage();
-    image.src = file;
-    image.onload = () => {
-      that.data.ctx1.fillRect(0, 0, imgInfo.width, imgInfo.height);
-      that.data.ctx1.drawImage(image, 0, 0, imgInfo.width, imgInfo.height);
-      that.data.ctx1.font = '24px sans-serif';
-      that.data.ctx1.textAlign = 'left';
-      that.data.ctx1.fillStyle = "#cccccc";
-      that.data.ctx1.globalAlpha = 0.3;
-      that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', 10, imgInfo.height - 50);
-      wx.canvasToTempFilePath({
-        canvas: that.data.canvas1,
-        fileType: 'jpg',
-        quality: 1,
-        success(res) {
-          console.log('watermark_img', res.tempFilePath);
-          resolve(res.tempFilePath);
-        },
-        fail(res) {
-          reject(false);
-        },
-      })
-    };
   });
 }
 module.exports = {

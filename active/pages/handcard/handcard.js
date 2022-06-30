@@ -30,7 +30,6 @@ Page({
     mobile: '',
     area: '',
     back: 0,
-    showT: false,
     isBioass: true,
     title: '下一步，活体检测',
     statusBarHeight: app.globalData.statusBarHeight + 'px',
@@ -100,12 +99,13 @@ Page({
         back: 1,
       });
     } else { //从相册选择
-      wx.chooseImage({
+      wx.chooseMedia({
         count: 1,
+        mediaType:['image'],
         sizeType: ['original', 'compressed'],
         sourceType: ['album'],
         success(res) {
-          watermark(res.tempFilePaths[0],that).then((ret)=>{
+          watermark(res.tempFiles[0].tempFilePath,that).then((ret)=>{
             that.submitImgUpload(that.data.cardType, ret);
           });
         }
@@ -125,9 +125,6 @@ Page({
   //提交图片上传
   submitImgUpload(type, imgPath) {
     const that = this;
-    that.setData({
-      showT: true
-    });
     if (type == 4) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
         wx.setStorageSync('handId', data.datas.picnamehand);
@@ -196,6 +193,7 @@ Page({
    */
   upLoadImg(fileName, clientFile, type) {
     const url = baseUrl + '/api/uploadFileSas'
+    //const url = 'https://laravel.harus.icu/api/upload/vioceFile';
     const that = this;
     let param = {
       fileName: new Date().getTime() + '_' + app.globalData.mobile,
@@ -203,13 +201,10 @@ Page({
       type: type
     };
     return new Promise(function (resolve, reject) {
-      FILE(url, fileName, clientFile, param)
+      FILE(url, fileName, clientFile, param,1,1)
         .then((res) => {
           console.log('ress', res);
           if (res.code == 200) {
-            that.setData({
-              showT: false
-            });
             resolve(res);
           } else {
             reject(res);
@@ -217,9 +212,6 @@ Page({
         })
         .catch((error) => {
           console.log('error123', error);
-          that.setData({
-            showT: false
-          });
           reject(error);
         });
     });
@@ -237,7 +229,7 @@ Page({
       picAttachA: handId,
       picAttachB: simId,
     }
-    POST(url, params, true).then(function (res, jet) {
+    POST(url, params, 1).then(function (res, jet) {
       if (res.code == 200) {
         wx.navigateTo({
           url: '/active/pages/bioassay/bioassay'

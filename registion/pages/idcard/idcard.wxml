@@ -55,11 +55,6 @@
   <view wx:if="{{ !captureHidden }}" class="ss">
     <capture cardType="{{ cardType }}" rotate="{{rotate}}" bind:takePhotos="takePhotos" bind:canclePhotos="canclePhotos"></capture>
   </view>
-  <van-overlay show="{{ showT }}" class="overlay">
-    <view class="wrapper">
-      <van-loading size="24px" vertical color="#FFFFFF" size="34px">上传中...</van-loading>
-    </view>
-  </van-overlay>
 </view>
 <view class="body" wx:else>
   <view class="body-ite">
@@ -75,7 +70,7 @@
     </view>
   </view>
 </view>
-<view style="position:fixed;width:100px;height:100px;left:200%;z-index:0">
+<view style="position:fixed;width:0px;height:0px;left:200%;z-index:0">
   <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
     style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
 </view>

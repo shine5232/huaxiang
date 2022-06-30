@@ -30,7 +30,6 @@ Page({
     captureHidden: true,
     rotate: false,
     back: 0,
-    showT: false,
     img1: 0,
     img2: 0,
     img3: 0,
@@ -202,12 +201,13 @@ Page({
         back: 1,
       });
     } else { //从相册选择
-      wx.chooseImage({
+      wx.chooseMedia({
         count: 1,
+        mediaType:['image'],
         sizeType: ['original', 'compressed'],
         sourceType: ['album'],
         success(res) {
-          watermark(res.tempFilePaths[0],that).then((ret)=>{
+          watermark(res.tempFiles[0].tempFilePath,that).then((ret)=>{
             that.submitImgUpload(that.data.cardType, ret);
           });
         }
@@ -228,11 +228,6 @@ Page({
   //提交图片上传
   submitImgUpload(type, imgPath) {
     const that = this;
-    wx.showLoading({
-      title: '上传中...',
-      mask: true
-    })
-    //return false;
     if (type == 1) {
       that.upLoadImg('clientFile', imgPath, 1).then((data) => {
         that.setData({
@@ -291,7 +286,7 @@ Page({
     };
     console.log('pam', param);
     return new Promise(function (resolve, reject) {
-      FILE(url, fileName, clientFile, param)
+      FILE(url, fileName, clientFile, param,1,1)
         .then((res) => {
           console.log('上传成功', res);
           if (res.code == 200) {
