@@ -61,6 +61,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "激活-活体",
+          "pathName": "active/pages/bioassay/bioassay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

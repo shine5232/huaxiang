@@ -245,11 +245,11 @@ Page({
               that.restartVoice(error);
             });
           } else {
-            that.restartVoice('视频上传失败');
+            that.restartVoice(res.msg);
           }
         }).catch((error) => {
           console.log('视频错误',error);
-          that.restartVoice('视频上传调用失败');
+          that.restartVoice(error.msg);
         });
       },
       fail: function (e) {
