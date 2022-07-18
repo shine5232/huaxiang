@@ -713,10 +713,41 @@ Page({
         })
       } else { //预付款页面
         wx.reLaunch({
-          url: '/active/pages/prepay/prepay'
+          url: '/pages/prepay/prepay'
         })
       }
     }).catch((error) => {});
+  },
+  //判断订单状态
+  getOrderInfo(){
+    let that = this;
+    return new Promise((resolve,reject)=>{
+      let url = baseUrl + '/api/order/getOrderInfo';
+      let parms = {
+        orderId: app.globalData.orderId
+      }
+      POST(url, parms, true).then(function (res, jet) {
+        if (res.code == 200) {
+          let datas = res.datas;
+          if(datas.orderStatus == 13){
+            wx.navigateTo({
+              url: '/pages/prepay/prepay'
+            })
+          }else{
+            wx.reLaunch({
+              url: '/pages/complete/complete?title=激活&from=act_complete&note=恭喜您！号卡激活成功'
+            })
+          }
+        } else {
+          wx.showToast({
+            icon:'none',
+            mask:true,
+            title:res.msg,
+            duration:2000
+          });
+        }
+      });
+    });
   },
   //记录登录日志
   recordLoginInfo() {
