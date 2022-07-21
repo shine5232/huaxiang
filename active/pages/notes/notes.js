@@ -675,9 +675,27 @@ Page({
       });
       that.drawNote().then(function (res, rej) {
         if (res) {
-          that.submitOrder();
+          that.submitOrder().then((res)=>{
+            return that.recordLoginInfo();
+          }).then((res)=>{
+            if (that.data.type == 1) { //结束
+              wx.reLaunch({
+                url: '/pages/complete/complete?title=激活&from=act_complete&note=恭喜您！号卡激活成功'
+              })
+            } else { //预付款页面
+              wx.reLaunch({
+                url: '/pages/prepay/prepay'
+              })
+            }
+          });
         }
-      }).catch((error) => {});
+      }).catch((error) => {
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'请求失败，请稍后再试'
+        });
+      });
     } else { //未签名
       that.setData({
         signed: true,
@@ -696,27 +714,22 @@ Page({
       piclivestdB: app.globalData.opIds[1],
       accessprotocol: app.globalData.signImg
     }
-    POST(url, parms, true).then(function (res, jet) {
-      if (res.code == 200) {
-        return that.recordLoginInfo();
-      } else {
-        wx.showToast({
-          icon:'none',
-          mask:true,
-          title:res.msg,
-        });
-      }
-    }).then(function (res, rej) {
-      if (that.data.type == 1) { //结束
-        wx.reLaunch({
-          url: '/pages/complete/complete?title=激活&from=act_complete&note=恭喜您！号卡激活成功'
-        })
-      } else { //预付款页面
-        wx.reLaunch({
-          url: '/pages/prepay/prepay'
-        })
-      }
-    }).catch((error) => {});
+    return new Promise((resolve,reject)=>{
+      POST(url, parms, true).then(function (res, jet) {
+        if (res.code == 200) {
+          resolve();
+        } else {
+          wx.showToast({
+            icon:'none',
+            mask:true,
+            title:res.msg,
+          });
+          reject();
+        }
+      }).catch(()=>{
+        reject();
+      });
+    });
   },
   //判断订单状态
   getOrderInfo(){
@@ -773,6 +786,7 @@ Page({
       osVersion: osVersion,
       netWorkType: netWorkType
     }
+    console.log('recordLoginInfo',parms);
     return new Promise(function (resolve, reject) {
       POST(url, parms).then(function (res, jet) {
         resolve(true);

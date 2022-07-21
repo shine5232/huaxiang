@@ -48,6 +48,9 @@
         "desc": "你的位置信息仅用于定位服务"
       }
     },
+    "requiredPrivateInfos":[
+      "getLocation"
+    ],
     "lazyCodeLoading": "requiredComponents",
     "sitemapLocation": "sitemap.json"
   }

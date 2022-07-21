@@ -293,7 +293,27 @@ function getLocationAuth() {
 function getLocation() {
   wx.removeStorageSync('location');
   return new Promise((resolve, reject) => {
-    const locationFun = (res) => {
+    wx.getLocation({
+      type: 'gcj02',
+      success (res) {
+        console.log('res',res);
+        reverseGeocoder(res).then((res)=>{
+          resolve(res);
+        }).catch((err)=>{
+          reject(true);
+        });
+      },
+      fail(err){
+        reject(true);
+      }
+     })
+    /* reverseGeocoder(res).then((ret)=>{
+      console.log('ret',ret);
+      resolve(ret);
+    }).catch((err)=>{
+      reject(err);
+    }); */
+    /* const locationFun = (res) => {
       reverseGeocoder(res).then((ret)=>{
         wx.offLocationChange(locationFun);
         resolve(ret);
@@ -308,7 +328,7 @@ function getLocation() {
       fail: (err) => {
        reject(false);
       }
-    })
+    }) */
   });
 }
 //地理位置解析

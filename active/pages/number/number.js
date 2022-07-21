@@ -321,7 +321,7 @@ Page({
     if (that.data.orderId) {
       if (that.data.orderStatus == 13) { //待支付状态，跳转支付页面
         wx.navigateTo({
-          url: '/pages/prepay/prepay?orderId=' + that.data.orderId
+          url: '/pages/prepay/prepay'
         })
       } else { //非待支付状态
         if (that.data.numberOperType == '0' || that.data.numberOperType == '1') {
@@ -408,6 +408,7 @@ Page({
   },
   //地区校验
   checkArea() {
+    return true;
     let that = this;
     if (that.data.numberOperType == '0') {
       let location = wx.getStorageSync('location');
@@ -468,7 +469,7 @@ Page({
     const that = this;
     if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit() && that.checkArea()) {
       that.checkBioassay().then(function (ret, jet) {
-        if (that.data.orderStatus == 13) { //存在预存
+        if (that.data.orderStatus == 13 || that.data.numberFee > 0) { //有预约单或者存在预存款
           that.goToUrl();
         } else { //跳转下一步
           that.judgeOrderStatus();
