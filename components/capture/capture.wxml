@@ -1,5 +1,5 @@
 <view class="cover-img">
-  <camera mode="normal" device-position="{{cardPosition}}" flash="off" style="height:{{ cameraHeight-60 }}px;width:{{ cameraWidth }}px;">
+  <camera mode="normal" resolution="high" frame-size="large" device-position="{{cardPosition}}" flash="off" style="height:{{ cameraHeight-60 }}px;width:{{ cameraWidth }}px;">
     <cover-view class="controls" style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px">
       <!-- 头像面 -->
       <cover-image wx:if="{{cardType == 1}}" class="icon-w569-h828" src="/images/icon/take_idcard_a12.png" />

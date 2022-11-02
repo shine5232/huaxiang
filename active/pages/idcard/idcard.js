@@ -106,7 +106,7 @@ Page({
       });
       return false;
     } else {
-      if (!/^1(3|4|5|7|8)\d{9}$/.test(that.data.mobile)) {
+      if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(that.data.mobile)) {
         wx.showToast({
           icon:'none',
           mask:true,
@@ -232,9 +232,7 @@ Page({
       captureHidden: true,
       back: 0,
     });
-    watermark(e.detail.imgPath,that).then((res)=>{
-      that.submitImgUpload(e.detail.cardType, res);
-    });
+    that.submitImgUpload(e.detail.cardType, e.detail.imgPath);
   },
   //提交图片上传
   submitImgUpload(type, imgPath) {
@@ -327,6 +325,28 @@ Page({
       picnamehand: handCard.picnamehand
     }
     POST(url, params,1).then(function (res, jet) {
+      if (res.code == 200) {
+        that.faceVerify();
+      } else {
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
+      }
+    });
+  },
+  //在线活体
+  faceVerify() {
+    const that = this;
+    let url = baseUrl + '/api/faceVerify';
+    let handCard = wx.getStorageSync('handCard');
+    let parms = {
+      opIds: [handCard.picnamehand],
+      svcNumber: app.globalData.mobile
+    }
+    console.log('faceVerify', parms);
+    POST(url, parms).then(function (res, jet) {
       if (res.code == 200) {
         that.creatOrder();
       } else {

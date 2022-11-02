@@ -38,6 +38,8 @@ Page({
     signHeight: (app.globalData.windowHeight - (app.globalData.statusBarHeight + 44)) + 'px',
     canvas1: null,
     ctx1: null,
+    handId:'',
+    simId:'',
   },
   onLoad() {
     const that = this;
@@ -118,9 +120,7 @@ Page({
     that.setData({
       captureHidden: true
     });
-    watermark(e.detail.imgPath,that).then((res)=>{
-      that.submitImgUpload(e.detail.cardType, res);
-    });
+    that.submitImgUpload(e.detail.cardType, e.detail.imgPath);
   },
   //提交图片上传
   submitImgUpload(type, imgPath) {
@@ -129,14 +129,16 @@ Page({
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
         wx.setStorageSync('handId', data.datas.picnamehand);
         that.setData({
-          fileLista: imgPath
+          fileLista: imgPath,
+          handId:data.datas.picnamehand,
         });
       }).catch((error) => {});
     } else if (type == 5) {
       that.upLoadImg('clientFile', imgPath, 3).then((data) => {
         wx.setStorageSync('simId', data.datas.picnamehand);
         that.setData({
-          fileListb: imgPath
+          fileListb: imgPath,
+          simId:data.datas.picnamehand
         });
       }).catch((error) => {});
     }
@@ -222,8 +224,8 @@ Page({
   savePicAttach() {
     const that = this;
     let url = baseUrl + '/api/user/savePicAttach';
-    let handId = wx.getStorageSync('handId');
-    let simId = wx.getStorageSync('simId');
+    let handId = that.data.handId;
+    let simId = that.data.simId;
     let params = {
       orderId: app.globalData.orderId,
       picAttachA: handId,

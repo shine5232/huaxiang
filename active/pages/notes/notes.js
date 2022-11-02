@@ -783,8 +783,8 @@ Page({
       cityCode: location.ad_info.city_code,
       deviceId: deviceId,
       deviceType: deviceType,
-      osVersion: osVersion,
-      netWorkType: netWorkType
+      osVersion: osVersion+'|XCX_V:'+app.globalData.version,
+      netWorkType: netWorkType,
     }
     console.log('recordLoginInfo',parms);
     return new Promise(function (resolve, reject) {

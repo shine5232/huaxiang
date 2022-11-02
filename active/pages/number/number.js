@@ -408,7 +408,7 @@ Page({
   },
   //地区校验
   checkArea() {
-    return true;
+    //return true;
     let that = this;
     if (that.data.numberOperType == '0') {
       let location = wx.getStorageSync('location');

@@ -341,6 +341,11 @@ function reverseGeocoder(location) {
       },
       success: function (res) {
         wx.setStorageSync('location', res.result);
+        /* wx.showModal({
+          title: '温馨提示',
+          content: res.result.address,
+          showCancel: false,
+        }); */
         resolve(res);
       },
       fail(e) {

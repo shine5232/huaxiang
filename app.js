@@ -4,7 +4,7 @@ App({
   globalData: {
     steps: 1,//步骤条 1：三步(号码确认，身份识别，告知签署),2:四步(号码确认，身份识别，告知签署，预存支付),默认1
     mobile: '',//用户手机号
-    isBioass:true,//true审核时不展示活体检测
+    isBioass:true,//true:不展示活体检测
     iccid: '',//ICCID
     productInfo: '',//产品信息
     windowWidth: wx.getSystemInfoSync().windowWidth,//屏幕宽度
@@ -27,8 +27,10 @@ App({
     osVersion:null,//系统版本
     netWorkType:null,//网络类型
     netWorkStatus:true,//网络状态
+    version:null,//小程序版本号
   },
   onLaunch () {
+    this.getVersion();
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()
       updateManager.onCheckForUpdate(function (res) {
@@ -67,5 +69,10 @@ App({
     wx.onNetworkStatusChange((res)=>{
       that.globalData.netWorkStatus = res.isConnected;
     });
-  }
+  },
+  getVersion(){
+    let accountInfo = wx.getAccountInfoSync();
+    this.globalData.version = accountInfo.miniProgram.version;
+    console.log('当前版本',this.globalData.version);
+  },
 })

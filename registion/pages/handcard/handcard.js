@@ -116,9 +116,7 @@ Page({
     that.setData({
       captureHidden: true
     });
-    watermark(e.detail.imgPath,that).then((res)=>{
-      that.submitImgUpload(e.detail.cardType, res);
-    });
+    that.submitImgUpload(e.detail.cardType, e.detail.imgPath);
   },
   //提交图片上传
   submitImgUpload(type, imgPath) {

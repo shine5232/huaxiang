@@ -66,12 +66,16 @@ function watermark(file, that) {
         image.src = res.path;
         image.onload = () => {
           that.data.ctx1.drawImage(image, 0, 0, imgInfo.width, imgInfo.height);
-          that.data.ctx1.font = '24px';
+          that.data.ctx1.font = (14 * app.globalData.pixelRatio) +'px';
           that.data.ctx1.textAlign = 'left';
-          that.data.ctx1.fillStyle = "rgba(204,204,204,0.5)";
+          that.data.ctx1.fillStyle = "rgba(204,204,204,0.6)";
           that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', 10, imgInfo.height/1.2);
           setTimeout(() => {
             wx.canvasToTempFilePath({
+              x: 0,
+              y: 0,
+              destWidth: imgInfo.width,
+              destHeight: imgInfo.height,
               canvas: that.data.canvas1,
               fileType: 'jpg',
               quality: 1,

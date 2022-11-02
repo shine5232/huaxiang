@@ -64,11 +64,11 @@ Component({
       ctx.takePhoto({
         quality: 'high',
         success: (res) => {
-          that.triggerEvent("takePhotos", {
+          /* that.triggerEvent("takePhotos", {
             cardType: that.data.cardType,
             imgPath: res.tempImagePath
-          });
-          /* let option = {
+          }); */
+          let option = {
             canvas: that.data.myCanvas1_canvas,
             ctx: that.data.myCanvas1_ctx,
             canvasId: 'firstCanvas',
@@ -83,7 +83,7 @@ Component({
               cardType: that.data.cardType,
               imgPath: data
             });
-          }).catch((error) => {}); */
+          }).catch((error) => {});
         },
         fail: (e) => {
           console.log(e);
@@ -135,29 +135,28 @@ Component({
           options.ctx.fillRect(0, 0, options.canvas.width, options.canvas.height);
           options.ctx.restore();
           options.ctx.drawImage(img, 0, 0);
-          options.ctx.font = '30px sans-serif';
-          options.ctx.textAlign = 'center';
-          options.ctx.fillStyle = "#cccccc";
-          options.ctx.globalAlpha = 0.3;
-          options.ctx.translate(app.globalData.windowHeight - 100, -120);
-          options.ctx.rotate(40 * Math.PI / 180);
-          options.ctx.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', app.globalData.windowWidth, app.globalData.windowHeight);
-          wx.canvasToTempFilePath({
-            x: 0,
-            y: 0,
-            canvasId: options.canvasId,
-            fileType: options.fileType,
-            canvas: options.canvas,
-            quality: 1, //图片质量
-            success(res) {
-              console.log('res', res.tempFilePath);
-              resolve(res.tempFilePath);
-            },
-            fail(res) {
-              reject(false);
-            },
-            complete(res) {}
-          }, that)
+          options.ctx.font = '24px';
+          options.ctx.textAlign = 'left';
+          options.ctx.fillStyle = "rgba(204,204,204,0.6)";
+          options.ctx.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', 10,options.canvas.height/1.2);
+          setTimeout(() => {
+            wx.canvasToTempFilePath({
+              x: 0,
+              y: 0,
+              canvasId: options.canvasId,
+              fileType: options.fileType,
+              canvas: options.canvas,
+              quality: 1, //图片质量
+              success(res) {
+                console.log('res', res.tempFilePath);
+                resolve(res.tempFilePath);
+              },
+              fail(res) {
+                reject(false);
+              },
+              complete(res) {}
+            }, that)
+          },500);
         }
       });
     },

@@ -1,0 +1,150 @@
+{
+	"desc": "关于本文件的更多信息，请参考文档 代码加固开发者文档",
+	"switch": true,
+	"configs": [
+		{
+			"path": "active/pages/bioassay/bioassay.js",
+			"sub_switch": true
+		},
+		{
+			"path": "active/pages/handcard/handcard.js",
+			"sub_switch": true
+		},
+		{
+			"path": "active/pages/idcard/idcard.js",
+			"sub_switch": true
+		},
+		{
+			"path": "active/pages/notes/notes.js",
+			"sub_switch": true
+		},
+		{
+			"path": "active/pages/number/number.js",
+			"sub_switch": true
+		},
+		{
+			"path": "components/agreement/agreement.js",
+			"sub_switch": true
+		},
+		{
+			"path": "components/capture/capture.js",
+			"sub_switch": true
+		},
+		{
+			"path": "components/code/code.js",
+			"sub_switch": true
+		},
+		{
+			"path": "components/navation/navation.js",
+			"sub_switch": true
+		},
+		{
+			"path": "components/notes/notes.js",
+			"sub_switch": true
+		},
+		{
+			"path": "components/step/step.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/complete/complete.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/concern/concern.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/index/index.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/map/map.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/navation/active/active.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/navation/registion/registion.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/pay/pay.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/pays/pays.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/prepay/prepay.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/query/active/active.js",
+			"sub_switch": true
+		},
+		{
+			"path": "pages/query/registion/registion.js",
+			"sub_switch": true
+		},
+		{
+			"path": "registion/pages/bioassay/bioassay.js",
+			"sub_switch": true
+		},
+		{
+			"path": "registion/pages/handcard/handcard.js",
+			"sub_switch": true
+		},
+		{
+			"path": "registion/pages/idcard/idcard.js",
+			"sub_switch": true
+		},
+		{
+			"path": "registion/pages/notes/notes.js",
+			"sub_switch": true
+		},
+		{
+			"path": "registion/pages/number/number.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/base64src.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/baseUrl.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/common.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/formatDate.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/md5.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/overWrite.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/promise.js",
+			"sub_switch": true
+		},
+		{
+			"path": "utils/util.js",
+			"sub_switch": true
+		},
+		{
+			"path": "app.js",
+			"sub_switch": true
+		}
+	]
+}

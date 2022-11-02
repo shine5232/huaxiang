@@ -32,7 +32,11 @@ function POST(url, param, loading = false, title = '处理中...') {
         resolve(res.data);
       },
       fail: (res) => {
-        Toast.fail('网络异常，请重试。')
+        wx.showToast({
+          title: res.errMsg,
+          duration: 2000,
+          icon: 'none'
+        });
         reject(res)
       },
       complete: (res) => {
