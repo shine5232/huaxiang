@@ -323,9 +323,53 @@ Page({
       })
     } else {
       if (that.verifyIdCarda()) {
-        that.creatOrder();
+        that.faceComparisonSas();
       }
     }
+  },
+  //人脸比对
+  faceComparisonSas() {
+    const that = this;
+    let url = baseUrl + '/api/faceComparisonSas';
+    let idcardA = wx.getStorageSync('idcardA');
+    let handCard = wx.getStorageSync('handCard');
+    let params = {
+      picnamez: idcardA.picnamez,
+      picnamehand: handCard.picnamehand
+    }
+    POST(url, params,1).then(function (res, jet) {
+      if (res.code == 200) {
+        that.faceVerify();
+      } else {
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
+      }
+    });
+  },
+  //在线活体
+  faceVerify() {
+    const that = this;
+    let url = baseUrl + '/api/faceVerify';
+    let handCard = wx.getStorageSync('handCard');
+    let parms = {
+      opIds: [handCard.picnamehand],
+      svcNumber: app.globalData.mobile
+    }
+    console.log('faceVerify', parms);
+    POST(url, parms).then(function (res, jet) {
+      if (res.code == 200) {
+        that.creatOrder();
+      } else {
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:res.msg
+        });
+      }
+    });
   },
   //监听返回按钮
   goBack() {
