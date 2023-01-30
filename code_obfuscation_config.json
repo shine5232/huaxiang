@@ -145,6 +145,26 @@
 		{
 			"path": "app.js",
 			"sub_switch": true
+		},
+		{
+			"path": "reservation/pages/address/address.js",
+			"sub_switch": true
+		},
+		{
+			"path": "reservation/pages/cancle/cancle.js",
+			"sub_switch": true
+		},
+		{
+			"path": "reservation/pages/complete/complete.js",
+			"sub_switch": true
+		},
+		{
+			"path": "reservation/pages/idcard/idcard.js",
+			"sub_switch": true
+		},
+		{
+			"path": "reservation/pages/number/number.js",
+			"sub_switch": true
 		}
 	]
 }

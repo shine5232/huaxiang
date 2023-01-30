@@ -28,6 +28,7 @@ import {
   formatTime,
   formatDate,
   formatDates,
+  formatNumber,
   formatISOTime
 } from "./formatDate"
 //sign签名
@@ -451,6 +452,7 @@ function getAuthVioce() {
 }
 module.exports = {
   formatTime,
+  formatNumber,
   formatDate,
   formatDates,
   formatISOTime,

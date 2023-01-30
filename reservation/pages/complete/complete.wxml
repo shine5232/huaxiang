@@ -1,0 +1,20 @@
+<navation title="{{title}}" from="{{from}}"></navation>
+<view class="body" style="top:{{top}}">
+  <view class="header">
+    <image src="../../../images/icon/bg.png" />
+  </view>
+  <view class="body">
+    <view class="img">
+      <image src="../../../images/icon/through.png" />
+    </view>
+    <view class="title">{{note}}</view>
+    <view class="note" catchtap="gotoUrl">
+      <view class="url"><span>预约成功！</span></view>
+      <view class="urls">请在30天内完成激活，超过30天未激活的卡自动作废。</view>
+      <view class="urls through">如需激活，请准备好身份证和SIM卡，关闭本页后，点击“新卡激活”功能进行激活。</view>
+    </view>
+  </view>
+  <view class="botm">
+    <official-account>微信公众号</official-account>
+  </view>
+</view>

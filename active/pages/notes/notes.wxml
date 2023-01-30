@@ -7,8 +7,8 @@
 </view>
 <view wx:if="{{ !signed }}" class="body" style="top:{{top}}">
   <van-sticky style="top:{{top}}" class="sticky">
-      <step type="{{ type }}" active="{{ active }}" />
-    </van-sticky>
+    <step type="{{ type }}" active="{{ active }}" />
+  </van-sticky>
   <view class="upload-body body-ite">
     <view class="note">
       <view class="note-title">电话卡合规使用告知书</view>
@@ -26,6 +26,11 @@
         <view><text decode="true">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</text>{{datetime}}</view>
       </view>
     </view>
+    <view class="not-bom">
+      <van-checkbox value="{{ checked }}" checked-color="#FF4B57" icon-size="16px" shape="square" bind:change="onChange">
+        <view class="xieyi">我已阅读并同意</view>
+      </van-checkbox>
+    </view>
     <view class="btnNext">
       <van-button round type="primary" block color="#FF4B57" catchtap="nextStep" disabled="{{disabled}}">{{
         nextStepTitle }}</van-button>
@@ -37,16 +42,14 @@
     <view class="handTitle">请用正楷字书写</view>
   </view>
   <view class="handCenter">
-    <canvas class="handWriting" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove"
-      bindtouchend="uploadScaleEnd" canvas-id="handWriting">
+    <canvas class="handWriting" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" canvas-id="handWriting">
     </canvas>
   </view>
   <view class="handBtn">
     <view class="handBtn-item">
       <van-button round color="#7F7F7F" size="small" class="btn ret" custom-style="width:100px" catchtap="retDraw">清除签名
       </van-button>
-      <van-button round color="#FF4B57" size="small" class="btn com" custom-style="width:100px"
-        catchtap="saveCanvasAsImg">提交签名</van-button>
+      <van-button round color="#FF4B57" size="small" class="btn com" custom-style="width:100px" catchtap="saveCanvasAsImg">提交签名</van-button>
     </view>
   </view>
 </view>

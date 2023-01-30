@@ -28,7 +28,7 @@
           "scene": null
         },
         {
-          "name": "激活活体",
+          "name": "激活-活体",
           "pathName": "active/pages/bioassay/bioassay",
           "query": "",
           "launchMode": "default",
@@ -70,8 +70,78 @@
           "scene": null
         },
         {
-          "name": "",
+          "name": "激活-签名",
           "pathName": "active/pages/notes/notes",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "实名-号卡验证",
+          "pathName": "registion/pages/number/number",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "实名-身份证",
+          "pathName": "registion/pages/idcard/idcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "实名-手持卡",
+          "pathName": "registion/pages/handcard/handcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "实名-人脸识别",
+          "pathName": "registion/pages/bioassay/bioassay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-身份识别",
+          "pathName": "reservation/pages/idcard/idcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-号卡输入",
+          "pathName": "reservation/pages/number/number",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-填写地址",
+          "pathName": "reservation/pages/address/address",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-取消",
+          "pathName": "reservation/pages/cancle/cancle",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-完成",
+          "pathName": "reservation/pages/complete/complete",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-号卡验证",
+          "pathName": "active/pages/number/number",
           "query": "",
           "launchMode": "default",
           "scene": null

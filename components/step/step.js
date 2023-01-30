@@ -29,6 +29,13 @@ Component({
     }, {
       text: '人脸识别',
     }],
+    steps4:[{
+      text: '号码确认',
+    }, {
+      text: '身份识别',
+    }, {
+      text: '填写地址',
+    }],
   },
   methods: {
     onLoad() {

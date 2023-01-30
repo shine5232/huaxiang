@@ -51,6 +51,7 @@ Page({
     width: '',
     height: '',
     hide: true,
+    checked: false,
     myCanvas1_canvas: '',
     myCanvas1_ctx: '',
     myCanvas2_canvas: '',
@@ -61,6 +62,7 @@ Page({
     top: (app.globalData.statusBarHeight + 44) + 'px',
     signHeight: (app.globalData.windowHeight - (app.globalData.statusBarHeight + 44)) + 'px',
     back: 0,
+    isDraw: false,
   },
   onLoad() {
     let canvasName = this.data.canvasName
@@ -261,7 +263,8 @@ Page({
   uploadScaleStart(e) {
     if (e.type != 'touchstart') return false;
     this.setData({
-      showText: true
+      showText: true,
+      isDraw: true,
     });
     let ctx = this.data.ctx;
     ctx.setFillStyle(this.data.lineColor); // 初始线条设置颜色
@@ -389,7 +392,8 @@ Page({
   //重写
   retDraw() {
     this.setData({
-      showText: false
+      showText: false,
+      isDraw: false
     });
     this.data.ctx.clearRect(0, 0, 700, 730)
     this.data.ctx.draw()
@@ -647,9 +651,9 @@ Page({
               });
             } else {
               wx.showToast({
-                icon:'none',
-                mask:true,
-                title:'签名对比失败，请重新书写',
+                icon: 'none',
+                mask: true,
+                title: '签名对比失败，请重新书写',
               });
             }
           } else {
@@ -661,23 +665,31 @@ Page({
         });
     });
   },
+  //监听协议勾选
+  onChange(e) {
+    this.setData({
+      checked: e.detail
+    });
+  },
   /**
    * 点击下一步操作
    */
   nextStep(e) {
     const that = this;
-    if (that.data.disabled) {
-      return false;
-    }
-    if (that.data.sign) { //已经签名了
-      that.setData({
-        disabled: true
-      });
+    if (that.data.isDraw) { //已经签名了
+      if (!that.data.checked) {
+        wx.showToast({
+          icon: 'none',
+          mask: true,
+          title: '请同意并勾选'
+        });
+        return false;
+      }
       that.drawNote().then(function (res, rej) {
         if (res) {
-          that.submitOrder().then((res)=>{
+          that.submitOrder().then((res) => {
             return that.recordLoginInfo();
-          }).then((res)=>{
+          }).then((res) => {
             if (that.data.type == 1) { //结束
               wx.reLaunch({
                 url: '/pages/complete/complete?title=激活&from=act_complete&note=恭喜您！号卡激活成功'
@@ -691,9 +703,9 @@ Page({
         }
       }).catch((error) => {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:'请求失败，请稍后再试'
+          icon: 'none',
+          mask: true,
+          title: '请求失败，请稍后再试'
         });
       });
     } else { //未签名
@@ -714,27 +726,27 @@ Page({
       piclivestdB: app.globalData.opIds[1],
       accessprotocol: app.globalData.signImg
     }
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       POST(url, parms, true).then(function (res, jet) {
         if (res.code == 200) {
           resolve();
         } else {
           wx.showToast({
-            icon:'none',
-            mask:true,
-            title:res.msg,
+            icon: 'none',
+            mask: true,
+            title: res.msg,
           });
           reject();
         }
-      }).catch(()=>{
+      }).catch(() => {
         reject();
       });
     });
   },
   //判断订单状态
-  getOrderInfo(){
+  getOrderInfo() {
     let that = this;
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       let url = baseUrl + '/api/order/getOrderInfo';
       let parms = {
         orderId: app.globalData.orderId
@@ -742,21 +754,21 @@ Page({
       POST(url, parms, true).then(function (res, jet) {
         if (res.code == 200) {
           let datas = res.datas;
-          if(datas.orderStatus == 13){
+          if (datas.orderStatus == 13) {
             wx.navigateTo({
               url: '/pages/prepay/prepay'
             })
-          }else{
+          } else {
             wx.reLaunch({
               url: '/pages/complete/complete?title=激活&from=act_complete&note=恭喜您！号卡激活成功'
             })
           }
         } else {
           wx.showToast({
-            icon:'none',
-            mask:true,
-            title:res.msg,
-            duration:2000
+            icon: 'none',
+            mask: true,
+            title: res.msg,
+            duration: 2000
           });
         }
       });
@@ -783,10 +795,10 @@ Page({
       cityCode: location.ad_info.city_code,
       deviceId: deviceId,
       deviceType: deviceType,
-      osVersion: osVersion+'|XCX_V:'+app.globalData.version,
+      osVersion: osVersion + '|XCX_V:' + app.globalData.version,
       netWorkType: netWorkType,
     }
-    console.log('recordLoginInfo',parms);
+    console.log('recordLoginInfo', parms);
     return new Promise(function (resolve, reject) {
       POST(url, parms).then(function (res, jet) {
         resolve(true);

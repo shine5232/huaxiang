@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "号码预约",
+  "navigationStyle":"custom",
+  "usingComponents": {
+    "navation": "/components/navation/navation"
+  }
+}

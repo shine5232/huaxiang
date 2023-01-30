@@ -1,0 +1,91 @@
+<view wx:if="{{isBioass}}">
+  <view wx:if="{{ captureHidden }}">
+    <van-sticky>
+      <step type="{{ type }}" active="{{ active }}" />
+    </van-sticky>
+    <view>
+      <view class="number-title">根据国家工信部25号令相关规定，需要您上传身份证等信息，我们郑重承诺，将确保您的个人信息安全！</view>
+      <view class="upload-body">
+        <view class="photo" catchtap="showPopup" data-type="1">
+          <view class="upload-bgcolor">
+            <view class="upload-idcard" wx:if="{{fileLista}}">
+              <image src="{{ fileLista }}" />
+            </view>
+            <view class="upload-idcard" wx:else>
+              <image src="/images/icon/idcard_a.png" />
+              <view class="upload-add">
+                <van-icon name="add" class="addicon" />
+                <view>身份证人像面</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="photo" catchtap="showPopup" data-type="2">
+          <view class="upload-bgcolor">
+            <view class="upload-idcard" wx:if="{{fileListb}}">
+              <image src="{{ fileListb }}" />
+            </view>
+            <view class="upload-idcard" wx:else>
+              <image src="/images/icon/idcard_b.png" />
+              <view class="upload-add">
+                <van-icon name="add" class="addicon" />
+                <view>身份证国徽面</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="photo" catchtap="showPopup" data-type="3">
+          <view class="upload-bgcolor">
+            <view class="upload-idcard" wx:if="{{fileListc}}">
+              <image src="{{ fileListc }}" />
+            </view>
+            <view class="upload-idcard" wx:else>
+              <image src="/images/icon/idcard_c.png" />
+              <view class="upload-add">
+                <van-icon name="add" class="addicon" />
+                <view>免冠照片</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="btnNext">
+          <van-button round type="primary" block color="#F67257" catchtap="nextStep">{{ title }}</van-button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 弹出相机/相册选择框 -->
+  <van-popup show="{{ show }}" bind:close="onClose" position="bottom" round>
+    <view class="pop-body">
+      <view class="pop-item">
+        <block wx:for="{{ capture }}" wx:key="index" wx:for-item="item">
+          <view catchtap="confirm" data-type="{{ item.type }}">{{ item.title }}</view>
+        </block>
+      </view>
+      <view class="pop-item cancle" catchtap="onClose">取消</view>
+    </view>
+  </van-popup>
+  <!-- 相机组件 -->
+  <view wx:if="{{ !captureHidden }}">
+    <capture cardType="{{ cardType }}" rotate="{{rotate}}" bind:takePhotos="takePhotos" bind:canclePhotos="canclePhotos"></capture>
+  </view>
+</view>
+<view wx:else>
+  <view>
+    <van-sticky>
+      <step type="{{ type }}" active="{{ active }}" />
+    </van-sticky>
+    <van-cell-group>
+      <van-field value="{{ mobile }}" required clearable type="number" label="联系电话：" placeholder="请输入紧急联系电话" error-message="{{mobileMessage}}" bind:change="onChangeMobile" maxlength="11" />
+      <van-field value="{{ mobile }}" required clearable type="number" label="联系人：" placeholder="请输入联系人姓名" error-message="{{mobileMessage}}" bind:change="onChangeMobile" maxlength="11" />
+    </van-cell-group>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#F67257" catchtap="nextStep">{{ title }}</van-button>
+    </view>
+  </view>
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#F67257" cancel-button-color="#797979" />
+<view style="position:fixed;width:100px;height:100px;left:200%;z-index:0">
+  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
+    style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
+</view>

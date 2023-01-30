@@ -199,13 +199,25 @@ Page({
         .then((res) => {
           console.log('上传成功：', res);
           if (res.code == 200) {
+            wx.showToast({
+              icon:'none',
+              title:'照片上传成功'
+            });
             resolve(res);
           } else {
+            wx.showToast({
+              icon:'none',
+              title:'照片上传失败'
+            });
             reject(res);
           }
         })
         .catch((error) => {
           console.log('上传失败：', error);
+          wx.showToast({
+            icon:'none',
+            title:'照片上传失败'
+          });
           reject(error);
         });
     });

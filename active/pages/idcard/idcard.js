@@ -96,6 +96,7 @@ Page({
   //验证照片是否上传
   verifyIdCarda() {
     const that = this;
+    let idcardA = wx.getStorageSync('idcardA');
     let idcardB = wx.getStorageSync('idcardB');
     let time = formatDates(new Date());
     if (that.data.mobile == '') {
@@ -163,6 +164,14 @@ Page({
       });
       return false;
     }
+    if(idcardA.cardInfo.姓名.words == '' || idcardA.cardInfo.姓名.words == undefined){
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'请检查证件信息'
+      });
+      return false;
+    }
     if (idcardB.cardInfo.失效日期.words != '长期') {
       if (parseInt(time) >= parseInt(idcardB.cardInfo.失效日期.words)) {
         wx.showToast({
@@ -172,6 +181,14 @@ Page({
         });
         return false;
       }
+    }
+    if(idcardB.cardInfo.签发机关.words == '' || idcardB.cardInfo.签发机关.words == undefined){
+      wx.showToast({
+        icon:'none',
+        mask:true,
+        title:'签发机关为空，请重新上传身份证'
+      });
+      return false;
     }
     return true;
   },
@@ -304,12 +321,24 @@ Page({
       FILE(url, fileName, clientFile, param,1,1)
         .then((res) => {
           if (res.code == 200) {
+            wx.showToast({
+              icon:'none',
+              title:'照片上传成功'
+            });
             resolve(res);
           } else {
+            wx.showToast({
+              icon:'none',
+              title:'照片上传失败'
+            });
             reject(res);
           }
         })
         .catch((error) => {
+          wx.showToast({
+            icon:'none',
+            title:'照片上传失败'
+          });
           reject(error);
         });
     });

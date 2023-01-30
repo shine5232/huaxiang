@@ -1,0 +1,21 @@
+<view>
+  <van-sticky class="sticky">
+    <view class="steps">
+      <step type="{{ type }}" active="{{ active }}" />
+    </view>
+  </van-sticky>
+  <view class="number body-ite">
+    <view class="number-title">请输入手机号进行预约</view>
+    <van-cell-group>
+      <van-field value="{{ mobile }}" required clearable type="number" label="手机号：" placeholder="请输入手机号" bind:change="onChangeMobile" maxlength="11" />
+      <van-field value="{{ iccid }}" required clearable label="ICCID：" placeholder="请输入ICCID后五位" bind:change="onChangeIccid" maxlength="5" />
+      <van-field value="{{ yzm }}" required clearable label="验证码：" placeholder="请输入验证码" bind:change="onChangeYzm" use-button-slot maxlength="4">
+        <code slot="button" width="80" height="30" class="code" catchtap="getCode" id="code" len="4" />
+      </van-field>
+    </van-cell-group>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#F67257" catchtap="nextStep">{{ btnTitle }}</van-button>
+    </view>
+  </view>
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#F67257" cancel-button-color="#797979" />

@@ -1,0 +1,22 @@
+<view>
+  <van-sticky>
+    <step type="{{ type }}" active="{{ active }}" />
+  </van-sticky>
+  <view class="number-title">为了确保您能收到号卡，请您填写真实的收卡地址！</view>
+  <van-cell-group>
+    <van-field value="{{ name }}" required clearable label="联系人姓名：" placeholder="请输入联系人姓名" bind:change="onChangeName" />
+    <van-field value="{{ mobile }}" required clearable type="number" label="联系电话：" placeholder="请输入联系电话" bind:change="onChangeMobile" maxlength="11" />
+    <van-field value="{{ code }}" required clearable label="短信验证码：" placeholder="请输入短信验证码" bind:change="onChangeCode" use-button-slot>
+      <van-button slot="button" size="small" type="primary" color="#F67257" bind:click="onSendCode" disabled="{{sendDisabled}}">{{sendCode}}</van-button>
+    </van-field>
+    <van-field value="{{area}}" is-link required readonly label="所属地区：" placeholder="请选择省、市、区" catchtap="showArea" />
+    <van-field value="{{ address }}" required clearable label="详细地址：" placeholder="请输入详细地址" bind:change="onChangeAddress" />
+  </van-cell-group>
+  <view class="btnNext">
+    <van-button round type="primary" block color="#F67257" catchtap="nextStep">{{ title }}</van-button>
+  </view>
+  <van-popup show="{{showAddress}}" position="bottom" round bind:close="hideArea">
+    <van-picker show-toolbar title="选择地区" columns="{{areaList}}" bind:confirm="onAddressConfirm" bind:change="onAddressChange" value-key="areaName" bind:cancel="hideArea" />
+  </van-popup>
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#F67257"/>

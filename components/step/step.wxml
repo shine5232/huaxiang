@@ -3,7 +3,8 @@
     <view class="steps">
       <van-steps wx:if="{{type == 1}}" steps="{{steps1}}" active="{{ active }}" active-color="{{activeColor}}" />
       <van-steps wx:elif="{{type == 2}}" steps="{{steps2}}" active="{{ active }}" active-color="{{activeColor}}" />
-      <van-steps wx:else steps="{{steps3}}" active="{{ active }}" active-color="{{activeColor}}" />
+      <van-steps wx:elif="{{type == 3}}" steps="{{steps3}}" active="{{ active }}" active-color="{{activeColor}}" />
+      <van-steps wx:else steps="{{steps4}}" active="{{ active }}" active-color="{{activeColor}}" />
     </view>
   </van-sticky>
 </view>

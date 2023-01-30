@@ -1,0 +1,7 @@
+.btnNext {
+  width: 90%;
+  margin: 10px auto;
+}
+.number-title{
+  color: #F67257;
+}

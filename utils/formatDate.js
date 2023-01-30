@@ -37,5 +37,6 @@ module.exports = {
   formatTime,
   formatDate,
   formatDates,
+  formatNumber,
   formatISOTime
 }

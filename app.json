@@ -31,6 +31,15 @@
           "pages/bioassay/bioassay",
           "pages/notes/notes"
         ]
+      },{
+        "root":"reservation",
+        "pages":[
+          "pages/number/number",
+          "pages/idcard/idcard",
+          "pages/address/address",
+          "pages/cancle/cancle",
+          "pages/complete/complete"
+        ]
       }
     ],
     "window":{

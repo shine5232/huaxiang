@@ -60,7 +60,7 @@ Page({
     if (url == '/active/pages/number/number' || url == '/registion/pages/number/number') {
       this.getLocationInfo(url);
     } else {
-      wx.hideLoading();
+      //wx.hideLoading();
       wx.navigateTo({
         url: url
       })

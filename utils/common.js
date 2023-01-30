@@ -69,7 +69,7 @@ function watermark(file, that) {
           that.data.ctx1.font = (14 * app.globalData.pixelRatio) +'px';
           that.data.ctx1.textAlign = 'left';
           that.data.ctx1.fillStyle = "rgba(204,204,204,0.6)";
-          that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', 10, imgInfo.height/1.2);
+          that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' '+app.globalData.chnlCode, 10, imgInfo.height/1.2);
           setTimeout(() => {
             wx.canvasToTempFilePath({
               x: 0,

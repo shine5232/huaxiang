@@ -15,7 +15,21 @@
       <view class="label body-item">
         <view class="label-title">
           <view class="label-title-icon red"></view>
-          <view class="label-title-text">新卡激活</view>
+          <view class="label-title-text">预约激活</view>
+        </view>
+        <view class="label-item">
+          <view class="label-item-i active-back" catchtap="goToPath" data-url="/reservation/pages/number/number">
+            <view class="label-item-text active">预约登记</view>
+            <view class="label-item-img">
+              <image src="/images/yuyue.png" />
+            </view>
+          </view>
+          <view class="label-item-i active-back" catchtap="goToPath" data-url="/reservation/pages/cancle/cancle">
+            <view class="label-item-text active">取消预约</view>
+            <view class="label-item-img">
+              <image src="/images/cancel.png" />
+            </view>
+          </view>
         </view>
         <view class="label-item">
           <view class="label-item-i active-back" catchtap="goToPath" data-url="/active/pages/number/number">

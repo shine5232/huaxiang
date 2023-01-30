@@ -1,0 +1,22 @@
+<view>
+  <view class="number">
+    <view class="number-title">请输入预约时的手机号和提交的身份证号</view>
+    <van-cell-group>
+      <van-field value="{{ mobile }}" required clearable type="number" label="预约手机号：" placeholder="请输入预约手机号" bind:change="onChangeMobile" maxlength="11" />
+      <van-field value="{{ card }}" required clearable label="身份证号：" placeholder="请输入预约身份证号" bind:change="onChangeIccid" maxlength="18" />
+      <van-field value="{{ yzm }}" required clearable label="图形验证码：" placeholder="请输入图形验证码" bind:change="onChangeYzm" use-button-slot maxlength="4">
+        <code slot="button" width="80" height="30" class="code" catchtap="getCode" id="code" len="4" />
+      </van-field>
+      <block wx:if="{{query}}">
+        <van-field value="{{ phone }}" required clearable type="number" label="联系电话：" disabled />
+      <van-field value="{{ code }}" required clearable label="短信验证码：" placeholder="请输入短信验证码" bind:change="onChangeCode" use-button-slot>
+        <van-button slot="button" size="small" type="primary" color="#F67257" bind:click="onSendCode" disabled="{{sendDisabled}}">{{sendCode}}</van-button>
+      </van-field>
+      </block>
+    </van-cell-group>
+    <view class="btnNext">
+      <van-button round type="primary" block color="#F67257" catchtap="nextStep">{{ btnTitle }}</van-button>
+    </view>
+  </view>
+</view>
+<van-dialog id="van-dialog" confirm-button-color="#F67257" />

@@ -101,9 +101,18 @@ Page({
       wx.showToast({
         icon:'none',
         mask:true,
-        title:'请输入手机号'
+        title:'请完善信息'
       });
       return false;
+    }else{
+      if (!/^1(3|4|5|6|7|8)\d{9}$/.test(that.data.mobile)) {
+        wx.showToast({
+          icon:'none',
+          mask:true,
+          title:'手机号错误'
+        });
+        return false;
+      }
     }
     return true;
   },
@@ -115,7 +124,7 @@ Page({
       wx.showToast({
         icon:'none',
         mask:true,
-        title:'请输入ICCID后五位'
+        title:'请完善信息'
       });
       return false;
     }
@@ -129,7 +138,7 @@ Page({
       wx.showToast({
         icon:'none',
         mask:true,
-        title:'请输入验证码'
+        title:'请完善信息'
       });
       return false;
     } else {
@@ -138,7 +147,7 @@ Page({
         wx.showToast({
           icon:'none',
           mask:true,
-          title:'验证码不正确'
+          title:'验证码错误'
         });
         return false;
       } else {
@@ -231,6 +240,7 @@ Page({
         wx.setStorageSync('numberOperType', datas.numberOperType);
         app.globalData.iccid = datas.iccid;
         app.globalData.mobile = that.data.mobile;
+        app.globalData.chnlCode = datas.chnlCode;
         app.globalData.productInfo = {
           productName: datas.productName,
           minFee: datas.minFee / 100,
@@ -408,25 +418,47 @@ Page({
   },
   //地区校验
   checkArea() {
-    //return true;
     let that = this;
     if (that.data.numberOperType == '0') {
       let location = wx.getStorageSync('location');
       let adcode = location.ad_info.adcode.slice(0, 4);
-      let limit = that.data.areaLim.split('#');
-      let has = limit.indexOf(adcode);
-      if (has > -1) {
-        that.areaLog();
+      try {
+        let areaLim = that.data.areaLim;
+        let blackData = JSON.parse(areaLim);
+        let blackKeys = Object.keys(blackData);
+        //console.log('blackData',blackData);//数据源
+        //console.log('blackKeys',blackKeys);//黑名单
+        let limit = blackKeys.indexOf(adcode);
+        if(limit >= 0){//存在黑名单中
+          let dataKey = blackKeys[limit];
+          let whiteList = blackData[dataKey];//白名单
+          let limitValue = whiteList.indexOf(that.data.productId);
+          //console.log('that.data.productId',that.data.productId);
+          if(limitValue == -1){//不存在白名单中
+            that.areaLog();
+            Dialog.alert({
+              title: '入网提示',
+              message: '您的号码激活信息异常，请重试或联系售卡人员。',
+              confirmButtonText: '退出自助激活'
+            }).then(() => {
+              wx.navigateBack();
+            });
+            return false;
+          }else{
+            return true;
+          }
+        }else{
+          return true;
+        }
+      } catch (error) {
         Dialog.alert({
-          title: '入网提示',
-          message: '您的号码激活信息异常，请重试或联系售卡人员。',
+          title: '温馨提示',
+          message: '网络JSON解析失败，请退出重试',
           confirmButtonText: '退出自助激活'
         }).then(() => {
           wx.navigateBack();
         });
         return false;
-      } else {
-        return true;
       }
     } else {
       return true;
@@ -469,7 +501,7 @@ Page({
     const that = this;
     if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit() && that.checkArea()) {
       that.checkBioassay().then(function (ret, jet) {
-        if (that.data.orderStatus == 13 || that.data.numberFee > 0) { //有预约单或者存在预存款
+        if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
           that.goToUrl();
         } else { //跳转下一步
           that.judgeOrderStatus();
