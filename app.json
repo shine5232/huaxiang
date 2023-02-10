@@ -20,6 +20,7 @@
           "pages/idcard/idcard",
           "pages/handcard/handcard",
           "pages/bioassay/bioassay",
+          "pages/sign/sign",
           "pages/notes/notes"
         ]
       },{

@@ -31,6 +31,7 @@ App({
     version: null, //小程序版本号
     timer: null, //验证码计数器
     second: 60, //倒计时
+    needReservation:false,//是否需要预约
   },
   onLaunch() {
     this.getVersion();

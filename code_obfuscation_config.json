@@ -165,6 +165,10 @@
 		{
 			"path": "reservation/pages/number/number.js",
 			"sub_switch": true
+		},
+		{
+			"path": "active/pages/sign/sign.js",
+			"sub_switch": true
 		}
 	]
 }

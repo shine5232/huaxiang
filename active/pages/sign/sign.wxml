@@ -1,0 +1,19 @@
+<view class="wrapper">
+  <view class="handRight" hidden="{{showText}}">
+    <view class="handTitle">请用正楷字书写</view>
+  </view>
+  <view class="handCenter" style="height:{{ height }}px">
+    <canvas class="handWriting" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" canvas-id="handWriting">
+    </canvas>
+  </view>
+  <view class="handBtn">
+    <view class="handBtn-item">
+      <van-button round color="#7F7F7F" size="small" class="btn ret" custom-style="width:100px" catchtap="retDraw">清除签名
+      </van-button>
+      <van-button round color="#FF4B57" size="small" class="btn com" custom-style="width:100px" catchtap="saveCanvasAsImg">提交签名</van-button>
+    </view>
+  </view>
+</view>
+<view style="position:fixed;width:{{ width }}px;z-index:0;top:1000px">
+  <canvas type="2d" id="myCanvas2" canvas-id="secendCanvas" style="width:{{ width }}px;height:{{ height }}px"></canvas>
+</view>
