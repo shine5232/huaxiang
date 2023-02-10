@@ -3,7 +3,159 @@
     "lazyloadPlaceholderEnable": false,
     "compileHotReLoad": false
   },
-  "condition": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "首页",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-号卡查询",
+          "pathName": "active/pages/number/number",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-身份证上传",
+          "pathName": "active/pages/idcard/idcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-手持卡照",
+          "pathName": "active/pages/handcard/handcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-人脸识别",
+          "pathName": "active/pages/bioassay/bioassay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-签署协议",
+          "pathName": "active/pages/notes/notes",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "激活-手写签名",
+          "pathName": "active/pages/sign/sign",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "补登-号卡查询",
+          "pathName": "registion/pages/number/number",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "补登-身份证上传",
+          "pathName": "registion/pages/idcard/idcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "补登-手持卡照",
+          "pathName": "registion/pages/handcard/handcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "补登-人脸识别",
+          "pathName": "registion/pages/bioassay/bioassay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "补登-录制视频",
+          "pathName": "registion/pages/notes/notes",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-号卡查询",
+          "pathName": "reservation/pages/number/number",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-身份证上传",
+          "pathName": "reservation/pages/idcard/idcard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-填写地址",
+          "pathName": "reservation/pages/address/address",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-完成",
+          "pathName": "reservation/pages/complete/complete",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "预约-取消预约",
+          "pathName": "reservation/pages/cancle/cancle",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "查询-激活进度",
+          "pathName": "pages/query/active/active",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "查询-补登进度",
+          "pathName": "pages/query/registion/registion",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "导航-激活",
+          "pathName": "pages/navation/active/active",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "导航-补登",
+          "pathName": "pages/navation/registion/registion",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  },
   "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
   "libVersion": "2.24.1",
   "projectname": "huaxiang"
