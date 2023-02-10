@@ -9,6 +9,7 @@
     "van-overlay": "@vant/weapp/overlay/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "van-checkbox": "@vant/weapp/checkbox/index",
-    "step":"/components/step/step"
+    "step":"/components/step/step",
+    "instructionManual":"/components/instructionManual/instructionManual"
   }
 }

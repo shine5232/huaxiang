@@ -4,8 +4,11 @@
       <step type="{{ type }}" active="{{ active }}" />
     </van-sticky>
     <view>
-      <van-field value="{{ mobile }}" required clearable type="number" label="联系电话：" placeholder="请输入紧急联系电话" error-message="{{mobileMessage}}" bind:change="onChangeMobile" maxlength="11" />
       <view class="number-title">根据国家工信部25号令相关规定，需要您上传身份证等信息，我们郑重承诺，将确保您的个人信息安全！</view>
+      <van-field value="{{ mobile }}" required clearable type="number" label="联系电话：" placeholder="请输入紧急联系电话" error-message="{{mobileMessage}}" bind:change="onChangeMobile" maxlength="11" />
+      <van-field value="{{ code }}" required clearable label="短信验证码：" placeholder="请输入短信验证码" bind:change="onChangeCode" use-button-slot>
+        <van-button slot="button" size="small" type="primary" color="#F67257" bind:click="onSendCode" disabled="{{sendDisabled}}">{{sendCode}}</van-button>
+      </van-field>
       <view class="upload-body">
         <view class="photo" catchtap="showPopup" data-type="1">
           <view class="upload-bgcolor">

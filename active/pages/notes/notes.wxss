@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top:122rpx;
+  top:130rpx;
 }
 
 .upload-bgcolor {
@@ -71,9 +71,8 @@
 }
 
 .note {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
-  padding: 20px;
   border: 1px solid #797979;
   margin-bottom: 10px;
 }
@@ -82,10 +81,10 @@
   font-size: 32rpx;
   text-align: center;
   font-weight: bold;
+  padding: 10px 0;
 }
 
 .note .note-body {
-  padding-top: 10px;
   font-size: 24rpx;
   color: #333;
   line-height: 48rpx;
@@ -93,16 +92,16 @@
 }
 
 .sign-body {
-  margin: 20px 0;
+  height: 120rpx;
   display: flex;
   align-items: center;
 }
 
 .sign-body image {
-  width: 100px;
-  height: 70px;
+  width: 250rpx;
+  height: 100rpx;
   position: absolute;
-  right: 40%;
+  right: 34%;
 }
 
 .wrapper {
@@ -164,4 +163,7 @@
 .black-select {
   width: 70rpx;
   height: 70rpx;
+}
+.not-bom{
+  width: 80%;
 }

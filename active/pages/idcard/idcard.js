@@ -41,6 +41,9 @@ Page({
     signHeight: (app.globalData.windowHeight - (app.globalData.statusBarHeight + 44)) + 'px',
     canvas1: null,
     ctx1: null,
+    code: '',
+    sendCode: '发送验证码',
+    sendDisabled: true,
   },
   onLoad() {
     const that = this;
@@ -66,6 +69,63 @@ Page({
       });
     });
   },
+  //监听验证码发送
+  onSendCode() {
+    let that = this;
+    let url = baseUrl + '/api/commonRes/sendSmsCode';
+    let parms = {
+      linkPhone: that.data.mobile,
+      smsCodeType: 'OPEN_USER_RESERVATION'
+    }
+    POST(url, parms).then(function (res, jet) {
+      if (res.code == 200) {
+        that.timeOut();
+      } else {
+        wx.showToast({
+          icon: 'none',
+          title: res.msg,
+          duration: 2000
+        });
+      }
+    });
+  },
+  //验证码倒计时逻辑
+  timeOut() {
+    let that = this;
+    if (app.globalData.timer == null) {
+      that.setData({
+        sendDisabled: true
+      });
+      app.globalData.timer = setInterval(() => {
+        if (app.globalData.second > 1) {
+          app.globalData.second--;
+          that.setData({
+            sendCode: app.globalData.second + ' 秒后再获取'
+          });
+        } else {
+          app.globalData.second = 60;
+          clearInterval(app.globalData.timer);
+          app.globalData.timer = null;
+          that.setData({
+            sendDisabled: false,
+            sendCode: '发送验证码'
+          });
+        }
+      }, 1000);
+    } else {
+      that.setData({
+        sendDisabled: true
+      });
+    }
+  },
+  //监听短信验证码
+  onChangeCode(e) {
+    let that = this;
+    const code = e.detail;
+    that.setData({
+      code: code
+    });
+  },
   onShow() {},
   //监听手机号
   onChangeMobile(e) {
@@ -74,6 +134,15 @@ Page({
     that.setData({
       mobile: mobile
     });
+    if (/^1(3|4|5|6|7|8|9)\d{9}$/.test(mobile)) {
+      that.setData({
+        sendDisabled: false
+      });
+    } else {
+      that.setData({
+        sendDisabled: true
+      });
+    }
   },
   //是否可本地上传图片
   appCanLocalUpload() {
@@ -101,92 +170,100 @@ Page({
     let time = formatDates(new Date());
     if (that.data.mobile == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请输入紧急联系电话'
+        icon: 'none',
+        mask: true,
+        title: '请输入紧急联系电话'
       });
       return false;
     } else {
       if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(that.data.mobile)) {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:'联系电话格式不正确'
+          icon: 'none',
+          mask: true,
+          title: '联系电话格式不正确'
         });
         return false;
       }
     }
+    if (that.data.code == '') {
+      wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: '请输入短信验证码'
+      });
+      return false;
+    }
     if (that.data.fileLista == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请上传身份证人像面照片'
+        icon: 'none',
+        mask: true,
+        title: '请上传身份证人像面照片'
       });
       return false;
     }
     if (that.data.fileListb == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请上传身份证国徽面照片'
+        icon: 'none',
+        mask: true,
+        title: '请上传身份证国徽面照片'
       });
       return false;
     }
     if (that.data.fileListc == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请上传本人的免冠照片'
+        icon: 'none',
+        mask: true,
+        title: '请上传本人的免冠照片'
       });
       return false;
     }
     if (that.data.img1 == 0) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请重新上传身份证人像面照片'
+        icon: 'none',
+        mask: true,
+        title: '请重新上传身份证人像面照片'
       });
       return false;
     }
     if (that.data.img2 == 0) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请重新上传身份证国徽面照片'
+        icon: 'none',
+        mask: true,
+        title: '请重新上传身份证国徽面照片'
       });
       return false;
     }
     if (that.data.img3 == 0) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请重新上传本人的免冠照片'
+        icon: 'none',
+        mask: true,
+        title: '请重新上传本人的免冠照片'
       });
       return false;
     }
-    if(idcardA.cardInfo.姓名.words == '' || idcardA.cardInfo.姓名.words == undefined){
+    if (idcardA.cardInfo.姓名.words == '' || idcardA.cardInfo.姓名.words == undefined) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请检查证件信息'
+        icon: 'none',
+        mask: true,
+        title: '请检查证件信息'
       });
       return false;
     }
     if (idcardB.cardInfo.失效日期.words != '长期') {
       if (parseInt(time) >= parseInt(idcardB.cardInfo.失效日期.words)) {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:'身份证过期，请上传最新身份证'
+          icon: 'none',
+          mask: true,
+          title: '身份证过期，请上传最新身份证'
         });
         return false;
       }
     }
-    if(idcardB.cardInfo.签发机关.words == '' || idcardB.cardInfo.签发机关.words == undefined){
+    if (idcardB.cardInfo.签发机关.words == '' || idcardB.cardInfo.签发机关.words == undefined) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'签发机关为空，请重新上传身份证'
+        icon: 'none',
+        mask: true,
+        title: '签发机关为空，请重新上传身份证'
       });
       return false;
     }
@@ -231,11 +308,11 @@ Page({
     } else { //从相册选择
       wx.chooseMedia({
         count: 1,
-        mediaType:['image'],
+        mediaType: ['image'],
         sizeType: ['original', 'compressed'],
         sourceType: ['album'],
         success(res) {
-          watermark(res.tempFiles[0].tempFilePath,that).then((ret)=>{
+          watermark(res.tempFiles[0].tempFilePath, that).then((ret) => {
             that.submitImgUpload(that.data.cardType, ret);
           });
         }
@@ -318,26 +395,26 @@ Page({
     };
     console.log('pam', param);
     return new Promise(function (resolve, reject) {
-      FILE(url, fileName, clientFile, param,1,1)
+      FILE(url, fileName, clientFile, param, 1, 1)
         .then((res) => {
           if (res.code == 200) {
             wx.showToast({
-              icon:'none',
-              title:'照片上传成功'
+              icon: 'none',
+              title: '照片上传成功'
             });
             resolve(res);
           } else {
             wx.showToast({
-              icon:'none',
-              title:'照片上传失败'
+              icon: 'none',
+              title: '照片上传失败'
             });
             reject(res);
           }
         })
         .catch((error) => {
           wx.showToast({
-            icon:'none',
-            title:'照片上传失败'
+            icon: 'none',
+            title: '照片上传失败'
           });
           reject(error);
         });
@@ -353,14 +430,14 @@ Page({
       picnamez: idcardA.picnamez,
       picnamehand: handCard.picnamehand
     }
-    POST(url, params,1).then(function (res, jet) {
+    POST(url, params, 1).then(function (res, jet) {
       if (res.code == 200) {
         that.faceVerify();
       } else {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:res.msg
+          icon: 'none',
+          mask: true,
+          title: res.msg
         });
       }
     });
@@ -380,9 +457,9 @@ Page({
         that.creatOrder();
       } else {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:res.msg
+          icon: 'none',
+          mask: true,
+          title: res.msg
         });
       }
     });
@@ -401,6 +478,7 @@ Page({
       fechType: 1,
       orderSubType: 44,
       linkPhone: that.data.mobile,
+      smsCode: that.data.code,
       picnamez: idcardA.picnamez,
       picnamef: idcardB.picnamef,
       picnamehand: handCard.picnamehand,
@@ -414,7 +492,7 @@ Page({
       certvalidDate: idcardB.cardInfo.签发日期.words,
       certexpDate: idcardB.cardInfo.失效日期.words == '长期' ? '20991231' : idcardB.cardInfo.失效日期.words,
     }
-    POST(url, params,1).then(function (res, jet) {
+    POST(url, params, 1).then(function (res, jet) {
       if (res.code == 200) {
         app.globalData.orderId = res.datas.orderId;
         if (numberOperType == '0' || numberOperType == '1') {
@@ -429,9 +507,9 @@ Page({
         }
       } else {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:res.msg
+          icon: 'none',
+          mask: true,
+          title: res.msg
         });
       }
     });

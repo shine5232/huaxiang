@@ -162,7 +162,7 @@ Page({
         wx.showToast({
           icon:'none',
           mask:true,
-          title:'服务器请求失败',
+          title:res.msg,
           duration:2000
         });
       }

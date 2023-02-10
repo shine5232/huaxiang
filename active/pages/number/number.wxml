@@ -34,11 +34,11 @@
         <rich-text class='f13' nodes="{{ productDesc }}"></rich-text>
       </view>
     </view>
-    <view class="not-bom">
+    <!-- <view class="not-bom">
       <van-checkbox value="{{ checked }}" checked-color="#FF4B57" icon-size="16px" shape="square" bind:change="onChange" />
       <view class="xieyi">我已阅读并同意<view class="ruwang" catchtap="popAgreement">《入网协议书》</view>
       </view>
-    </view>
+    </view> -->
     <view class="btnNext">
       <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ btnTitle }}</van-button>
     </view>
@@ -58,3 +58,22 @@
     </view>
   </view>
 </van-popup>
+<van-dialog use-slot title="激活前您需要准备好" show="{{ showDialog }}" confirmButtonText="准备好了，开始激活" bind:confirm="confirmDialog">
+  <view class="dialog-body">
+    <view class="dialog-item">
+      <image src="/images/card.png" />
+      <view>本人身份证</view>
+    </view>
+    <view class="dialog-item">
+      <image src="/images/sim.png" />
+      <view>收到的SIM卡</view>
+    </view>
+  </view>
+</van-dialog>
+<van-dialog use-slot title="提示" show="{{ showReservationDialog }}" confirmButtonText="去预约" cancelButtonText="取消" showCancelButton bind:confirm="confirmReservationDialog">
+  <view class="dialog-body">
+    <view class="dialog-item">
+      <view>尊敬的用户您好，根据工信部《电话用户真实身份信息登记实施规范》要求，请您先填写预约信息</view>
+    </view>
+  </view>
+</van-dialog>

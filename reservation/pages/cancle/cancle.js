@@ -18,6 +18,7 @@ Page({
     btnTitle: '查询',
     sendCode: '发送验证码',
     sendDisabled: false,
+    inputDisabled: false
   },
   //页面加载完成
   onLoad() {
@@ -115,7 +116,7 @@ Page({
     }
   },
   //提交验证短信验证码
-  verifyCode(){
+  verifyCode() {
     let that = this;
     if (that.data.code == '') {
       wx.showToast({
@@ -224,9 +225,10 @@ Page({
         app.globalData.mobile = that.data.mobile;
         app.globalData.card = that.data.card;
         that.setData({
-          query:true,
-          phone:datas.linkPhone,
-          btnTitle:'提交确认'
+          query: true,
+          phone: datas.linkPhone,
+          inputDisabled: true,
+          btnTitle: '提交确认'
         });
       } else {
         wx.showToast({
@@ -242,50 +244,21 @@ Page({
   getCode() {
     this.code.creatCodeImg(4);
   },
-  //调用系统配置，是否进行活体检测
-  checkBioassay() {
-    const that = this;
-    let url = baseUrl + '/api/user/getSysCfg';
-    let parms = {
-      cfgType: 'CXC_CFG',
-      cfgKey: 'NO_VIDEO_VERIFY'
-    }
-    return new Promise(function (resolve, reject) {
-      POST(url, parms).then(function (res, jet) {
-        if (res.code == 200) {
-          if (res.datas) {
-            let mobile = res.datas.split('#');
-            let index = mobile.indexOf(that.data.mobile);
-            if (index > 0) {
-              app.globalData.isBioass = true;
-            } else {
-              app.globalData.isBioass = false;
-            }
-          } else {
-            app.globalData.isBioass = false;
-          }
-        } else {
-          app.globalData.isBioass = false;
-        }
-        resolve(true);
-      });
-    });
-  },
   //取消预约
-  cancelReservation(){
+  cancelReservation() {
     let that = this;
     let url = baseUrl + '/api/order/subscribeCancel';
     let parms = {
       svcNumber: that.data.mobile,
       custcertno: that.data.card,
-      linkPhone:that.data.phone,
-      smsCode:that.data.code
+      linkPhone: that.data.phone,
+      smsCode: that.data.code
     }
     POST(url, parms).then(function (res, jet) {
       if (res.code == 200) {
         Dialog.alert({
           title: '取消预约成功！',
-          message: '预约登记手机号：'+ that.data.mobile + "\n" + '您已成功取消预约，感谢您的使用！',
+          message: '预约登记手机号：' + that.data.mobile + "\n" + '您已成功取消预约，感谢您的使用！',
           theme: 'round-button',
           confirmButtonText: '确认关闭',
         }).then(() => {
@@ -310,10 +283,8 @@ Page({
     const that = this;
     if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm()) {
       if (that.data.query) {
-        if(that.verifyCode()){
-          that.checkBioassay().then(function (ret, jet) {
-            that.cancelReservation();
-          });
+        if (that.verifyCode()) {
+          that.cancelReservation();
         }
       } else {
         that.activeNumber(that.data.mobile, that.data.card);

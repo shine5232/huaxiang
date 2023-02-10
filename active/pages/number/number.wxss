@@ -1,4 +1,22 @@
-.btnNext{
+.btnNext {
   width: 90%;
   margin: 10px auto;
+}
+
+.dialog-body {
+  margin: 30rpx 0;
+  padding: 0 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.dialog-body image {
+  width: 100rpx;
+  height: 80rpx;
+}
+
+.dialog-body .dialog-item {
+  text-align: center;
+  font-size: 22rpx;
 }

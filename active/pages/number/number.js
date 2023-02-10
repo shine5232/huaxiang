@@ -37,6 +37,8 @@ Page({
     btnTitle: '提交确认',
     next: 1,
     areaLim: '',
+    showDialog: true,
+    showReservationDialog: false,
     statusBarHeight: app.globalData.statusBarHeight + 'px',
     navigationBarHeight: (app.globalData.statusBarHeight + 44) + 'px',
     top: (app.globalData.statusBarHeight + 44) + 'px',
@@ -81,7 +83,7 @@ Page({
       productName: '',
       numberOperType: '',
       orderId: '',
-      checked: false,
+      checked: true,
       status: 0,
       hidden: true,
       overlay: false,
@@ -94,22 +96,60 @@ Page({
       productId: '',
     });
   },
+  //关闭入场弹窗提示
+  confirmDialog() {
+    const that = this;
+    console.log('asdas');
+    that.setData({
+      showDialog: false
+    });
+  },
+  //获取系统配置，判断是否需要预约登记
+  checkReservation() {
+    const that = this;
+    let url = baseUrl + '/api/user/getSysCfg';
+    let parms = {
+      cfgType: 'CXC_CFG',
+      cfgKey: 'NO_VIDEO_VERIFY'
+    }
+    return new Promise(function (resolve, reject) {
+      POST(url, parms).then(function (res, jet) {
+        if (res.code == 200) {
+          app.globalData.needReservation = true;
+          resolve(true);
+        } else {
+          app.globalData.needReservation = false;
+          resolve(false);
+        }
+      });
+    });
+  },
+  //关闭预约登记提示
+  confirmReservationDialog() {
+    const that = this;
+    that.setData({
+      confirmReservationDialog: false
+    });
+    wx.reLaunch({
+      url: '/reservation/pages/number/number'
+    });
+  },
   //提交验证手机号
   verifyMobile() {
     const that = this;
     if (that.data.mobile == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请完善信息'
+        icon: 'none',
+        mask: true,
+        title: '请输入手机号'
       });
       return false;
-    }else{
+    } else {
       if (!/^1(3|4|5|6|7|8)\d{9}$/.test(that.data.mobile)) {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:'手机号错误'
+          icon: 'none',
+          mask: true,
+          title: '请输入正确的手机号'
         });
         return false;
       }
@@ -122,11 +162,20 @@ Page({
     const iccid = that.data.iccid;
     if (iccid == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请完善信息'
+        icon: 'none',
+        mask: true,
+        title: '请输入ICCID'
       });
       return false;
+    } else {
+      if (!/^[A-Z|0-9]{5}$/.test(iccid)) {
+        wx.showToast({
+          icon: 'none',
+          mask: true,
+          title: '请输入正确的ICCID'
+        });
+        return false;
+      }
     }
     return true;
   },
@@ -136,18 +185,18 @@ Page({
     const yzm = that.data.yzm;
     if (yzm == '') {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请完善信息'
+        icon: 'none',
+        mask: true,
+        title: '请输入验证码'
       });
       return false;
     } else {
       let code = wx.getStorageSync('code');
       if (yzm.toLowerCase() != code) {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:'验证码错误'
+          icon: 'none',
+          mask: true,
+          title: '请输入正确的验证码'
         });
         return false;
       } else {
@@ -155,14 +204,27 @@ Page({
       }
     }
   },
+  //提交验证接口返回的ICCID
+  verifyIccidRet() {
+    let that = this;
+    if (app.globalData.iccid == '') {
+      wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: '该号码暂不支持激活'
+      });
+      return false;
+    }
+    return true;
+  },
   //提交验证协议是否勾选
   verifyAgreement() {
     const that = this;
     if (!that.data.checked) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:'请同意并勾选协议'
+        icon: 'none',
+        mask: true,
+        title: '请同意并勾选协议'
       });
       return false;
     }
@@ -173,9 +235,9 @@ Page({
     const that = this;
     if (!that.data.submit) {
       wx.showToast({
-        icon:'none',
-        mask:true,
-        title:that.data.message
+        icon: 'none',
+        mask: true,
+        title: that.data.message
       });
       return false;
     }
@@ -269,10 +331,10 @@ Page({
         }
       } else {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:res.msg,
-          duration:2000
+          icon: 'none',
+          mask: true,
+          title: res.msg,
+          duration: 2000
         });
         that.setData({
           hidden: true,
@@ -306,10 +368,10 @@ Page({
         });
       } else {
         wx.showToast({
-          icon:'none',
-          mask:true,
-          title:res.msg,
-          duration:2000
+          icon: 'none',
+          mask: true,
+          title: res.msg,
+          duration: 2000
         });
       }
     });
@@ -359,7 +421,7 @@ Page({
     Dialog.confirm({
       title: '温馨提示',
       message: '本套餐需支付预存款' + that.data.numberFee + '元方可正常激活使用。确认继续？',
-      cancelButtonText: '返回首页',
+      cancelButtonText: '取消',
       confirmButtonText: '确认激活',
     }).then(() => {
       that.judgeOrderStatus();
@@ -429,12 +491,12 @@ Page({
         //console.log('blackData',blackData);//数据源
         //console.log('blackKeys',blackKeys);//黑名单
         let limit = blackKeys.indexOf(adcode);
-        if(limit >= 0){//存在黑名单中
+        if (limit >= 0) { //存在黑名单中
           let dataKey = blackKeys[limit];
-          let whiteList = blackData[dataKey];//白名单
+          let whiteList = blackData[dataKey]; //白名单
           let limitValue = whiteList.indexOf(that.data.productId);
           //console.log('that.data.productId',that.data.productId);
-          if(limitValue == -1){//不存在白名单中
+          if (limitValue == -1) { //不存在白名单中
             that.areaLog();
             Dialog.alert({
               title: '入网提示',
@@ -444,10 +506,10 @@ Page({
               wx.navigateBack();
             });
             return false;
-          }else{
+          } else {
             return true;
           }
-        }else{
+        } else {
           return true;
         }
       } catch (error) {
@@ -499,12 +561,22 @@ Page({
   //点击下一步
   nextStep() {
     const that = this;
-    if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit() && that.checkArea()) {
-      that.checkBioassay().then(function (ret, jet) {
-        if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
-          that.goToUrl();
-        } else { //跳转下一步
-          that.judgeOrderStatus();
+    if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifyIccidRet() && that.verifySubmit() && that.checkArea()) {
+      that.checkBioassay().then(() => {
+        return that.checkReservation();
+      }).then((res) => {
+        console.log('res', res);
+        if (res) {
+          console.log('提示');
+          that.setData({
+            showReservationDialog: true,
+          });
+        } else {
+          if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
+            that.goToUrl();
+          } else { //跳转下一步
+            that.judgeOrderStatus();
+          }
         }
       }).catch((e) => {
         Dialog.alert({
