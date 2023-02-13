@@ -29,7 +29,8 @@ import {
   formatDate,
   formatDates,
   formatNumber,
-  formatISOTime
+  formatISOTime,
+  formatDatesYmd
 } from "./formatDate"
 //sign签名
 function sign(param, timestamp) {
@@ -456,6 +457,7 @@ module.exports = {
   formatDate,
   formatDates,
   formatISOTime,
+  formatDatesYmd,
   baseUrl,
   baseUrlP,
   login,

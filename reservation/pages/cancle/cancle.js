@@ -267,14 +267,22 @@ Page({
           });
         });
       } else {
-        Dialog.alert({
-          title: '取消预约失败！',
-          message: res.msg,
-          theme: 'round-button',
-          confirmButtonText: '确认关闭',
-        }).then(() => {
-          that.onShow();
-        });
+        if(res.code == 400){
+          Dialog.alert({
+            title: '取消预约失败！',
+            message: res.msg,
+            theme: 'round-button',
+            confirmButtonText: '确认关闭',
+          }).then(() => {
+            wx.navigateBack();
+          });
+        }else{
+          wx.showToast({
+            icon: 'none',
+            mask: true,
+            title: res.msg
+          });
+        }
       }
     });
   },
