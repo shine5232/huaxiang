@@ -8,8 +8,8 @@
 		"}",
 		"",
 		"module.exports = {",
-		"    baseUrl: \"https://devams.hua10036.com\",",
-		"    baseUrlP: \"https://ams.hua10036.com/MVNO-HBH\"",
+		"    baseUrl: \"https://ams.hua10036.com\",",
+		"    baseUrlP: \"https://www.hua10036.com/MVNO-WX\"",
 		"};"
 	],
 	"locations": [
@@ -323,34 +323,6 @@
 		],
 		[
 			8,
-			13
-		],
-		[
-			8,
-			13
-		],
-		[
-			8,
-			13
-		],
-		[
-			8,
-			13
-		],
-		[
-			8,
-			13
-		],
-		[
-			8,
-			13
-		],
-		[
-			0,
-			0
-		],
-		[
-			8,
 			4
 		],
 		[
@@ -678,12 +650,8 @@
 			14
 		],
 		[
-			9,
-			14
-		],
-		[
-			9,
-			14
+			0,
+			0
 		],
 		[
 			9,

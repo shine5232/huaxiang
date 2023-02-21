@@ -4,7 +4,7 @@
     <van-cell-group>
       <van-field value="{{ mobile }}" required clearable type="number" label="预约手机号：" placeholder="请输入预约手机号" disabled="{{inputDisabled}}" bind:change="onChangeMobile" maxlength="11" />
       <van-field value="{{ card }}" disabled="{{inputDisabled}}" required clearable label="身份证号：" placeholder="请输入预约身份证号" bind:change="onChangeIccid" maxlength="18" />
-      <van-field value="{{ yzm }}" required clearable label="图形验证码：" placeholder="请输入图形验证码" bind:change="onChangeYzm" use-button-slot maxlength="4">
+      <van-field value="{{ yzm }}" disabled="{{inputDisabled}}" required clearable label="图形验证码：" placeholder="请输入图形验证码" bind:change="onChangeYzm" use-button-slot maxlength="4">
         <code slot="button" width="80" height="30" class="code" catchtap="getCode" id="code" len="4" />
       </van-field>
       <block wx:if="{{query}}">

@@ -34,6 +34,16 @@ App({
     needReservation:false,//是否需要预约
   },
   onLaunch() {
+    const userCryptoManager = wx.getUserCryptoManager()
+    userCryptoManager.getLatestUserKey({
+      success: res => {
+        const {encryptKey, iv, version, expireTime} = res
+        console.log('encryptKey:',encryptKey);
+        console.log('iv:',iv);
+        console.log('version:',version);
+        console.log('expireTime:',expireTime);
+      }
+    })
     this.getVersion();
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()

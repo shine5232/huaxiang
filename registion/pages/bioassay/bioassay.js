@@ -195,7 +195,7 @@ Page({
           if (res.code == 200) {
             let datas = res.datas;
             let piclivebest = "data:image/jpeg;base64," + datas.bestImage.pic;
-            let opIds = ["data:image/jpeg;base64," + datas.picList[0].pic, "data:image/jpeg;base64," + datas.picList[1].pic];
+            let opIds = ["data:image/jpeg;base64," + datas.picList[1].pic, "data:image/jpeg;base64," + datas.picList[6].pic];
             base64src(piclivebest).then((a) => {
               return watermark(a, that);
             }).then((b)=>{
@@ -209,7 +209,7 @@ Page({
               return base64src(opIds[0]);
             }).then((d)=>{
               console.log('d' + 0, d);
-              return watermark(d, that);
+              return watermark(d, that,2);
             }).then((e)=>{
               console.log('res_to_img' + 0, e);
               let name = new Date().getTime() + '_0_' + app.globalData.mobile;
@@ -220,7 +220,7 @@ Page({
               return base64src(opIds[1]);
             }).then((g)=>{
               console.log('g' + 1, g);
-              return watermark(g, that);
+              return watermark(g, that,7);
             }).then((h)=>{
               console.log('res_to_img' + 1, h);
               let name = new Date().getTime() + '_1_' + app.globalData.mobile;
