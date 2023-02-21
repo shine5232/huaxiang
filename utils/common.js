@@ -50,7 +50,7 @@ function login() {
   });
 }
 //图片添加水印
-function watermark(file, that) {
+function watermark(file, that,index=0) {
   wx.showLoading({
     title: '请稍后..',
     mask: true
@@ -60,16 +60,19 @@ function watermark(file, that) {
       src: file,
       success:function(res){
         let imgInfo = res
-        that.data.canvas1.width = imgInfo.width;
-        that.data.canvas1.height = imgInfo.height;
+        that.setData({
+          ['canvas1.width']:imgInfo.width,
+          ['canvas1.height']:imgInfo.height
+        });
         let image = that.data.canvas1.createImage();
         image.src = res.path;
         image.onload = () => {
           that.data.ctx1.drawImage(image, 0, 0, imgInfo.width, imgInfo.height);
-          that.data.ctx1.font = (14 * app.globalData.pixelRatio) +'px';
+          that.data.ctx1.font = '16px';
           that.data.ctx1.textAlign = 'left';
           that.data.ctx1.fillStyle = "rgba(204,204,204,0.6)";
-          that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' '+app.globalData.chnlCode, 10, imgInfo.height/1.2);
+          that.data.ctx1.fillText('NO.' + index, 10, imgInfo.height - 50);
+          that.data.ctx1.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' '+app.globalData.chnlCode, 10, imgInfo.height - 20);
           setTimeout(() => {
             wx.canvasToTempFilePath({
               x: 0,
@@ -77,7 +80,7 @@ function watermark(file, that) {
               destWidth: imgInfo.width,
               destHeight: imgInfo.height,
               canvas: that.data.canvas1,
-              fileType: 'jpg',
+              fileType: 'png',
               quality: 1,
               success(res) {
                 wx.hideLoading();

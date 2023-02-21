@@ -19,6 +19,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "active/pages/bioassay/bioassay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
