@@ -60,13 +60,15 @@ function watermark(file, that,index=0) {
       src: file,
       success:function(res){
         let imgInfo = res
-        that.data.canvas1.width = imgInfo.width;
-        that.data.canvas1.height = imgInfo.height;
+        that.setData({
+          ['canvas1.width']:imgInfo.width,
+          ['canvas1.height']:imgInfo.height
+        });
         let image = that.data.canvas1.createImage();
         image.src = res.path;
         image.onload = () => {
           that.data.ctx1.drawImage(image, 0, 0, imgInfo.width, imgInfo.height);
-          that.data.ctx1.font = '14px';
+          that.data.ctx1.font = '16px';
           that.data.ctx1.textAlign = 'left';
           that.data.ctx1.fillStyle = "rgba(204,204,204,0.6)";
           that.data.ctx1.fillText('NO.' + index, 10, imgInfo.height - 40);
