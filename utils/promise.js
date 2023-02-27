@@ -61,7 +61,7 @@ function GET(url, param) {
       },
       method: 'GET',
       success: (res) => {
-        resolve(res.data)
+        resolve(res)
       },
       fail: (res) => {
         reject(res)
@@ -158,6 +158,7 @@ function OBSupload(filePath, fileName, loading = false, title = "文件上传中
           },
         ]
       }
+      console.log('OBSPolicy', OBSPolicy);
       const policyEncoded = getPolicyEncode(OBSPolicy); // 计算base64编码后的policy
       const signature = getSignature(policyEncoded, Configuration.SecretKey); // 计算signature
       wx.uploadFile({
@@ -175,13 +176,16 @@ function OBSupload(filePath, fileName, loading = false, title = "文件上传中
           'key': fileName,
         },
         success: function (res) {
+          console.log(res.statusCode); //打印响应状态码
           if (res.statusCode == '204') {
+            console.log('Uploaded successfully', res)
             wx.showToast({
               title: '上传成功',
               icon: 'Success'
             });
             resolve(res);
           } else {
+            console.log('Uploaded failed', res)
             wx.showToast({
               title: '上传失败',
               icon: 'Fail'
@@ -190,6 +194,7 @@ function OBSupload(filePath, fileName, loading = false, title = "文件上传中
           }
         },
         fail: function (e) {
+          console.log(e);
           reject(false);
         }
       })

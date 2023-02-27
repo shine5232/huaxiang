@@ -197,12 +197,12 @@ Page({
     let parms = {
       userSign: that.data.fileId,
       userSignTime: that.data.datetime,
-      userName:'测试',//idcardA.cardInfo.姓名.words,
-      type:''
+      userName: idcardA.cardInfo.姓名.words,
+      type: ''
     }
     console.log('parms', parms);
     return new Promise((resolve, reject) => {
-      GET(url, parms).then(function (res, jet) {
+      POST(url, parms).then(function (res, jet) {
         if (res.code == 200) {
           app.globalData.signImg = res.datas.opId
           resolve();
@@ -332,7 +332,7 @@ Page({
   //提交订单
   submitOrder() {
     const that = this;
-    let url = baseUrl + '/api/user/submitOrderReservationPay';
+    let url = baseUrl + '/api/user/openUserWithSmsCode';
     let parms = {
       orderId: app.globalData.orderId,
       piclivebest: app.globalData.piclivebest,

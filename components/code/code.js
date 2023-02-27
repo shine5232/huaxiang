@@ -49,7 +49,6 @@ Component({
       let code_array = code.split("");
       let canvas = '';
       let ctx = '';
-      console.log('code',code);
       const query = that.createSelectorQuery();
       query.select('#myCanvas1').fields({ node: true, size: true });
       query.exec((res) => {

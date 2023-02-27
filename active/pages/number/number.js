@@ -99,7 +99,6 @@ Page({
   //关闭入场弹窗提示
   confirmDialog() {
     const that = this;
-    console.log('asdas');
     that.setData({
       showDialog: false
     });
