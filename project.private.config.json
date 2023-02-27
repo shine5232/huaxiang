@@ -26,6 +26,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "active/pages/notes/notes",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

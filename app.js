@@ -4,7 +4,7 @@ App({
   globalData: {
     steps: 1, //步骤条 1：三步(号码确认，身份识别，告知签署),2:四步(号码确认，身份识别，告知签署，预存支付),默认1
     mobile: '', //用户手机号
-    isBioass: true, //true:不展示活体检测
+    isBioass: false, //true:不展示活体检测
     iccid: '', //ICCID
     chnlCode: '', //渠道编码
     productInfo: '', //产品信息
@@ -31,7 +31,10 @@ App({
     version: null, //小程序版本号
     timer: null, //验证码计数器
     second: 60, //倒计时
-    needReservation:false,//是否需要预约
+    needReservation: false, //是否需要预约
+    urlArray:[
+      '/api/urlConvertPdf'
+    ],//配置需要动态密钥的接口
   },
   onLaunch() {
     this.getVersion();

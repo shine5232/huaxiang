@@ -33,9 +33,26 @@ import {
   formatDatesYmd
 } from "./formatDate"
 //sign签名
-function sign(param, timestamp) {
-  let encryptionkey = 'hxlx_agent';
+function sign(param, timestamp, encryptionkey='hxlx_agent') {
   return md5(JSON.stringify(param) + encryptionkey + timestamp);
+}
+//获取动态密钥
+function getLatestUserKey() {
+  return new Promise((resolve, reject) => {
+    let userCryptoManager = wx.getUserCryptoManager();
+    userCryptoManager.getLatestUserKey({
+      success: res => {
+        console.log('encryptKey', res.encryptKey)
+        console.log('iv', res.iv)
+        console.log('version', res.version)
+        console.log('expireTime', res.expireTime)
+        resolve(res);
+      },
+      fail: error => {
+        reject(error);
+      }
+    });
+  });
 }
 //画布生成图片
 function CanvasToImage(option) {
@@ -262,7 +279,7 @@ function getLocationAuth() {
                   }
                 })
               }
-              if(res.cancel){
+              if (res.cancel) {
                 wx.showModal({
                   title: '温馨提示',
                   content: '为了给您提供更好的服务，请打开定位',
@@ -297,18 +314,18 @@ function getLocation() {
   return new Promise((resolve, reject) => {
     wx.getLocation({
       type: 'gcj02',
-      success (res) {
-        console.log('res',res);
-        reverseGeocoder(res).then((res)=>{
+      success(res) {
+        console.log('res', res);
+        reverseGeocoder(res).then((res) => {
           resolve(res);
-        }).catch((err)=>{
+        }).catch((err) => {
           reject(true);
         });
       },
-      fail(err){
+      fail(err) {
         reject(true);
       }
-     })
+    })
     /* reverseGeocoder(res).then((ret)=>{
       console.log('ret',ret);
       resolve(ret);
@@ -335,7 +352,7 @@ function getLocation() {
 }
 //地理位置解析
 function reverseGeocoder(location) {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     qqmapsdk.reverseGeocoder({
       location: {
         latitude: location.latitude,
@@ -353,10 +370,10 @@ function reverseGeocoder(location) {
       fail(e) {
         reject(true);
       }
-    })  
+    })
   });
 }
- //获取录音录像权限
+//获取录音录像权限
 function getAuthVioce() {
   return new Promise(function (resolve, reject) {
     wx.getSetting({
@@ -451,6 +468,20 @@ function getAuthVioce() {
     })
   });
 }
+//过滤需要动态密钥的接口
+function checkEncryptKeyUrl(url) {
+  let urlArray = app.globalData.urlArray;
+  return new Promise((resolve, reject) => {
+    let has = false;
+    for (let i = 0; i < urlArray.length; i++) {
+      if (url.indexOf(urlArray[i]) != -1) {
+        has = true;
+        break;
+      }
+    }
+    resolve(has);
+  });
+}
 module.exports = {
   formatTime,
   formatNumber,
@@ -476,5 +507,7 @@ module.exports = {
   getLocationAuth,
   getLocation,
   qqmapsdk,
-  getAuthVioce
+  getAuthVioce,
+  getLatestUserKey,
+  checkEncryptKeyUrl
 }
