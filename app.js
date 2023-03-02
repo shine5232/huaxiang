@@ -1,5 +1,8 @@
 require('./utils/overWrite')
 // app.js
+import {
+  baseUrlP
+} from './utils/baseUrl'
 App({
   globalData: {
     steps: 1, //步骤条 1：三步(号码确认，身份识别，告知签署),2:四步(号码确认，身份识别，告知签署，预存支付),默认1
@@ -32,12 +35,14 @@ App({
     timer: null, //验证码计数器
     second: 60, //倒计时
     needReservation: false, //是否需要预约
-    urlArray:[
+    urlArray: [
       '/api/urlConvertPdf'
-    ],//配置需要动态密钥的接口
+    ], //配置需要动态密钥的接口
   },
   onLaunch() {
-    this.getVersion();
+    let that = this;
+    that.getVersion();
+    that.login();
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()
       updateManager.onCheckForUpdate(function (res) {
@@ -82,4 +87,56 @@ App({
     this.globalData.version = accountInfo.miniProgram.version;
     console.log('当前版本', this.globalData.version);
   },
+  //检查是否登录过期
+  checkSession() {
+    return new Promise((resolve, reject) => {
+      wx.checkSession({
+        success() {
+          //未过期
+          resolve(true);
+        },
+        fail() {
+          //已过期
+          resolve(false);
+        }
+      })
+    });
+  },
+  //小程序登录
+  login() {
+    return new Promise((resolve, reject) => {
+      wx.login({
+        success: (res) => {
+          let url = baseUrlP + '/getUserOpenId'
+          let parms = {
+            js_code: res.code,
+            appid: 'wx1fc626fdcd5f58db'
+          }
+          wx.request({
+            url: url,
+            data: parms,
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            method: 'GET',
+            success: (res) => {
+              if (res.data.code == 200) {
+                wx.setStorageSync('openid', res.data.data.openid);
+                wx.setStorageSync('deviceId', res.data.data.openid);
+                resolve(res.data.data.openid);
+              } else {
+                reject(false);
+              }
+            },
+            fail: (res) => {
+              reject(res)
+            }
+          });
+        },
+        fail: (res) => {
+          reject(false);
+        },
+      });
+    });
+  }
 })

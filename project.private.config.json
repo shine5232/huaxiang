@@ -33,6 +33,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/navation/active/active",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

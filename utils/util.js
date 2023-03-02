@@ -21,7 +21,6 @@ import {
   baseUrlP
 } from "./baseUrl"
 import {
-  login,
   watermark
 } from './common'
 import {
@@ -491,7 +490,6 @@ module.exports = {
   formatDatesYmd,
   baseUrl,
   baseUrlP,
-  login,
   watermark,
   sign,
   CanvasToImage,

@@ -2,7 +2,6 @@ import {
   baseUrl,
   getSysInfo,
   getNetwork,
-  login,
 } from '../../../utils/util'
 import {
   POST
@@ -55,9 +54,7 @@ Page({
     wx.removeStorageSync('certName');
     wx.removeStorageSync('idcard');
     wx.removeStorageSync('numberOperType');
-    login().then((res) => {
-      return getSysInfo();
-    }).then((res) => {
+    getSysInfo().then((res) => {
       return getNetwork();
     }).then((res) => {}).catch((e) => {});
   },

@@ -3,7 +3,6 @@ import {
   baseUrl,
   baseUrlP,
   getSysInfo,
-  login,
   getNetwork
 } from '../../../utils/util'
 import {
@@ -48,9 +47,7 @@ Page({
   onLoad() {
     const that = this;
     that.code = that.selectComponent("#code");
-    login().then((res) => {
-      return getSysInfo();
-    }).then((res) => {
+    getSysInfo().then((res) => {
       return getNetwork();
     }).then((res) => {}).catch((e) => {});
   },
@@ -296,6 +293,15 @@ Page({
       that.code.creatCodeImg(4);
       if (res.code == 200) {
         let datas = res.datas;
+        if(datas.numberFee == '0'){
+          wx.showToast({
+            icon: 'none',
+            mask: true,
+            title: "此号码请前往“华翔云语App”激活！",
+            duration: 2000
+          });
+          return false;
+        }
         wx.setStorageSync('picnamez', datas.picnamez);
         wx.setStorageSync('mobile', mobile);
         wx.setStorageSync('numberOperType', datas.numberOperType);

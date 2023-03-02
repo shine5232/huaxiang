@@ -1,54 +1,8 @@
 import {
-  baseUrlP
-} from './baseUrl'
-import {
   formatTime
 } from './formatDate'
 var app = getApp();
-//小程序登录
-function login() {
-  let openid = wx.getStorageSync('openid');
-  return new Promise(function (resolve, reject) {
-    if (openid == '' || openid == null) {
-      wx.login({
-        success: (res) => {
-          let url = baseUrlP + '/getUserOpenId'
-          let parms = {
-            js_code: res.code,
-            appid: 'wx1fc626fdcd5f58db'
-          }
-          wx.request({
-            url: url,
-            data: parms,
-            header: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            method: 'GET',
-            success: (res) => {
-              if (res.data.code == 200) {
-                wx.setStorageSync('openid', res.data.data.openid);
-                wx.setStorageSync('deviceId', res.data.data.openid);
-                resolve(res.data.data.openid);
-              } else {
-                reject(false);
-              }
-            },
-            fail: (res) => {
-              reject(res)
-            }
-          });
-        },
-        fail: (res) => {
-          reject(false);
-        },
-      })
-    } else {
-      app.globalData.deviceId = openid;
-      wx.setStorageSync('deviceId', openid);
-      resolve(openid);
-    }
-  });
-}
+
 //图片添加水印
 function watermark(file, that,index=0) {
   wx.showLoading({
@@ -101,6 +55,5 @@ function watermark(file, that,index=0) {
   });
 }
 module.exports = {
-  login,
   watermark
 }
