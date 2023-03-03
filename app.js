@@ -35,7 +35,9 @@ App({
     timer: null, //验证码计数器
     second: 60, //倒计时
     needReservation: false, //是否需要预约
-    urlArray: [], //配置需要动态密钥的接口
+    urlArray: [
+      '/api/user/getSysCfg'
+    ], //配置需要动态密钥的接口
   },
   onLaunch() {
     let that = this;
