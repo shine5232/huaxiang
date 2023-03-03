@@ -38,7 +38,9 @@ Page({
     next: 1,
     areaLim: '',
     showDialog: true,
+    errorCode: 200,
     showReservationDialog: false,
+    showMsg: '',
     statusBarHeight: app.globalData.statusBarHeight + 'px',
     navigationBarHeight: (app.globalData.statusBarHeight + 44) + 'px',
     top: (app.globalData.statusBarHeight + 44) + 'px',
@@ -57,7 +59,7 @@ Page({
   //监听小程序初始化完成
   onShow() {
     const that = this;
-    wx.removeStorageSync('randstring');
+    /* wx.removeStorageSync('randstring');
     wx.removeStorageSync('idcardA');
     wx.removeStorageSync('idcardB');
     wx.removeStorageSync('handCard');
@@ -70,7 +72,7 @@ Page({
     wx.removeStorageSync('certName');
     wx.removeStorageSync('idcard');
     wx.removeStorageSync('picnamez');
-    wx.removeStorageSync('numberOperType');
+    wx.removeStorageSync('numberOperType'); */
     that.getCode();
     that.setData({
       type: 1,
@@ -94,6 +96,7 @@ Page({
       btnTitle: '提交确认',
       next: 1,
       productId: '',
+      errorCode: 200,
     });
   },
   //关闭入场弹窗提示
@@ -103,31 +106,11 @@ Page({
       showDialog: false
     });
   },
-  //获取系统配置，判断是否需要预约登记
-  checkReservation() {
-    const that = this;
-    let url = baseUrl + '/api/user/getSysCfg';
-    let parms = {
-      cfgType: 'CXC_CFG',
-      cfgKey: 'NO_VIDEO_VERIFY'
-    }
-    return new Promise(function (resolve, reject) {
-      POST(url, parms).then(function (res, jet) {
-        if (res.code == 200) {
-          app.globalData.needReservation = true;
-          resolve(true);
-        } else {
-          app.globalData.needReservation = false;
-          resolve(false);
-        }
-      });
-    });
-  },
   //关闭预约登记提示
   confirmReservationDialog() {
     const that = this;
     that.setData({
-      confirmReservationDialog: false
+      showReservationDialog: false
     });
     wx.reLaunch({
       url: '/reservation/pages/number/number'
@@ -232,6 +215,22 @@ Page({
   //提交验证号码状态
   verifySubmit() {
     const that = this;
+    if (that.data.errorCode == 608) {
+      that.setData({
+        showReservationDialog: true,
+      });
+      return false;
+    } else if(that.data.errorCode == 200) {
+      if (that.data.numberOperType == '2') {
+        wx.showToast({
+          icon: 'none',
+          mask: true,
+          title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
+          duration: 2000
+        });
+        return false;
+      }
+    }
     if (!that.data.submit) {
       wx.showToast({
         icon: 'none',
@@ -294,13 +293,16 @@ Page({
     }
     POST(url, parms).then(function (res, jet) {
       that.code.creatCodeImg(4);
+      that.setData({
+        errorCode:res.code
+      });
       if (res.code == 200) {
         let datas = res.datas;
-        if(datas.numberFee == '0'){
+        if (datas.numberOperType == '2') {
           wx.showToast({
             icon: 'none',
             mask: true,
-            title: "此号码请前往“华翔云语App”激活！",
+            title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
             duration: 2000
           });
           return false;
@@ -338,12 +340,19 @@ Page({
           that.getAreaLimt();
         }
       } else {
-        wx.showToast({
-          icon: 'none',
-          mask: true,
-          title: res.msg,
-          duration: 2000
-        });
+        if (res.code == 608) {
+          that.setData({
+            showReservationDialog: true,
+            showMsg: res.msg,
+          });
+        } else {
+          wx.showToast({
+            icon: 'none',
+            mask: true,
+            title: res.msg,
+            duration: 2000
+          });
+        }
         that.setData({
           hidden: true,
           numberFee: '',
@@ -412,9 +421,12 @@ Page({
         }
         if (that.data.numberOperType == '2') {
           //2：小号/无实体卡;
-          wx.navigateTo({
-            url: '/active/pages/bioassay/bioassay'
-          })
+          wx.showToast({
+            icon: 'none',
+            mask: true,
+            title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
+            duration: 2000
+          });
         }
       }
     } else {
@@ -569,22 +581,12 @@ Page({
   //点击下一步
   nextStep() {
     const that = this;
-    if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifyIccidRet() && that.verifySubmit() && that.checkArea()) {
+    if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit() && that.checkArea()) {
       that.checkBioassay().then(() => {
-        return that.checkReservation();
-      }).then((res) => {
-        console.log('res', res);
-        if (res) {
-          console.log('提示');
-          that.setData({
-            showReservationDialog: true,
-          });
-        } else {
-          if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
-            that.goToUrl();
-          } else { //跳转下一步
-            that.judgeOrderStatus();
-          }
+        if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
+          that.goToUrl();
+        } else { //跳转下一步
+          that.judgeOrderStatus();
         }
       }).catch((e) => {
         Dialog.alert({

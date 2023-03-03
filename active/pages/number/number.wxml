@@ -73,7 +73,7 @@
 <van-dialog use-slot title="提示" show="{{ showReservationDialog }}" confirmButtonText="去预约" cancelButtonText="取消" showCancelButton bind:confirm="confirmReservationDialog">
   <view class="dialog-body">
     <view class="dialog-item">
-      <view>尊敬的用户您好，根据工信部《电话用户真实身份信息登记实施规范》要求，请您先填写预约信息</view>
+      <view>{{showMsg}}</view>
     </view>
   </view>
 </van-dialog>

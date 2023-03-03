@@ -89,6 +89,7 @@ Page({
       smsCodeType: 'SUBSCRIBE_SUBMIT'
     }
     POST(url, parms).then(function (res, jet) {
+      console.log('res',res);
       if (res.code == 200) {
         that.timeOut();
       }else{
@@ -181,14 +182,21 @@ Page({
     let data = e.detail.value;
     let area = [];
     data.forEach((item, index) => {
-      area.push(item.areaName);
+      console.log('item',item);
+      if(item != undefined){
+        area.push(item.areaName);
+      }
     });
     let areaInfo = area.join('-');
+    if(data[2] != undefined && data[2].areaCode != undefined){
+      that.setData({
+        countyCode: data[2].areaCode,
+      });
+    }
     that.setData({
       area: areaInfo,
       provinceCode: data[0].areaCode,
       cityCode: data[1].areaCode,
-      countyCode: data[2].areaCode,
     });
     that.hideArea();
   },

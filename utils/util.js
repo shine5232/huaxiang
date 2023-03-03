@@ -156,30 +156,34 @@ function IdentityCodeValid(code) {
   };
   let pass = true;
   let codeS = code.toUpperCase();
-  if (!codeS || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(codeS)) {
-    pass = false;
-  } else if (!city[codeS.substr(0, 2)]) {
+  if (code.length != 18) {
     pass = false;
   } else {
-    //18位身份证需要验证最后一位校验位
-    if (codeS.length == 18) {
-      codeS = codeS.split('');
-      //∑(ai×Wi)(mod 11)
-      //加权因子
-      var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-      //校验位
-      var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
-      var sum = 0;
-      var ai = 0;
-      var wi = 0;
-      for (var i = 0; i < 17; i++) {
-        ai = codeS[i];
-        wi = factor[i];
-        sum += ai * wi;
-      }
-      var last = parity[sum % 11];
-      if (parity[sum % 11] != codeS[17]) {
-        pass = false;
+    if (!codeS || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(codeS)) {
+      pass = false;
+    } else if (!city[codeS.substr(0, 2)]) {
+      pass = false;
+    } else {
+      //18位身份证需要验证最后一位校验位
+      if (codeS.length == 18) {
+        codeS = codeS.split('');
+        //∑(ai×Wi)(mod 11)
+        //加权因子
+        var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+        //校验位
+        var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+        var sum = 0;
+        var ai = 0;
+        var wi = 0;
+        for (var i = 0; i < 17; i++) {
+          ai = codeS[i];
+          wi = factor[i];
+          sum += ai * wi;
+        }
+        var last = parity[sum % 11];
+        if (parity[sum % 11] != codeS[17]) {
+          pass = false;
+        }
       }
     }
   }
@@ -262,7 +266,7 @@ function getLocationAuth() {
                   }
                 })
               }
-              if(res.cancel){
+              if (res.cancel) {
                 wx.showModal({
                   title: '温馨提示',
                   content: '为了给您提供更好的服务，请打开定位',
@@ -297,18 +301,18 @@ function getLocation() {
   return new Promise((resolve, reject) => {
     wx.getLocation({
       type: 'gcj02',
-      success (res) {
-        console.log('res',res);
-        reverseGeocoder(res).then((res)=>{
+      success(res) {
+        console.log('res', res);
+        reverseGeocoder(res).then((res) => {
           resolve(res);
-        }).catch((err)=>{
+        }).catch((err) => {
           reject(true);
         });
       },
-      fail(err){
+      fail(err) {
         reject(true);
       }
-     })
+    })
     /* reverseGeocoder(res).then((ret)=>{
       console.log('ret',ret);
       resolve(ret);
@@ -335,7 +339,7 @@ function getLocation() {
 }
 //地理位置解析
 function reverseGeocoder(location) {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     qqmapsdk.reverseGeocoder({
       location: {
         latitude: location.latitude,
@@ -353,10 +357,10 @@ function reverseGeocoder(location) {
       fail(e) {
         reject(true);
       }
-    })  
+    })
   });
 }
- //获取录音录像权限
+//获取录音录像权限
 function getAuthVioce() {
   return new Promise(function (resolve, reject) {
     wx.getSetting({

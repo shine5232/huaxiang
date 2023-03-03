@@ -169,6 +169,7 @@ Page({
       smsCodeType: 'SUBSCRIBE_CANEL'
     }
     POST(url, parms).then(function (res, jet) {
+      console.log('res',res);
       if (res.code == 200) {
         that.timeOut();
       } else {

@@ -26,6 +26,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "reservation/pages/address/address",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
