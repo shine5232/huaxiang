@@ -293,11 +293,11 @@ Page({
       that.code.creatCodeImg(4);
       if (res.code == 200) {
         let datas = res.datas;
-        if(datas.numberFee == '0'){
+        if(datas.numberOperType == '2'){
           wx.showToast({
             icon: 'none',
             mask: true,
-            title: "此号码请前往“华翔云语App”激活！",
+            title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
             duration: 2000
           });
           return false;
