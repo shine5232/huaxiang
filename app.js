@@ -36,13 +36,12 @@ App({
     second: 60, //倒计时
     needReservation: false, //是否需要预约
     urlArray: [
-      '/api/user/getSysCfg'
+      '/api/user/encryptTest'
     ], //配置需要动态密钥的接口
   },
   onLaunch() {
     let that = this;
     that.getVersion();
-    that.login();
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()
       updateManager.onCheckForUpdate(function (res) {
@@ -72,6 +71,16 @@ App({
         content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
       })
     }
+    let openid = wx.getStorageSync('openid');
+    if (openid === undefined) {
+      that.checkSession().then((res) => {
+        if (res === false) {
+          that.login();
+        }
+      });
+    } else {
+      that.login();
+    }
   },
   onShow() {
     this.netWorkStatus();
@@ -87,19 +96,31 @@ App({
     this.globalData.version = accountInfo.miniProgram.version;
     console.log('当前版本', this.globalData.version);
   },
-  //检查是否登录过期
+  //检查自定义登录态是否过期
   checkSession() {
     return new Promise((resolve, reject) => {
-      wx.checkSession({
-        success() {
-          //未过期
-          resolve(true);
+      let openid = wx.getStorageSync('openid');
+      let url = baseUrlP + '/getUserOpenId';
+      wx.request({
+        url: url,
+        header: {
+          "Content-Type": "application/json;charset=UTF-8",
         },
-        fail() {
-          //已过期
-          resolve(false);
+        data: {
+          'openid': openid
+        },
+        method: 'POST',
+        success: (res) => {
+          if (res.data.code == 200) {
+            resolve(true);
+          } else {
+            reject(false);
+          }
+        },
+        fail: (res) => {
+          reject(false)
         }
-      })
+      });
     });
   },
   //小程序登录

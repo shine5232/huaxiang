@@ -5,10 +5,6 @@
     </van-sticky>
     <view>
       <view class="number-title">根据国家工信部25号令相关规定，需要您上传身份证等信息，我们郑重承诺，将确保您的个人信息安全！</view>
-      <van-field value="{{ mobile }}" required clearable type="number" label="联系电话：" placeholder="请输入紧急联系电话" error-message="{{mobileMessage}}" bind:change="onChangeMobile" maxlength="11" />
-      <van-field value="{{ code }}" required clearable label="短信验证码：" placeholder="请输入短信验证码" bind:change="onChangeCode" use-button-slot>
-        <van-button slot="button" size="small" type="primary" color="#F67257" bind:click="onSendCode" disabled="{{sendDisabled}}">{{sendCode}}</van-button>
-      </van-field>
       <view class="upload-body">
         <view class="photo" catchtap="showPopup" data-type="1">
           <view class="upload-bgcolor">
@@ -52,6 +48,12 @@
             </view>
           </view>
         </view>
+      </view>
+      <view class="form-body">
+        <van-field value="{{ mobile }}" required clearable type="number" label="联系电话：" placeholder="请输入紧急联系电话" error-message="{{mobileMessage}}" bind:change="onChangeMobile" maxlength="11" />
+        <van-field class="my-field" value="{{ code }}" required clearable label="短信验证码：" placeholder="请输入短信验证码" bind:change="onChangeCode" use-button-slot>
+          <van-button slot="button" size="small" type="primary" color="#F67257" bind:click="onSendCode" disabled="{{sendDisabled}}">{{sendCode}}</van-button>
+        </van-field>
         <view class="btnNext">
           <van-button round type="primary" block color="#FF4B57" catchtap="nextStep">{{ title }}</van-button>
         </view>
@@ -90,6 +92,5 @@
 </view>
 <van-dialog id="van-dialog" confirm-button-color="#FF4B57" cancel-button-color="#797979" />
 <view style="position:fixed;width:100px;height:100px;left:200%;z-index:0">
-  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas"
-    style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
+  <canvas type="2d" id="myCanvas1" canvas-id="firstCanvas" style="width:{{ cameraWidth }}px;height:{{ cameraHeight }}px"></canvas>
 </view>

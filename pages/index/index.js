@@ -52,6 +52,7 @@ Page({
         that.getLocationInfo();
       }
     }); */
+    this.demo();
     wx.setStorageSync('fromUrl', '/pages/index/index');
   },
   //跳转页面
@@ -185,6 +186,12 @@ Page({
           reject();
         }
       });
+    });
+  },
+  demo(){
+    let url = baseUrl + '/api/user/encryptTest';
+    POST(url).then(function (res, jet) {
+      console.log('res',res);
     });
   }
 })

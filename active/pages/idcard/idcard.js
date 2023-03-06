@@ -78,6 +78,7 @@ Page({
       smsCodeType: 'OPEN_USER_RESERVATION'
     }
     POST(url, parms).then(function (res, jet) {
+      console.log('res',res);
       if (res.code == 200) {
         that.timeOut();
       } else {

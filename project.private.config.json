@@ -29,6 +29,7 @@
         },
         {
           "name": "",
+<<<<<<< HEAD
           "pathName": "active/pages/notes/notes",
           "query": "",
           "launchMode": "default",
@@ -37,6 +38,9 @@
         {
           "name": "",
           "pathName": "pages/navation/active/active",
+=======
+          "pathName": "reservation/pages/address/address",
+>>>>>>> v2.0
           "query": "",
           "launchMode": "default",
           "scene": null

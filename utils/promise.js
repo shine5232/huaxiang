@@ -34,13 +34,17 @@ function POST(url, param, loading = false, title = '处理中...') {
               "Content-Type": "application/json;charset=UTF-8",
               "sign": sign(params, timestamp, res.encryptKey),
               "timestamp": timestamp,
+              "openid":wx.getStorageSync('openid'),
+              "version":res.version,
               "parm": encodeURIComponent(JSON.stringify(params))
             },
             method: 'POST',
             success: (res) => {
+              console.log('success',res);
               resolve(res.data);
             },
             fail: (res) => {
+              console.log('fail',res);
               wx.showToast({
                 title: res.errMsg,
                 duration: 2000,
