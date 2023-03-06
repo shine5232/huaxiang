@@ -83,20 +83,20 @@
 		"                row: 1e3,",
 		"                textIndent: 24,",
 		"                fontSize: 12",
-		"            }, n), s = e4.split(\"\"), l = 0, r = \"\", c = o.row, d = 0, g = 0; g < s.length; g++){",
-		"                var p = s[g], u = r + p, f = !!c && d === c - 1, h = f ? u + \"...\" : u;",
+		"            }, n), s = e4.split(\"\"), r = 0, l = \"\", c = o.row, d = 0, g = 0; g < s.length; g++){",
+		"                var p = s[g], u = l + p, f = !!c && d === c - 1, h = f ? u + \"...\" : u;",
 		"                t3.font = \"\".concat(o.fontSize, 'px \"MicroSoft YaHei\"');",
 		"                var x = t3.measureText(h).width, m = o.textIndent && 0 === d;",
 		"                if ((m ? x + o.textIndent : x) > o.maxWidth && g > 0 && d !== c) {",
-		"                    var w = f ? h : r, v = m ? a2 + o.textIndent : a2;",
-		"                    if (t3.fillText(w, v, i), r = p, i += o.lineHeight, l += o.lineHeight, d++, f) break;",
-		"                } else r = u;",
+		"                    var w = f ? h : l, v = m ? a2 + o.textIndent : a2;",
+		"                    if (t3.fillText(w, v, i), l = p, i += o.lineHeight, r += o.lineHeight, d++, f) break;",
+		"                } else l = u;",
 		"            }",
 		"            if (d !== c) {",
 		"                var y = o.textIndent && 0 === d ? a2 + o.textIndent : a2;",
-		"                t3.fillText(r, y, i);",
+		"                t3.fillText(l, y, i);",
 		"            }",
-		"            return d < c ? l + o.lineHeight : l;",
+		"            return d < c ? r + o.lineHeight : r;",
 		"        }",
 		"    },",
 		"    drawNote: function drawNote() {",
@@ -177,7 +177,7 @@
 		"        });",
 		"    },",
 		"    submitOrder: function submitOrder() {",
-		"        var i = t.baseUrl + \"/api/user/openUserWithSmsCode\", n = {",
+		"        var i = t.baseUrl + \"/api/user/submitOrderReservationPay\", n = {",
 		"            orderId: a.globalData.orderId,",
 		"            piclivebest: a.globalData.piclivebest,",
 		"            piclivestdA: a.globalData.opIds[0],",
@@ -212,7 +212,7 @@
 		"        });",
 		"    },",
 		"    recordLoginInfo: function recordLoginInfo() {",
-		"        var i = t.baseUrlP + \"/app/login/recordLoginInfo\", n = wx.getStorageSync(\"mobile\"), o = wx.getStorageSync(\"deviceId\"), s = wx.getStorageSync(\"deviceType\"), l = wx.getStorageSync(\"osVersion\"), r = wx.getStorageSync(\"netWorkType\"), c = wx.getStorageSync(\"location\"), d = {",
+		"        var i = t.baseUrlP + \"/app/login/recordLoginInfo\", n = wx.getStorageSync(\"mobile\"), o = wx.getStorageSync(\"deviceId\"), s = wx.getStorageSync(\"deviceType\"), r = wx.getStorageSync(\"osVersion\"), l = wx.getStorageSync(\"netWorkType\"), c = wx.getStorageSync(\"location\"), d = {",
 		"            fromType: \"OpenUser\",",
 		"            osType: \"XCX\",",
 		"            serviceNum: n,",
@@ -224,8 +224,8 @@
 		"            cityCode: c.ad_info.city_code,",
 		"            deviceId: o,",
 		"            deviceType: s,",
-		"            osVersion: l + \"|XCX_V:\" + a.globalData.version,",
-		"            netWorkType: r",
+		"            osVersion: r + \"|XCX_V:\" + a.globalData.version,",
+		"            netWorkType: l",
 		"        };",
 		"        return console.log(\"recordLoginInfo\", d), new Promise(function(t11, a) {",
 		"            (0, e.POST)(i, d).then(function(e, a) {",
@@ -32877,6 +32877,62 @@
 			28
 		],
 		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			0,
+			0
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			0,
+			0
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
+			177,
+			28
+		],
+		[
 			0,
 			0
 		],
@@ -32914,7 +32970,7 @@
 		],
 		[
 			177,
-			65
+			71
 		],
 		[
 			178,
@@ -33474,15 +33530,15 @@
 		],
 		[
 			177,
-			61
+			67
 		],
 		[
 			177,
-			61
+			67
 		],
 		[
 			177,
-			61
+			67
 		],
 		[
 			0,
