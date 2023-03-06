@@ -295,6 +295,15 @@ Page({
       });
       if (res.code == 200) {
         let datas = res.datas;
+        if (datas.numberOperType == '2') {
+          wx.showToast({
+            icon: 'none',
+            mask: true,
+            title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
+            duration: 2000
+          });
+          return false;
+        }
         if(datas.numberOperType == '2'){
           wx.showToast({
             icon: 'none',

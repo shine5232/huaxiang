@@ -332,7 +332,7 @@ Page({
   //提交订单
   submitOrder() {
     const that = this;
-    let url = baseUrl + '/api/user/openUserWithSmsCode';
+    let url = baseUrl + '/api/user/submitOrderReservationPay';
     let parms = {
       orderId: app.globalData.orderId,
       piclivebest: app.globalData.piclivebest,

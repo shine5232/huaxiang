@@ -327,7 +327,7 @@ Page({
   //创建预约订单
   creatOrder() {
     const that = this
-    let url = baseUrl + '/api/order/subscribeSubmit';
+    let url = baseUrl + '/api/user/openUserWithSmsCode';
     let params = wx.getStorageSync('params');
     params.svcNumber = app.globalData.mobile;
     params.cardNumber = app.globalData.iccid;
