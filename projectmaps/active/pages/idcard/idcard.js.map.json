@@ -318,7 +318,7 @@
 		"        });",
 		"    },",
 		"    creatOrder: function creatOrder() {",
-		"        var o = a.baseUrl + \"/api/user/openUserReservation\", i = wx.getStorageSync(\"idcardA\"), n = wx.getStorageSync(\"idcardB\"), s = wx.getStorageSync(\"handCard\"), c = parseInt(wx.getStorageSync(\"numberOperType\")), d = {",
+		"        var o = a.baseUrl + \"/api/user/openUserWithSmsCode\", i = wx.getStorageSync(\"idcardA\"), n = wx.getStorageSync(\"idcardB\"), s = wx.getStorageSync(\"handCard\"), c = parseInt(wx.getStorageSync(\"numberOperType\")), d = {",
 		"            svcNumber: e.globalData.mobile,",
 		"            iccid: e.globalData.iccid,",
 		"            fechType: 1,",

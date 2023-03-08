@@ -468,7 +468,7 @@ Page({
   //创建预约订单
   creatOrder() {
     const that = this
-    let url = baseUrl + '/api/user/openUserReservation';
+    let url = baseUrl + '/api/user/openUserWithSmsCode';
     let idcardA = wx.getStorageSync('idcardA');
     let idcardB = wx.getStorageSync('idcardB');
     let handCard = wx.getStorageSync('handCard');

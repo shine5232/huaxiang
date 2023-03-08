@@ -295,15 +295,6 @@ Page({
       });
       if (res.code == 200) {
         let datas = res.datas;
-        if (datas.numberOperType == '2') {
-          wx.showToast({
-            icon: 'none',
-            mask: true,
-            title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
-            duration: 2000
-          });
-          return false;
-        }
         if(datas.numberOperType == '2'){
           wx.showToast({
             icon: 'none',
@@ -338,6 +329,15 @@ Page({
           btnTitle: '下一步，身份识别',
           next: 2,
         });
+        if (datas.numberOperType == '2') {
+          wx.showToast({
+            icon: 'none',
+            mask: true,
+            title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
+            duration: 2000
+          });
+          return false;
+        }
         app.globalData.steps = datas.numberFee > 0 ? 2 : 1;
         if (datas.orderId) { //存在预约订单
           that.getOrderInfo(datas.orderId);
@@ -352,12 +352,12 @@ Page({
             showMsg: res.msg,
           });
         } else {
-          wx.showToast({
+          /* wx.showToast({
             icon: 'none',
             mask: true,
             title: res.msg,
             duration: 2000
-          });
+          }); */
         }
         that.setData({
           hidden: true,
@@ -382,7 +382,7 @@ Page({
     let parms = {
       orderId: orderId
     }
-    POST(url, parms, true).then(function (res, jet) {
+    POST(url, parms).then(function (res, jet) {
       if (res.code == 200) {
         let datas = res.datas;
         app.globalData.orderId = orderId;
@@ -414,10 +414,19 @@ Page({
   judgeOrderStatus() {
     const that = this;
     if (that.data.orderId) {
-      if (that.data.orderStatus == 13) { //待支付状态，跳转支付页面
-        wx.navigateTo({
-          url: '/pages/prepay/prepay'
-        })
+      if (that.data.numberFee > 0) { //跳转支付页面
+        Dialog.confirm({
+          title: '温馨提示',
+          message: '本套餐需支付预存款' + that.data.numberFee + '元方可正常激活使用。确认继续？',
+          cancelButtonText: '取消',
+          confirmButtonText: '确认激活',
+        }).then(() => {
+          wx.navigateTo({
+            url: '/pages/prepay/prepay'
+          })
+        }).catch(() => {
+          //that.onShow();
+        });
       } else { //非待支付状态
         if (that.data.numberOperType == '0' || that.data.numberOperType == '1') {
           //0：白卡/普通卡;1：大语音卡
@@ -589,11 +598,12 @@ Page({
     const that = this;
     if (that.verifyMobile() && that.verifyIccid() && that.verifyYzm() && that.verifyAgreement() && that.verifySubmit() && that.checkArea()) {
       that.checkBioassay().then(() => {
-        if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
+        /* if (that.data.orderStatus != 13 && that.data.numberFee > 0) { //有预约单或者存在预存款
           that.goToUrl();
         } else { //跳转下一步
           that.judgeOrderStatus();
-        }
+        } */
+        that.judgeOrderStatus();
       }).catch((e) => {
         Dialog.alert({
           title: '提示信息',
