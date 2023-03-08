@@ -2,7 +2,6 @@ import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 import {
   baseUrl,
   getSysInfo,
-  login,
   getNetwork
 } from '../../../utils/util'
 import {
@@ -26,9 +25,7 @@ Page({
   onLoad() {
     const that = this;
     that.code = that.selectComponent("#code");
-    login().then((res) => {
-      return getSysInfo();
-    }).then((res) => {
+    getSysInfo().then((res) => {
       return getNetwork();
     }).then((res) => {
     }).catch((e) => {});
