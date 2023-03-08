@@ -346,12 +346,12 @@ Page({
             showMsg: res.msg,
           });
         } else {
-          wx.showToast({
+          /* wx.showToast({
             icon: 'none',
             mask: true,
             title: res.msg,
             duration: 2000
-          });
+          }); */
         }
         that.setData({
           hidden: true,
@@ -376,7 +376,7 @@ Page({
     let parms = {
       orderId: orderId
     }
-    POST(url, parms, true).then(function (res, jet) {
+    POST(url, parms).then(function (res, jet) {
       if (res.code == 200) {
         let datas = res.datas;
         app.globalData.orderId = orderId;

@@ -24,7 +24,7 @@
       </view>
     </view>
     <view class="not-bom">
-      <van-checkbox value="{{ checked }}" disabled checked-color="#FF4B57" icon-size="16px" shape="square" bind:change="onChange">
+      <van-checkbox value="{{ checked }}" checked-color="#FF4B57" icon-size="16px" shape="square" bind:change="onChange">
         <view class="xieyi">我已阅读《电话卡合规使用告知书》和《电信业务入网协议书》</view>
       </van-checkbox>
     </view>

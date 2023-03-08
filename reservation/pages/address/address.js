@@ -43,7 +43,7 @@ Page({
     that.initAreaInfo();
     that.showDialog();
   },
-  onUnload(){
+  onUnload() {
     app.globalData.second = 60;
     clearInterval(app.globalData.timer);
     app.globalData.timer = null;
@@ -89,10 +89,10 @@ Page({
       smsCodeType: 'SUBSCRIBE_SUBMIT'
     }
     POST(url, parms).then(function (res, jet) {
-      console.log('res',res);
+      console.log('res', res);
       if (res.code == 200) {
         that.timeOut();
-      }else{
+      } else {
         wx.showToast({
           icon: 'none',
           title: res.msg,
@@ -102,7 +102,7 @@ Page({
     });
   },
   //验证码倒计时逻辑
-  timeOut(){
+  timeOut() {
     let that = this;
     if (app.globalData.timer == null) {
       that.setData({
@@ -182,21 +182,17 @@ Page({
     let data = e.detail.value;
     let area = [];
     data.forEach((item, index) => {
-      console.log('item',item);
-      if(item != undefined){
+      console.log('item', item);
+      if (item != undefined) {
         area.push(item.areaName);
       }
     });
     let areaInfo = area.join('-');
-    if(data[2] != undefined && data[2].areaCode != undefined){
-      that.setData({
-        countyCode: data[2].areaCode,
-      });
-    }
     that.setData({
       area: areaInfo,
       provinceCode: data[0].areaCode,
       cityCode: data[1].areaCode,
+      countyCode: data[2].areaCode,
     });
     that.hideArea();
   },
@@ -327,7 +323,7 @@ Page({
   //创建预约订单
   creatOrder() {
     const that = this
-    let url = baseUrl + '/api/user/openUserWithSmsCode';
+    let url = baseUrl + '/api/order/subscribeSubmit';
     let params = wx.getStorageSync('params');
     params.svcNumber = app.globalData.mobile;
     params.cardNumber = app.globalData.iccid;

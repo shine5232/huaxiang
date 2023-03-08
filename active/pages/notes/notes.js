@@ -202,7 +202,7 @@ Page({
     }
     console.log('parms', parms);
     return new Promise((resolve, reject) => {
-      POST(url, parms).then(function (res, jet) {
+      POST(url, parms, 1).then(function (res, jet) {
         if (res.code == 200) {
           app.globalData.signImg = res.datas.opId
           resolve();
