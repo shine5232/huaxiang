@@ -1,7 +1,8 @@
 require('./utils/overWrite')
 // app.js
 import {
-  baseUrlP
+  baseUrlP,
+  baseUrl
 } from './utils/baseUrl'
 App({
   globalData: {
@@ -72,6 +73,7 @@ App({
       })
     }
     let openid = wx.getStorageSync('openid');
+    that.checkSession();
     if (openid === undefined) {
       that.checkSession().then((res) => {
         if (res === false) {
@@ -100,7 +102,7 @@ App({
   checkSession() {
     return new Promise((resolve, reject) => {
       let openid = wx.getStorageSync('openid');
-      let url = baseUrlP + '/getUserOpenId';
+      let url = baseUrlP + '/expireSessionKey';
       wx.request({
         url: url,
         header: {

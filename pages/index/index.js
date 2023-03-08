@@ -52,6 +52,7 @@ Page({
         that.getLocationInfo();
       }
     }); */
+    //this.checkSessionKey();
     this.demo();
     wx.setStorageSync('fromUrl', '/pages/index/index');
   },
@@ -193,5 +194,14 @@ Page({
     POST(url).then(function (res, jet) {
       console.log('res',res);
     });
-  }
+  },
+  checkSessionKey(){
+    let url = baseUrl + '/api/user/expireSessionKey';
+    let params = {
+      'openid':wx.getStorageSync('openid')
+    }
+    POST(url,params).then(function (res, jet) {
+      console.log('res',res);
+    });
+  },
 })

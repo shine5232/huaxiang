@@ -23,6 +23,7 @@ Page({
     numberOperType: '',
     productId: '',
     orderId: '',
+    orderStatus: '',
     checked: false,
     mobileMessage: '',
     iccidMessage: '',
@@ -82,6 +83,7 @@ Page({
       productName: '',
       numberOperType: '',
       orderId: '',
+      orderStatus: '',
       checked: true,
       status: 0,
       hidden: true,
@@ -217,7 +219,7 @@ Page({
         showReservationDialog: true,
       });
       return false;
-    } else if(that.data.errorCode == 200) {
+    } else if (that.data.errorCode == 200) {
       if (that.data.numberOperType == '2') {
         wx.showToast({
           icon: 'none',
@@ -291,11 +293,11 @@ Page({
     POST(url, parms).then(function (res, jet) {
       that.code.creatCodeImg(4);
       that.setData({
-        errorCode:res.code
+        errorCode: res.code
       });
       if (res.code == 200) {
         let datas = res.datas;
-        if(datas.numberOperType == '2'){
+        if (datas.numberOperType == '2') {
           wx.showToast({
             icon: 'none',
             mask: true,
@@ -414,7 +416,7 @@ Page({
   judgeOrderStatus() {
     const that = this;
     if (that.data.orderId) {
-      if (that.data.numberFee > 0) { //跳转支付页面
+      if (that.data.numberFee > 0 && that.data.orderStatus == 13) { //跳转支付页面
         Dialog.confirm({
           title: '温馨提示',
           message: '本套餐需支付预存款' + that.data.numberFee + '元方可正常激活使用。确认继续？',
