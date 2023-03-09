@@ -471,20 +471,6 @@ function getAuthVioce() {
     })
   });
 }
-//过滤需要动态密钥的接口
-function checkEncryptKeyUrl(url) {
-  let urlArray = app.globalData.urlArray;
-  return new Promise((resolve, reject) => {
-    let has = false;
-    for (let i = 0; i < urlArray.length; i++) {
-      if (url.indexOf(urlArray[i]) != -1) {
-        has = true;
-        break;
-      }
-    }
-    resolve(has);
-  });
-}
 module.exports = {
   formatTime,
   formatNumber,
@@ -510,6 +496,5 @@ module.exports = {
   getLocation,
   qqmapsdk,
   getAuthVioce,
-  getLatestUserKey,
-  checkEncryptKeyUrl
+  getLatestUserKey
 }

@@ -6,7 +6,6 @@ import {
   getSignature,
   Configuration,
   getLatestUserKey,
-  checkEncryptKeyUrl
 } from './util'
 
 function POST(url, param, loading = false, title = '处理中...') {
@@ -19,77 +18,41 @@ function POST(url, param, loading = false, title = '处理中...') {
   }
   let promise = new Promise(function (resolve, reject) {
     let timestamp = new Date().getTime();
-    checkEncryptKeyUrl(url).then((res)=>{
-      if(res){
-        getLatestUserKey().then((res)=>{
-          let defaultPar = {
-            'openid': wx.getStorageSync('openid'),
-            'version': res.version
-          };
-          let params = Object.assign({}, defaultPar, param);
-          wx.request({
-            url: url,
-            data: params,
-            header: {
-              "Content-Type": "application/json;charset=UTF-8",
-              "sign": sign(params, timestamp, res.encryptKey),
-              "timestamp": timestamp,
-              "openid":wx.getStorageSync('openid'),
-              "version":res.version,
-              "parm": encodeURIComponent(JSON.stringify(params))
-            },
-            method: 'POST',
-            success: (res) => {
-              console.log('success',res);
-              resolve(res.data);
-            },
-            fail: (res) => {
-              console.log('fail',res);
-              wx.showToast({
-                title: res.errMsg,
-                duration: 2000,
-                icon: 'none'
-              });
-              reject(res)
-            },
-            complete: (res) => {
-              if (loading) {
-                wx.hideLoading()
-              }
-            }
+    getLatestUserKey().then((res) => {
+      let defaultPar = {};
+      let params = Object.assign({}, defaultPar, param);
+      wx.request({
+        url: url,
+        data: params,
+        header: {
+          "Content-Type": "application/json;charset=UTF-8",
+          "sign": sign(params, timestamp, res.encryptKey),
+          "timestamp": timestamp,
+          "openid": wx.getStorageSync('openid'),
+          "version": res.version,
+          "fromType": "01",
+          "parm": encodeURIComponent(JSON.stringify(params))
+        },
+        method: 'POST',
+        success: (res) => {
+          console.log('success', res);
+          resolve(res.data);
+        },
+        fail: (res) => {
+          console.log('fail', res);
+          wx.showToast({
+            title: res.errMsg,
+            duration: 2000,
+            icon: 'none'
           });
-        });
-      }else{
-        let defaultPar = {};
-        let params = Object.assign({}, defaultPar, param);
-          wx.request({
-            url: url,
-            data: params,
-            header: {
-              "Content-Type": "application/json;charset=UTF-8",
-              "sign": sign(params, timestamp),
-              "timestamp": timestamp,
-              "parm": encodeURIComponent(JSON.stringify(params))
-            },
-            method: 'POST',
-            success: (res) => {
-              resolve(res.data);
-            },
-            fail: (res) => {
-              wx.showToast({
-                title: res.errMsg,
-                duration: 2000,
-                icon: 'none'
-              });
-              reject(res)
-            },
-            complete: (res) => {
-              if (loading) {
-                wx.hideLoading()
-              }
-            }
-          });
-      }
+          reject(res)
+        },
+        complete: (res) => {
+          if (loading) {
+            wx.hideLoading()
+          }
+        }
+      });
     });
   });
   return promise;

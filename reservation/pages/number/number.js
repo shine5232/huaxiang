@@ -144,7 +144,7 @@ Page({
       svcNumber: mobile
     }
     
-    POST(url, parms).then(function (res, jet) {
+    POST(url, parms,true).then(function (res, jet) {
       that.code.creatCodeImg(4);
       if (res.code == 200) {
         let datas = res.datas;

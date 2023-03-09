@@ -46,14 +46,6 @@ Page({
   onLoad: function (options) {},
   onReady: function () {},
   onShow: function () {
-    /* let that = this;
-    that.getType().then((res, rej) => {
-      if (that.data.type == '0') {
-        that.getLocationInfo();
-      }
-    }); */
-    //this.checkSessionKey();
-    this.demo();
     wx.setStorageSync('fromUrl', '/pages/index/index');
   },
   //跳转页面
@@ -187,21 +179,6 @@ Page({
           reject();
         }
       });
-    });
-  },
-  demo(){
-    let url = baseUrl + '/api/user/encryptTest';
-    POST(url).then(function (res, jet) {
-      console.log('res',res);
-    });
-  },
-  checkSessionKey(){
-    let url = baseUrl + '/api/user/expireSessionKey';
-    let params = {
-      'openid':wx.getStorageSync('openid')
-    }
-    POST(url,params).then(function (res, jet) {
-      console.log('res',res);
     });
   },
 })

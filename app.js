@@ -35,10 +35,6 @@ App({
     version: null, //小程序版本号
     timer: null, //验证码计数器
     second: 60, //倒计时
-    needReservation: false, //是否需要预约
-    urlArray: [
-      '/api/user/encryptTest'
-    ], //配置需要动态密钥的接口
   },
   onLaunch() {
     let that = this;
@@ -73,15 +69,14 @@ App({
       })
     }
     let openid = wx.getStorageSync('openid');
-    that.checkSession();
-    if (openid === undefined) {
+    if (openid == undefined || openid == '') {
+      that.login();
+    } else {
       that.checkSession().then((res) => {
         if (res === false) {
           that.login();
         }
       });
-    } else {
-      that.login();
     }
   },
   onShow() {
@@ -116,7 +111,7 @@ App({
           if (res.data.code == 200) {
             resolve(true);
           } else {
-            reject(false);
+            resolve(false);
           }
         },
         fail: (res) => {
