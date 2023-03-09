@@ -423,7 +423,7 @@ Page({
           cancelButtonText: '取消',
           confirmButtonText: '确认激活',
         }).then(() => {
-          wx.navigateTo({
+          wx.reLaunch({
             url: '/pages/prepay/prepay'
           })
         }).catch(() => {
@@ -432,7 +432,7 @@ Page({
       } else { //非待支付状态
         if (that.data.numberOperType == '0' || that.data.numberOperType == '1') {
           //0：白卡/普通卡;1：大语音卡
-          wx.navigateTo({
+          wx.reLaunch({
             url: '/active/pages/handcard/handcard'
           })
         }
