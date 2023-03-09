@@ -56,7 +56,7 @@
 		"    },",
 		"    goToPath: function goToPath(t1) {",
 		"        var e1 = t1.currentTarget.dataset.url;",
-		"        \"/active/pages/number/number\" == e1 || \"/registion/pages/number/number\" == e1 ? this.getLocationInfo(e1) : wx.navigateTo({",
+		"        \"/active/pages/number/number\" == e1 || \"/registion/pages/number/number\" == e1 ? this.getLocationInfo(e1) : wx.reLaunch({",
 		"            url: e1",
 		"        });",
 		"    },",
@@ -75,7 +75,7 @@
 		"            mask: !0",
 		"        }), (0, e.getLocation)().then(function(e2) {",
 		"            if (o = e2.result.location, \"0\" == n1.data.type) return n1.getDistance(o);",
-		"            t3 && wx.navigateTo({",
+		"            t3 && wx.reLaunch({",
 		"                url: t3",
 		"            });",
 		"        }).then(function(t) {",
@@ -7096,7 +7096,7 @@
 		],
 		[
 			75,
-			32
+			30
 		],
 		[
 			0,
@@ -7668,7 +7668,7 @@
 		],
 		[
 			56,
-			129
+			127
 		],
 		[
 			0,

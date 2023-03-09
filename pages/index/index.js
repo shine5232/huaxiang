@@ -61,7 +61,7 @@ Page({
       this.getLocationInfo(url);
     } else {
       //wx.hideLoading();
-      wx.navigateTo({
+      wx.reLaunch({
         url: url
       })
     }
@@ -88,7 +88,7 @@ Page({
         return that.getDistance(data);
       } else {
         if (url) {
-          wx.navigateTo({
+          wx.reLaunch({
             url: url
           })
         }
