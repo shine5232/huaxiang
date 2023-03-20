@@ -66,13 +66,14 @@ function watermark(file, that,index=0) {
         });
         let image = that.data.canvas1.createImage();
         image.src = res.path;
+        console.log('app.globalData.chnlCode',app.globalData.chnlCode);
         image.onload = () => {
           that.data.ctx1.drawImage(image, 0, 0, imgInfo.width, imgInfo.height);
-          that.data.ctx1.font = '16px';
+          that.data.ctx1.font = '22px';
           that.data.ctx1.textAlign = 'left';
           that.data.ctx1.fillStyle = "rgba(204,204,204,0.6)";
           that.data.ctx1.fillText('NO.' + index, 10, imgInfo.height - 50);
-          that.data.ctx1.fillText('仅用于华翔联信实名认证 ' + formatTime(new Date()) + ' '+app.globalData.chnlCode, 10, imgInfo.height - 20);
+          that.data.ctx1.fillText('仅用于华翔联信实名认证 ' + formatTime(new Date()) + ' '+app.globalData.chnlCode, 10, imgInfo.height - 20 );
           setTimeout(() => {
             wx.canvasToTempFilePath({
               x: 0,
@@ -91,7 +92,7 @@ function watermark(file, that,index=0) {
                 reject(false);
               },
             }, that);
-          }, 500);
+          }, 100);
         }
       },
       fail:function(){

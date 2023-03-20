@@ -12,7 +12,7 @@ const formatDate = date => {
   let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
-  return year + '年' + month + '月' + day + '日';
+  return year + ' 年 ' + month + ' 月 ' + day + ' 日';
 }
 const formatDates = date => {
   let year = date.getFullYear()

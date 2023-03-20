@@ -135,10 +135,10 @@ Component({
           options.ctx.fillRect(0, 0, options.canvas.width, options.canvas.height);
           options.ctx.restore();
           options.ctx.drawImage(img, 0, 0);
-          options.ctx.font = '24px';
+          options.ctx.font = '22px';
           options.ctx.textAlign = 'left';
           options.ctx.fillStyle = "rgba(204,204,204,0.6)";
-          options.ctx.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' D300000169', 10,options.canvas.height/1.2);
+          options.ctx.fillText('仅用于华翔联信实名认证' + formatTime(new Date()) + ' ' + app.globalData.chnlCode, 10,options.canvas.height/1.2);
           setTimeout(() => {
             wx.canvasToTempFilePath({
               x: 0,

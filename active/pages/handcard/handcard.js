@@ -120,7 +120,7 @@ Page({
     that.setData({
       captureHidden: true
     });
-    that.submitImgUpload(e.detail.cardType, e.detail.imgPath);
+    that.submitImgUpload(that.data.cardType, e.detail.imgPath);
   },
   //提交图片上传
   submitImgUpload(type, imgPath) {

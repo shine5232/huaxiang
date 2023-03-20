@@ -42,6 +42,7 @@ Page({
     height: '',
     myCanvas2_canvas: '',
     myCanvas2_ctx: '',
+    showText: '',
   },
   onResize(res) {
     res.size.windowWidth // 新的显示区域宽度
@@ -418,6 +419,14 @@ Page({
   //保存签名
   saveCanvasAsImg() {
     const that = this;
+    if(that.data.showText == false){
+      wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: '请先完成签名'
+      });
+      return false;
+    }
     wx.canvasToTempFilePath({
       canvasId: 'handWriting',
       fileType: 'png',

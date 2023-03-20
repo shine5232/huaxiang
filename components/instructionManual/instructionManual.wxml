@@ -6,9 +6,16 @@
       <view>凡华翔电话卡用户不得将电话卡违规转售、转租、转借第三方，否则我司有权解除合同、终止服务，并移交司法部门处置。</view>
       <view>按照《中华人民共和国刑法修正案（九）》第二百八十七条之二，明知他人利用信息网络实施犯罪，为其犯罪提供互联网接入、服务器托管、网络存储、通讯传输等技术支持，或者提供广告推广、支付结算等帮助，情节严重的，将处三年以下有期徒刑或者拘役，并处或者单处罚金。</view>
       <view>本人已清楚了解告知书所提示内容，本人愿意遵守国家法规并承担相应法律责任。</view>
+      <block wx:if="{{signed}}">
+        <view class="sign-body">
+          <view>被告知人：</view>
+          <image src="{{ signImg }}" />
+        </view>
+        <view class="date-time"><text decode="true">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</text>{{datetime}}</view>
+      </block>
       <view class="agreement-title">电信业务入网协议书</view>
-      <view>甲方：</view>
-      <view>乙方：北京华翔联信科技有限公司</view>
+      <view>甲方：{{custname}}</view>
+      <view>乙方：北京华翔联信科技股份有限公司</view>
       <view>根据《中华人民共和国合同法》《中华人民共和国电信条例》等有关法律法规的规定，甲乙双方在平等、自愿、公平、诚信的基础上，基于对乙方产品服务的了解和需求，甲方自愿申请成为乙方客户，并达成协议如下：</view>
       <view>第一条 实名注册及业务办理</view>
       <view>（一）根据《电话用户真实身份信息登记实施规范》要求，甲方办理实名注册、变更手续时，应提交以下登记资料：</view>
@@ -89,6 +96,19 @@
       <view>第十一条 其他</view>
       <view>本协议一式两份，甲乙双方各执一份，自业务受理之日起生效，<text class="red">有效期至乙方移动转售业务试点结束</text>。到期时，若乙方取得正式移动业务转售资格且双方均无异议，本协议以一年为周期逐年自动顺延。</view>
       <view>若乙方在协议期内经工业和信息化部批准同意提前结束移动转售业务试点经营，或试点期结束后未取得正式转售移动业务资格，乙方如果终止经营，乙方应当在终止经营前90日通知甲方，并在收到工信部明确批复后，通过相关渠道和途径免费为甲方完成产品和服务退订、预付款返还、费用结算、争议解决等工作。乙方不承担甲方因退订产品和服务而产生的任何直接或间接损失。</view>
+      <view>附件</view>
+      <view class="agreement-title">通信业务场景确认书</view>
+      <view class="table">
+        <view class="tr">
+          <view class="th">序号</view>
+          <view class="th">号码</view>
+          <view class="th">业务场景</view>
+          <view class="th">话术</view>
+        </view>
+        <view class="tr" wx:for="{{7}}">
+          <view class="td" wx:for="{{4}}"></view>
+        </view>
+      </view>
       <view>（附一）</view>
       <view class="agreement-title">华翔联信大语音卡业务协议</view>
       <view>甲乙双方本着平等自愿的原则，经友好协商，就通信业务合作相关事宜达成以下协议： </view>
@@ -113,8 +133,12 @@
       <view>3、 甲方所在公司已告知《信息安全责任承诺书》，甲方遵守双方公司承诺，已知SIP业务入网会同时开通符合一证五号的副卡0-4张。</view>
       <view>4、 乙方应提供包括但不限于华翔联信掌厅、网厅、客服查询客户号码及明细的权利，并提供包括但不限于销户等相关服务。</view>
       <view>5、 甲方仅可将乙方提供的通信产品配发给自有员工使用，不得转售、转租、转借第三方，否则乙方有权单方终止合作，相应的责任和赔偿由甲方自行承担。</view>
-      <view>甲方：</view>
-      <view class="bottom">乙方：北京华翔联信科技有限公司</view>
+      <view class="sign-body">
+        <view>甲方：</view>
+        <image src="{{ signImg }}" wx:if="{{signed}}" />
+      </view>
+      <view class="bottom">乙方：北京华翔联信科技股份有限公司</view>
+      <view class="date-time" wx:if="{{signed}}"><text decode="true">日期：</text>{{datetime}}</view>
     </view>
   </scroll-view>
 </view>

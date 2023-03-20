@@ -7,7 +7,7 @@
 		"",
 		"}",
 		"",
-		"var e = require(\"../@babel/runtime/helpers/slicedToArray\"), r = wx.getFileSystemManager(), a = \"tmp_base64src_\" + (new Date).getTime();",
+		"var e = require(\"@babel/runtime/helpers/slicedToArray.js\"), r = wx.getFileSystemManager(), a = \"tmp_base64src_\" + (new Date).getTime();",
 		"module.exports = {",
 		"    base64src: function base64src(n) {",
 		"        return new Promise(function(t, i) {",

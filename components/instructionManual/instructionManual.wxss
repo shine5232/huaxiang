@@ -1,25 +1,84 @@
 /*自定义协议组件页面*/
 .agreement {
-    padding: 0 20rpx;
+  padding: 0 20rpx;
 }
 
 .agreement .agreement-title {
-    font-size: 32rpx;
-    font-weight: bold;
-    text-align: center;
-    padding: 20rpx 0;
+  font-size: 32rpx;
+  font-weight: bold;
+  text-align: center;
+  padding: 20rpx 0;
 }
 
 .agreement .agreement-body {
-    font-size: 24rpx;
-    color: #333;
-    line-height: 44rpx;
-    padding: 20rpx 0;
+  font-size: 24rpx;
+  color: #333;
+  line-height: 44rpx;
+  padding: 20rpx 0;
 }
 
 .agreement-body .red {
-    color: #FF4B57;
+  color: #FF4B57;
 }
+
 .scroll-view {
   height: 620rpx;
+}
+
+.sign-body {
+  height: 120rpx;
+  display: flex;
+  align-items: center;
+}
+
+.sign-body image {
+  width: 250rpx;
+  height: 100rpx;
+  position: absolute;
+  right: 34%;
+}
+
+.date-time {
+  padding: 20rpx 0;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  margin: 20rpx 0;
+  border-top: 1px solid #dadada;
+  border-left: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+}
+
+.tr {
+  display: flex;
+}
+
+.th,
+.td {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  text-align: center;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.th,
+.td:not(:last-child) {
+  border-bottom: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+}
+
+.th:last-child {
+  border-right: none;
+}
+
+.td:last-child {
+  border-bottom: 1px solid #dadada;
+}
+
+.th {
+  font-weight: 600;
 }

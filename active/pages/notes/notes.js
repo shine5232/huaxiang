@@ -85,6 +85,7 @@ Page({
     if (e.detail) {
       this.setData({
         disabled: false,
+        checked: true,
       });
     }
   },
@@ -193,11 +194,19 @@ Page({
   composeImg() {
     let that = this;
     let url = baseUrl + '/api/urlConvertPdf';
+    let userName = '';
+    let custname = wx.getStorageSync('custname');
     let idcardA = wx.getStorageSync('idcardA');
+    if (wx.getStorageSync('custname') != '') {
+      userName = custname
+    }
+    if (idcardA != '' && idcardA.cardInfo.姓名 != undefined) {
+      userName = idcardA.cardInfo.姓名.words
+    }
     let parms = {
       userSign: that.data.fileId,
       userSignTime: that.data.datetime,
-      userName: idcardA.cardInfo.姓名.words,
+      userName: userName,
       type: ''
     }
     console.log('parms', parms);
@@ -260,14 +269,9 @@ Page({
             filePath: res.tempFilePath,
             encoding: 'base64',
             success(res) {
-
               that.setData({
                 signImg: res.data
               })
-              /* let signImg = "signImg[0]"
-              that.setData({
-                [signImg]: 'data:image/jpeg;base64,' + res.data
-              }) */
               resolve(true);
             },
             fail(error) {
@@ -275,28 +279,6 @@ Page({
             }
           });
           return false;
-          let url = baseUrl + '/api/uploadFileSas';
-          //let url = 'https://laravel.harus.icu/api/upload/vioceFile';
-          let name = 'clientFile';
-          let param = {
-            fileName: new Date().getTime() + '_1_' + app.globalData.mobile,
-            fechType: 1,
-            type: 3
-          };
-          FILE(url, name, res.tempFilePath, param, false).then(function (res, jec1) {
-            console.log('res1', res);
-            if (res.code == 200) {
-              let signImg = "signImg[0]"
-              that.setData({
-                [signImg]: res.datas.picnamehand
-              })
-              resolve(true);
-            } else {
-              reject('请求失败，请稍后再试');
-            }
-          }).catch((error) => {
-            reject('请求失败，请稍后再试');
-          });
         },
         fail(res) {
           reject('请求失败，请稍后再试');
@@ -314,18 +296,26 @@ Page({
   nextStep(e) {
     const that = this;
     if (!that.data.disabled) {
-      if (that.data.isDraw) { //已经签名了
-        that.drawNote();
+      if (that.data.checked) {
+        if (that.data.isDraw) { //已经签名了
+          that.drawNote();
+        } else {
+          wx.navigateTo({
+            url: '/active/pages/sign/sign'
+          });
+        }
       } else {
-        wx.navigateTo({
-          url: '/active/pages/sign/sign'
+        wx.showToast({
+          icon: 'none',
+          mask: true,
+          title: '请勾选“我已阅读《电话卡合规告知书》和《电信业务入网协议书》”'
         });
       }
     } else {
       wx.showToast({
         icon: 'none',
         mask: true,
-        title: '请先阅读完上述告知书后再签名'
+        title: '请完整阅读告知书和入网协议书后，再签名'
       });
     }
   },

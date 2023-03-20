@@ -13,14 +13,7 @@
     <view class="note">
       <view class="note-body">
         <!-- 使用告知书组件 -->
-        <instructionManual bind:myevent="eventListener"/>
-        <block wx:if="{{signed}}">
-          <view class="sign-body">
-          <view>被告知人：</view>
-          <image src="{{ sign }}" />
-        </view>
-        <view><text decode="true">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</text>{{datetime}}</view>
-        </block>
+        <instructionManual bind:myevent="eventListener" signed="{{signed}}" signImg="{{sign}}"/>
       </view>
     </view>
     <view class="not-bom">

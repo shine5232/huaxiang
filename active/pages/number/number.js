@@ -57,20 +57,6 @@ Page({
   //监听小程序初始化完成
   onShow() {
     const that = this;
-    /* wx.removeStorageSync('randstring');
-    wx.removeStorageSync('idcardA');
-    wx.removeStorageSync('idcardB');
-    wx.removeStorageSync('handCard');
-    wx.removeStorageSync('mobile');
-    wx.removeStorageSync('videoCheck');
-    wx.removeStorageSync('fileName');
-    wx.removeStorageSync('handId');
-    wx.removeStorageSync('simId');
-    wx.removeStorageSync('cardType');
-    wx.removeStorageSync('certName');
-    wx.removeStorageSync('idcard');
-    wx.removeStorageSync('picnamez');
-    wx.removeStorageSync('numberOperType'); */
     that.getCode();
     that.setData({
       type: 1,
@@ -300,6 +286,7 @@ Page({
         wx.setStorageSync('picnamez', datas.picnamez);
         wx.setStorageSync('mobile', mobile);
         wx.setStorageSync('numberOperType', datas.numberOperType);
+        wx.setStorageSync('custname',datas.custname);
         app.globalData.iccid = datas.iccid;
         app.globalData.mobile = that.data.mobile;
         app.globalData.chnlCode = datas.chnlCode;
@@ -317,7 +304,6 @@ Page({
           orderId: datas.orderId,
           productId: datas.productId,
           numberOperType: datas.numberOperType,
-          hidden: false,
           submit: true,
           btnTitle: '下一步，身份识别',
           next: 2,
@@ -329,8 +315,14 @@ Page({
             title: "该号码不支持本渠道激活，如有疑问请联系售卡人员",
             duration: 2000
           });
+          that.setData({
+            hidden: true,
+          });
           return false;
         }
+        that.setData({
+          hidden: false,
+        });
         app.globalData.steps = datas.numberFee > 0 ? 2 : 1;
         if (datas.orderId) { //存在预约订单
           that.getOrderInfo(datas.orderId);
@@ -417,15 +409,26 @@ Page({
           wx.navigateTo({
             url: '/pages/prepay/prepay'
           })
-        }).catch(() => {
-          //that.onShow();
-        });
+        }).catch(() => {});
       } else { //非待支付状态
         if (that.data.numberOperType == '0' || that.data.numberOperType == '1') {
           //0：白卡/普通卡;1：大语音卡
-          wx.navigateTo({
-            url: '/active/pages/handcard/handcard'
-          })
+          if(that.data.numberFee > 0){
+            Dialog.confirm({
+              title: '温馨提示',
+              message: '本套餐需支付预存款' + that.data.numberFee + '元方可正常激活使用。确认继续？',
+              cancelButtonText: '取消',
+              confirmButtonText: '确认激活',
+            }).then(() => {
+              wx.navigateTo({
+                url: '/active/pages/handcard/handcard'
+              })
+            }).catch(() => {});
+          }else{
+            wx.navigateTo({
+              url: '/active/pages/handcard/handcard'
+            })
+          }
         }
         if (that.data.numberOperType == '2') {
           //2：小号/无实体卡;
@@ -438,9 +441,22 @@ Page({
         }
       }
     } else {
-      wx.reLaunch({
-        url: '/active/pages/idcard/idcard'
-      })
+      if(that.data.numberFee > 0){
+        Dialog.confirm({
+          title: '温馨提示',
+          message: '本套餐需支付预存款' + that.data.numberFee + '元方可正常激活使用。确认继续？',
+          cancelButtonText: '取消',
+          confirmButtonText: '确认激活',
+        }).then(() => {
+          wx.navigateTo({
+            url: '/active/pages/idcard/idcard'
+          })
+        }).catch(() => {});
+      }else{
+        wx.reLaunch({
+          url: '/active/pages/idcard/idcard'
+        })
+      }
     }
   },
   //跳转链接
