@@ -41,7 +41,7 @@ Page({
   //页面加载完成
   onLoad() {
     const that = this;
-    wx.removeStorageSync('randstring');
+    /* wx.removeStorageSync('randstring');
     wx.removeStorageSync('idcardA');
     wx.removeStorageSync('idcardB');
     wx.removeStorageSync('handCard');
@@ -54,7 +54,7 @@ Page({
     wx.removeStorageSync('cardType');
     wx.removeStorageSync('certName');
     wx.removeStorageSync('idcard');
-    wx.removeStorageSync('numberOperType');
+    wx.removeStorageSync('numberOperType'); */
     login().then((res) => {
       return getSysInfo();
     }).then((res) => {
@@ -64,7 +64,7 @@ Page({
   //监听小程序初始化完成
   onShow() {
     const that = this;
-    that.setData({
+    /* that.setData({
       type: 3,
       mobile: '',
       iccid: '',
@@ -84,7 +84,7 @@ Page({
       btnTitle: '下一步，身份证信息登记',
       next: 1,
       productId: '',
-    });
+    }); */
   },
   //点击下一步
   nextStep() {
